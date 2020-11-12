@@ -1,0 +1,93 @@
+version: 2
+general:
+  branches:
+    only:
+     - master
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.6.4-stretch-browsers
+        environment:
+          FLASK_CONFIG: test
+          PYTHONPATH: ${PYTHONPATH}:${HOME}/google_appengine
+      - image: circleci/postgres:9.6-alpine-ram
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+          POSTGRES_PASSWORD: "!Qazxsw2#Edcvfr4"
+    steps:
+      - checkout
+      - run:
+          name: Set up Google App Engline SDK
+          command: |
+            curl -o ${HOME}/google_appengine_1.9.67.zip https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.67.zip
+            unzip -q -d ${HOME} ${HOME}/google_appengine_1.9.67.zip
+      - run:
+          name: Install Python dependencies in a virtual environment
+          command: |
+            python3 -m venv less0n
+            . less0n/bin/activate
+            pip3 install -r requirements.txt
+      - run:
+          name: Testing
+          command: |
+            . less0n/bin/activate
+            pip3 install pytest
+            mkdir test-reports
+            python3 -m pytest --junitxml=test-reports/junit.xml
+      - store_artifacts:
+          path: test-reports/
+      - store_test_results:
+          path: test-reports/
+
+  deploy-gcloud:
+    filters:
+      branches:
+        only:
+          - master
+    docker:
+      - image: google/cloud-sdk:latest
+    steps:
+      - checkout
+      - run:
+          name: Authenticate with Google Cloud Platform
+          command: |
+            echo $CLIENT_SECRET | base64 --decode > ${HOME}/client-secret.json
+            gcloud auth activate-service-account --key-file ${HOME}/client-secret.json
+      - run:
+          name: Deploy to Google App Engine
+          command: |
+            gcloud config set project ${GCLOUD_PROJECT_ID}
+            gcloud -q app deploy app.yaml --promote --version=1
+      - run:
+          name: Discarding all changes
+          command: git checkout -- .
+
+  deploy-heroku:
+    filters:
+      branches:
+        only:
+          - master
+    docker:
+      - image: vilmosnagy/heroku-cli
+    steps:
+      - checkout
+      - run:
+          name: Deploy Master to Heroku
+          command: |  # this command is framework-dependent and may vary
+            heroku git:remote -a less0n
+            git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/less0n.git HEAD:refs/heads/master
+            sleep 10  # sleep for 5 seconds to wait for dynos
+            heroku restart
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy-heroku:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master

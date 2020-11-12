@@ -1,0 +1,235 @@
+/* ----------------------------------------------- */
+/* BASIC SETUP */
+/* ----------------------------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+header {
+    background-color: #000;
+    color: #555;
+    font-family: 'Lato', 'Arial', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+}
+
+#mainbody {
+    min-height: 100vh;
+
+}
+
+
+/* ----------------------------------------------- */
+/* REUSABLE COMPONENTS */
+/* ----------------------------------------------- */
+
+
+.sticky .row {
+    max-width: 1140px;
+    margin: 0 auto;
+    /*min-width: 480px;*/
+}
+
+/* ----------------------------------------------- */
+/* HEADER */
+/* ----------------------------------------------- */
+
+
+.logo {
+    height: 55px;
+    width: auto;
+    float: left;
+    margin: 6px;
+    z-index: 99999;
+}
+
+
+/* Main navi */
+.main-nav {
+    list-style: none;
+    margin-top: 55px;
+}
+
+.main-nav li {
+    display: inline-block;
+    margin-left: 40px;
+}
+
+.main-nav li a:link,
+.main-nav li a:visited {
+    padding: 8px 0;
+    color: #fff;
+    text-decoration: none;
+    text-transform: capitalize;
+    font-size: 90%;
+    border-bottom: 2px solid transparent;
+    -webkit-transition: border-bottom 0.2s;
+    transition: border-bottom 0.2s;
+}
+
+.main-nav li a:hover,
+.main-nav li a:active {
+    border-bottom: 2px solid #e67e22;
+}
+
+.active{
+    padding-bottom: 16px;
+    border-bottom: 2px solid #e67e22 !important;
+}
+
+/* Mobile navi */
+.mobile-nav-icon {
+    float: right;
+    margin-top: 30px;
+    cursor: pointer;
+    display: none;
+}
+
+.mobile-nav-icon i {
+    font-size: 200%;
+    color: #fff;
+}
+
+
+/* Sticky navi */
+.sticky {
+/*    display: none;*/
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.98);
+    -webkit-box-shadow: 0 2px 2px #efefef;
+    box-shadow: 0 2px 2px #efefef;
+    z-index: 9999;
+}
+
+.sticky .main-nav { margin-top: 15px; }
+
+.sticky .main-nav li a:link,
+.sticky .main-nav li a:visited {
+    padding: 16px 0;
+    color: #555;
+}
+
+.sticky .logo{ display: block; }
+
+/* ----------------------------------------------- */
+/* FOOTER */
+/* ----------------------------------------------- */
+
+footer {
+    background-color: #333;
+    padding: 50px;
+    font-size: 80%;
+    text-align: center;
+    width: 100%;
+    /*position: absolute;*/
+    /*bottom: -150px;*/
+    height: 150px;
+    position: relative;
+    /*margin-top: 20px;*/
+}
+
+footer p, footer li {
+    margin: 0 auto;
+    color: #888;
+    text-align: center;
+}
+
+footer p {
+    font-size: 1.2em;
+}
+
+footer li {
+    font-size: 1.8em;
+}
+
+footer li a:link,
+footer li a:visited {
+    color: inherit;
+    text-decoration: none;
+}
+
+footer li a:hover {
+    color: #DACEDE;
+}
+
+.user-logo{
+    margin-top: -5px;
+    margin-right: 15px;
+    height: 30px;
+    width: 30px;
+}
+
+
+.loginall{
+    margin-right: -10px;
+}
+
+.loginall1{
+    margin-right: -10px;
+    color: #555;
+}
+
+
+.dropbtn {
+    background-color: transparent;
+    color: #000000;
+    /*padding: 16px;*/
+    padding-right: 10px;
+    /*font-size: 16px;*/
+    border: none;
+    margin-bottom: 5px;
+    font-weight: 300;
+
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: transparent;
+    right: 0;
+    min-width: 240px;
+    /*width: 300px;*/
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    align-content: right;
+    margin-left: 40px;
+    background-color: #FFFFFF;
+}
+
+
+.dropdown-content a {
+    color: #FFFFFF;
+    padding: 12px 16px;
+    /*margin-left: 10px;*/
+    text-decoration: none;
+    display: block;
+    /*background-color: #FFFFFF;*/
+    /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
+}
+
+.dropdown-content a:hover {background-color: transparent}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: transparent;
+}
+
+

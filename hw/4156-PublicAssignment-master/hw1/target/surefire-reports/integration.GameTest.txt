@@ -1,0 +1,48 @@
+-------------------------------------------------------------------------------
+Test set: integration.GameTest
+-------------------------------------------------------------------------------
+Tests run: 11, Failures: 2, Errors: 9, Skipped: 0, Time elapsed: 0.838 sec <<< FAILURE! - in integration.GameTest
+newGameTest  Time elapsed: 0.274 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <200> but was: <404>
+	at integration.GameTest.newGameTest(GameTest.java:62)
+
+startGameTest  Time elapsed: 0.019 sec  <<< ERROR!
+kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.startGameTest(GameTest.java:85)
+
+joinGameTest  Time elapsed: 0.005 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <200> but was: <404>
+	at integration.GameTest.joinGameTest(GameTest.java:115)
+
+moveTest  Time elapsed: 0.004 sec  <<< ERROR!
+kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.moveTest(GameTest.java:133)
+
+testCase1  Time elapsed: 0.006 sec  <<< ERROR!
+kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.testCase1(GameTest.java:160)
+
+testCase2  Time elapsed: 0.008 sec  <<< ERROR!
+kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.testCase2(GameTest.java:194)
+
+testCase3  Time elapsed: 0.011 sec  <<< ERROR!
+kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.testCase3(GameTest.java:224)
+
+testCase4  Time elapsed: 0.014 sec  <<< ERROR!
+kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.testCase4(GameTest.java:254)
+
+testCase5  Time elapsed: 0.078 sec  <<< ERROR!
+kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.testCase5(GameTest.java:291)
+
+testCrash1  Time elapsed: 0.043 sec  <<< ERROR!
+kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.testCrash1(GameTest.java:328)
+
+testCrash2  Time elapsed: 0.035 sec  <<< ERROR!
+kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.testCrash2(GameTest.java:365)
+

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="integration.GameTest" time="0.838" tests="11" errors="9" skipped="0" failures="2">
+  <properties>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="java.vm.version" value="11.0.8+10-LTS"/>
+    <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk-11.0.8.jdk/Contents/Home/lib"/>
+    <property name="gopherProxySet" value="false"/>
+    <property name="maven.multiModuleProjectDirectory" value="/Users/pure/Documents/software engineering/hw/4156-PublicAssignment-master/hw1"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="java.vendor.url" value="https://openjdk.java.net/"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="path.separator" value=":"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="sun.os.patch.level" value="unknown"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="/Users/pure/Documents/software engineering/hw/4156-PublicAssignment-master/hw1"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="java.runtime.version" value="11.0.8+10-LTS"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.CGraphicsEnvironment"/>
+    <property name="os.arch" value="x86_64"/>
+    <property name="java.io.tmpdir" value="/var/folders/2f/8dlfyqqj2qq1715_jfx86_xw0000gn/T/"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="classworlds.conf" value="/Users/pure/eclipse-workspace/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf13543613407277648331.tmp"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/pure/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="jdk.debug" value="release"/>
+    <property name="java.class.version" value="55.0"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="10.15.7"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="user.home" value="/Users/pure"/>
+    <property name="user.timezone" value="Asia/Shanghai"/>
+    <property name="java.awt.printerjob" value="sun.lwawt.macosx.CPrinterJob"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.specification.version" value="11"/>
+    <property name="user.name" value="pure"/>
+    <property name="java.class.path" value="/Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.m2e.maven.runtime_1.16.0.20200610-1735/jars/plexus-classworlds-2.6.0.jar"/>
+    <property name="java.vm.specification.version" value="11"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B install"/>
+    <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk-11.0.8.jdk/Contents/Home"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="awt.toolkit" value="sun.lwawt.macosx.LWCToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="11.0.8"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="/Users/pure/Documents/software engineering/hw/4156-PublicAssignment-master/hw1/EMBEDDED"/>
+    <property name="file.separator" value="/"/>
+    <property name="java.version.date" value="2020-07-14"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="java.vendor.version" value="18.9"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="sun.cpu.isalist" value=""/>
+  </properties>
+  <testcase name="newGameTest" classname="integration.GameTest" time="0.274">
+    <failure message="expected: &lt;200&gt; but was: &lt;404&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <200> but was: <404>
+	at integration.GameTest.newGameTest(GameTest.java:62)
+]]></failure>
+    <system-out><![CDATA[Opened database successfully
+Table created successfully
+Table created successfully
+Table created successfully
+Before All
+Before Each
+------Test New Game Start------
+404
+After Each
+]]></system-out>
+    <system-err><![CDATA[[main] INFO org.eclipse.jetty.util.log - Logging initialized @971ms to org.eclipse.jetty.util.log.Slf4jLog
+[main] INFO io.javalin.Javalin - Static file handler added:
+    {urlPathPrefix: "/", path: "/public", location: Location.CLASSPATH}
+    Resolved path: 'file:///Users/pure/Documents/software%20engineering/hw/4156-PublicAssignment-master/hw1/target/classes/public/'
+[main] INFO io.javalin.Javalin - 
+           __                      __ _
+          / /____ _ _   __ ____ _ / /(_)____
+     __  / // __ `/| | / // __ `// // // __ \
+    / /_/ // /_/ / | |/ // /_/ // // // / / /
+    \____/ \__,_/  |___/ \__,_//_//_//_/ /_/
+
+        https://javalin.io/documentation
+
+[main] INFO io.javalin.Javalin - Starting Javalin ...
+[main] INFO io.javalin.Javalin - Listening on http://localhost:8080/
+[main] INFO io.javalin.Javalin - Javalin started in 136ms \o/
+]]></system-err>
+  </testcase>
+  <testcase name="startGameTest" classname="integration.GameTest" time="0.019">
+    <error message="Invalid JSON" type="kong.unirest.json.JSONException">kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.startGameTest(GameTest.java:85)
+</error>
+    <system-out><![CDATA[Before Each
+------Test Start Game Start------
+Start Game Response: <!doctype html><title>404 Not Found</title><h1 style="text-align: center">404 Not Found</h1><hr/><p style="text-align: center">PyCharm 2019.2.6</p>
+After Each
+]]></system-out>
+  </testcase>
+  <testcase name="joinGameTest" classname="integration.GameTest" time="0.005">
+    <failure message="expected: &lt;200&gt; but was: &lt;404&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <200> but was: <404>
+	at integration.GameTest.joinGameTest(GameTest.java:115)
+]]></failure>
+    <system-out><![CDATA[Before Each
+------Test Join Game Start------
+404
+After Each
+]]></system-out>
+  </testcase>
+  <testcase name="moveTest" classname="integration.GameTest" time="0.004">
+    <error message="Invalid JSON" type="kong.unirest.json.JSONException">kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.moveTest(GameTest.java:133)
+</error>
+    <system-out><![CDATA[Before Each
+------Test Move Start------
+After Each
+]]></system-out>
+  </testcase>
+  <testcase name="testCase1" classname="integration.GameTest" time="0.006">
+    <error message="Invalid JSON" type="kong.unirest.json.JSONException">kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.testCase1(GameTest.java:160)
+</error>
+    <system-out><![CDATA[Before Each
+------Test testCase1 Start------
+After Each
+]]></system-out>
+  </testcase>
+  <testcase name="testCase2" classname="integration.GameTest" time="0.008">
+    <error message="Invalid JSON" type="kong.unirest.json.JSONException">kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.testCase2(GameTest.java:194)
+</error>
+    <system-out><![CDATA[Before Each
+------Test testCase2 Start------
+After Each
+]]></system-out>
+  </testcase>
+  <testcase name="testCase3" classname="integration.GameTest" time="0.011">
+    <error message="Invalid JSON" type="kong.unirest.json.JSONException">kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.testCase3(GameTest.java:224)
+</error>
+    <system-out><![CDATA[Before Each
+------Test testCase3 Start------
+After Each
+]]></system-out>
+  </testcase>
+  <testcase name="testCase4" classname="integration.GameTest" time="0.014">
+    <error message="Invalid JSON" type="kong.unirest.json.JSONException">kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.testCase4(GameTest.java:254)
+</error>
+    <system-out><![CDATA[Before Each
+------Test testCase4 Start------
+After Each
+]]></system-out>
+  </testcase>
+  <testcase name="testCase5" classname="integration.GameTest" time="0.078">
+    <error message="Invalid JSON" type="kong.unirest.json.JSONException">kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.testCase5(GameTest.java:291)
+</error>
+    <system-out><![CDATA[Before Each
+------Test testCase5 Start------
+After Each
+]]></system-out>
+  </testcase>
+  <testcase name="testCrash1" classname="integration.GameTest" time="0.043">
+    <error message="Invalid JSON" type="kong.unirest.json.JSONException">kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.testCrash1(GameTest.java:328)
+</error>
+    <system-out><![CDATA[Before Each
+------Test testCrash1 Start------
+Game Crash
+Opened database successfully
+Table created successfully
+Table created successfully
+Table created successfully
+Game Reboot
+After Each
+]]></system-out>
+    <system-err><![CDATA[[main] INFO io.javalin.Javalin - Stopping Javalin ...
+[main] INFO io.javalin.Javalin - Javalin has stopped
+[main] INFO io.javalin.Javalin - Static file handler added:
+    {urlPathPrefix: "/", path: "/public", location: Location.CLASSPATH}
+    Resolved path: 'file:///Users/pure/Documents/software%20engineering/hw/4156-PublicAssignment-master/hw1/target/classes/public/'
+[main] INFO io.javalin.Javalin - 
+           __                      __ _
+          / /____ _ _   __ ____ _ / /(_)____
+     __  / // __ `/| | / // __ `// // // __ \
+    / /_/ // /_/ / | |/ // /_/ // // // / / /
+    \____/ \__,_/  |___/ \__,_//_//_//_/ /_/
+
+        https://javalin.io/documentation
+
+[main] INFO io.javalin.Javalin - Starting Javalin ...
+[main] INFO io.javalin.Javalin - Listening on http://localhost:8080/
+[main] INFO io.javalin.Javalin - Javalin started in 6ms \o/
+]]></system-err>
+  </testcase>
+  <testcase name="testCrash2" classname="integration.GameTest" time="0.035">
+    <error message="Invalid JSON" type="kong.unirest.json.JSONException">kong.unirest.json.JSONException: Invalid JSON
+	at integration.GameTest.testCrash2(GameTest.java:365)
+</error>
+    <system-out><![CDATA[Before Each
+------Test testCrash2 Start------
+Game Crash
+Opened database successfully
+Table created successfully
+Table created successfully
+Table created successfully
+Game Reboot
+After Each
+]]></system-out>
+    <system-err><![CDATA[[main] INFO io.javalin.Javalin - Stopping Javalin ...
+[main] INFO io.javalin.Javalin - Javalin has stopped
+[main] INFO io.javalin.Javalin - Static file handler added:
+    {urlPathPrefix: "/", path: "/public", location: Location.CLASSPATH}
+    Resolved path: 'file:///Users/pure/Documents/software%20engineering/hw/4156-PublicAssignment-master/hw1/target/classes/public/'
+[main] INFO io.javalin.Javalin - 
+           __                      __ _
+          / /____ _ _   __ ____ _ / /(_)____
+     __  / // __ `/| | / // __ `// // // __ \
+    / /_/ // /_/ / | |/ // /_/ // // // / / /
+    \____/ \__,_/  |___/ \__,_//_//_//_/ /_/
+
+        https://javalin.io/documentation
+
+[main] INFO io.javalin.Javalin - Starting Javalin ...
+[main] INFO io.javalin.Javalin - Listening on http://localhost:8080/
+[main] INFO io.javalin.Javalin - Javalin started in 6ms \o/
+]]></system-err>
+  </testcase>
+</testsuite>

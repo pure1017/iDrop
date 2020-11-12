@@ -1,0 +1,254 @@
+/*font*/
+/*colors*/
+body .statistics .stats_box #tag_list .tags a.primary {
+  background-color: #428BCA;
+  border-color: #357EBD; }
+
+body .statistics .stats_box #tag_list .tags a.success {
+  background-color: #5CB85C;
+  border-color: #4CAE4C; }
+
+body .statistics .stats_box #tag_list .tags a.info {
+  background-color: #5BC0DE;
+  border-color: #46B8DA; }
+
+body .statistics .stats_box #tag_list .tags a.warning {
+  background-color: #F0AD4E;
+  border-color: #EEA236; }
+
+body .statistics .stats_box #tag_list .tags a.danger {
+  background-color: #D9534F;
+  border-color: #D43F3A; }
+
+/*mixins*/
+/*progrss bar animation*/
+body {
+  background-color: white;
+  font-family: "Lato", "Arial", sans-serif !important; }
+  body a {
+    color: black; }
+  body a:hover {
+    color: darkslateblue;
+    text-decoration: none; }
+  body .good {
+    background-color: #4FA584; }
+  body .neutral {
+    background-color: #FFD700; }
+  body .bad {
+    background-color: #EE3B3B; }
+  body .jumbotron {
+    background-color: #8EE5EE;
+    height: 450px; }
+    @media screen and (max-width: 1023px) {
+      body .jumbotron {
+        height: 500px; } }
+    @media screen and (max-width: 767px) {
+      body .jumbotron {
+        height: 650px; } }
+    @media screen and (max-width: 480px) {
+      body .jumbotron {
+        height: 650px; } }
+    body .jumbotron .container {
+      margin-top: 50px; }
+      body .jumbotron .container .course-title {
+        float: left; }
+      body .jumbotron .container .faculty-pic img {
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        -ms-border-radius: 20px;
+        border-radius: 20px;
+        width: 240px;
+        height: 240px;
+        border: 5px solid white;
+        display: block;
+        float: left;
+        position: relative;
+        top: 20px; }
+        @media screen and (max-width: 1023px) {
+          body .jumbotron .container .faculty-pic img {
+            width: 200px;
+            height: 200px; } }
+        @media screen and (max-width: 767px) {
+          body .jumbotron .container .faculty-pic img {
+            float: none;
+            width: 150px;
+            margin: 0 auto;
+            height: 150px; } }
+        @media screen and (max-width: 480px) {
+          body .jumbotron .container .faculty-pic img {
+            float: none;
+            width: 150px;
+            margin: 0 auto;
+            height: 150px; } }
+      body .jumbotron .container .faculty-info {
+        float: left;
+        margin: 10px 0 0 60px; }
+        @media screen and (max-width: 767px) {
+          body .jumbotron .container .faculty-info {
+            float: none;
+            margin: 0 auto;
+            text-align: center;
+            margin-top: 30px; } }
+        @media screen and (max-width: 480px) {
+          body .jumbotron .container .faculty-info {
+            float: none;
+            margin: 0 auto;
+            text-align: center;
+            margin-top: 30px; } }
+        @media screen and (max-width: 767px) {
+          body .jumbotron .container .faculty-info h1 {
+            margin-top: 50px;
+            margin-bottom: 20px;
+            font-size: 2.5em; } }
+        @media screen and (max-width: 480px) {
+          body .jumbotron .container .faculty-info h1 {
+            margin-top: 50px;
+            margin-bottom: 20px;
+            font-size: 2.5em; } }
+        body .jumbotron .container .faculty-info p {
+          margin-left: 5px; }
+          @media screen and (max-width: 767px) {
+            body .jumbotron .container .faculty-info p {
+              font-size: 1em; } }
+          @media screen and (max-width: 480px) {
+            body .jumbotron .container .faculty-info p {
+              font-size: 1em; } }
+  body .statistics {
+    position: relative;
+    top: -180px;
+    color: white;
+    background: #3D3D3D;
+    box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+    width: 49%;
+    margin-left: 34%; }
+    @media screen and (max-width: 1023px) {
+      body .statistics {
+        width: 80%;
+        margin: 0 auto; } }
+    @media screen and (max-width: 767px) {
+      body .statistics {
+        width: 80%;
+        margin: 0 auto; } }
+    @media screen and (max-width: 480px) {
+      body .statistics {
+        width: 100%;
+        margin: 0 auto; } }
+    body .statistics .stats_box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0; }
+      body .statistics .stats_box .stats_box_content {
+        padding: 30px; }
+      body .statistics .stats_box #tag_list {
+        padding-left: 45px; }
+        body .statistics .stats_box #tag_list .tags a {
+          -webkit-border-radius: 2px;
+          -moz-border-radius: 2px;
+          -ms-border-radius: 2px;
+          border-radius: 2px;
+          color: white;
+          margin: 0 3px 6px 0;
+          padding: 5px 10px;
+          display: inline-block; }
+      body .statistics .stats_box #bar_stats {
+        box-shadow: -3px 0px rgba(255, 255, 255, 0.1);
+        padding-right: 45px; }
+        body .statistics .stats_box #bar_stats .progress {
+          height: 6px;
+          background: rgba(0, 0, 0, 0.3);
+          margin-top: 10px;
+          margin-bottom: 15px; }
+          body .statistics .stats_box #bar_stats .progress .progress_bar {
+            float: left;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            -ms-border-radius: 2px;
+            border-radius: 2px; }
+          body .statistics .stats_box #bar_stats .progress #rating_progress_bar {
+            -webkit-animation-name: rating_progress_bar;
+            -webkit-animation-duration: 2s;
+            -moz-animation-name: rating_progress_bar;
+            -moz-animation-duration: 2s;
+            -o-animation-name: rating_progress_bar;
+            -o-animation-duration: 2s;
+            animation-name: rating_progress_bar;
+            animation-duration: 2s;
+            width: 90%; }
+          body .statistics .stats_box #bar_stats .progress #grade_progress_bar {
+            -webkit-animation-name: grade_progress_bar;
+            -webkit-animation-duration: 2s;
+            -moz-animation-name: grade_progress_bar;
+            -moz-animation-duration: 2s;
+            -o-animation-name: grade_progress_bar;
+            -o-animation-duration: 2s;
+            animation-name: grade_progress_bar;
+            animation-duration: 2s;
+            width: 90%; }
+          body .statistics .stats_box #bar_stats .progress #workload_progress_bar {
+            -webkit-animation-name: workload_progress_bar;
+            -webkit-animation-duration: 2s;
+            -moz-animation-name: workload_progress_bar;
+            -moz-animation-duration: 2s;
+            -o-animation-name: workload_progress_bar;
+            -o-animation-duration: 2s;
+            animation-name: workload_progress_bar;
+            animation-duration: 2s;
+            width: 30%; }
+  body #sortby form {
+    width: 230px;
+    position: relative;
+    top: -215px; }
+    @media screen and (max-width: 1023px) {
+      body #sortby form {
+        top: -150px; } }
+    @media screen and (max-width: 767px) {
+      body #sortby form {
+        top: -150px; } }
+    @media screen and (max-width: 480px) {
+      body #sortby form {
+        top: -150px; } }
+  body .cardcol {
+    position: relative;
+    top: -170px;
+    max-height: 100vh;
+    overflow: auto; }
+    @media screen and (max-width: 1023px) {
+      body .cardcol {
+        top: -130px; } }
+    @media screen and (max-width: 767px) {
+      body .cardcol {
+        top: -130px; } }
+    @media screen and (max-width: 480px) {
+      body .cardcol {
+        top: -130px; } }
+    body .cardcol .border-good {
+      border-top: 10px solid #e67300; }
+    body .cardcol .border-neutral {
+      border-top: 10px solid #ffa64d; }
+    body .cardcol .border-bad {
+      border-top: 10px solid #ffbf80; }
+    body .cardcol .border-bg-secondary {
+      border-top: 8px solid #6c757d; }
+    body .cardcol .card {
+      margin: 10px 0;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.1); }
+      body .cardcol .card .card-text {
+        color: #808080; }
+      body .cardcol .card .btn {
+        color: white;
+        cursor: auto;
+        margin-top: 8px; }
+      body .cardcol .card .good {
+        background-color: #4FA584; }
+      body .cardcol .card .neutral {
+        background-color: #FFD700; }
+      body .cardcol .card .bad {
+        background-color: #EE3B3B; }
+      body .cardcol .card .comment {
+        background-color: #5CACEE; }
+      body .cardcol .card .list-group {
+        border: none;
+        font-size: 15px; }
+
+/*# sourceMappingURL=faculty-page.css.map */

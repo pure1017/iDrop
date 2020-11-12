@@ -1,0 +1,109 @@
+{% extends "base2.html" %}
+
+{% block head_meta %}
+        <title>Less0n - Add Course</title>
+{% endblock %}
+
+{% block head_css %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/add-course.css') }}">
+{% endblock %}
+
+{% block body_main %}
+        <header id="bg">
+            <div class="card">
+                <form method="post" action="{{ url_for('add_new_course') }}?redirect={{ redirect_url }}" class="contact-form">
+                    <div class="title">
+                        <h5 class="card-title">Add Course</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-form">
+                            <div>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4">
+                                            <label for="course-name">Course Name <span class="required">*</span></label>
+                                        </div>
+                                        <div class="col-md-8 col-sm-8">
+                                            <input type="text" name="course-name" id="course-name" placeholder="University Writing" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4">
+                                            <label for="course-number">Course Number <span class="required">*</span></label>
+                                        </div>
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" id="subject-id" name="subject-id" placeholder="ENGL" class="form-control" disabled required>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" id="course-number" name="course-number" placeholder="1010" class="form-control" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4">
+                                            <label for="department">Department <span class="required">*</span></label>
+                                        </div>
+                                        <div class="col-md-8 col-sm-8">
+                                            <select name="department" id="department" class="form-control" required>
+                                                <option value="Choose" selected="true" disabled="disabled">Choose a department</option>
+                                                {% for dept in depts %}
+                                                <option value="{{ dept.id }}">{{ dept.id }} - {{ dept.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4">
+                                            <label for="subject">Subject <span class="required">*</span></label>
+                                        </div>
+                                        <div class="col-md-8 col-sm-8">
+                                            <select name="subject" id="subject" class="form-control" required>
+                                                <option value="Choose" selected="true" disabled="disabled">Choose a subject</option>
+                                                {% for subj in subjs %}
+                                                <option value="{{ subj.id }}">{{ subj.id }} - {{ subj.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4">
+                                            <label for="semester" class="control-label">Semester <span class="required">*</span></label>
+                                        </div>
+                                        <div class="col-md-8 col-sm-8 sem">
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select name="year" id="year" class="form-control" required>
+                                                        <option value="{{ now.year }}" selected>{{ now.year }}</option>
+                                                        {% for y in range(now.year - 1, now.year - 5, -1) %}
+                                                        <option value="{{ y }}">{{ y }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select name="semester" id="semester" class="form-control" required>
+                                                        <option value="Fall">Fall</option>
+                                                        <option value="Spring">Spring</option>
+                                                        <option value="Summer">Summer</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body button-addcourse">
+                        <button type="submit" class="btn btn-success buton">Submit</button>
+                        <button type="button" class="btn btn-secondary buton" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </header>
+{% endblock %}
+
+{% block body2_js %}
+        <script type="text/javascript" src="{{ url_for('static', filename='js/add-course.js') }}"></script>
+{% endblock %}

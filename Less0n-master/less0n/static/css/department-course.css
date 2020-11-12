@@ -1,0 +1,95 @@
+/*font*/
+/*colors*/
+/*mixins*/
+body {
+  background-color: white;
+  font-family: "Lato", "Arial", sans-serif !important; }
+  body .jumbotron {
+    background-color: #3D3D3D;
+    height: 450px;
+    color: white; }
+    @media screen and (max-width: 767px) {
+      body .jumbotron {
+        height: 470px; } }
+    @media screen and (max-width: 480px) {
+      body .jumbotron {
+        height: 470px; } }
+    body .jumbotron .container {
+      margin-top: 50px; }
+      body .jumbotron .container .course-title {
+        float: left; }
+      body .jumbotron .container .dept-info {
+        float: left;
+        margin-top: 10px; }
+        body .jumbotron .container .dept-info h1 {
+          font-weight: 300; }
+          @media screen and (max-width: 767px) {
+            body .jumbotron .container .dept-info h1 {
+              font-size: 2em; } }
+          @media screen and (max-width: 480px) {
+            body .jumbotron .container .dept-info h1 {
+              font-size: 2em; } }
+        body .jumbotron .container .dept-info a {
+          color: white; }
+        body .jumbotron .container .dept-info a:hover {
+          color: lightgoldenrodyellow;
+          text-decoration: none; }
+  body #sortby form {
+    width: 230px;
+    float: right;
+    position: relative;
+    top: -220px; }
+    @media screen and (max-width: 767px) {
+      body #sortby form {
+        float: left;
+        top: -160px; } }
+    @media screen and (max-width: 480px) {
+      body #sortby form {
+        float: left;
+        top: -160px; } }
+  body .cardcol {
+    position: relative;
+    top: -200px;
+    overflow: auto;
+    clear: both; }
+    @media screen and (max-width: 767px) {
+      body .cardcol {
+        top: -150px; } }
+    @media screen and (max-width: 480px) {
+      body .cardcol {
+        top: -150px; } }
+    body .cardcol .border-good {
+      border-top: 8px solid #e67300; }
+    body .cardcol .border-neutral {
+      border-top: 8px solid #ffa64d; }
+    body .cardcol .border-bad {
+      border-top: 8px solid #ffbf80; }
+    body .cardcol .border-bg-secondary {
+      border-top: 8px solid #6c757d; }
+    body .cardcol .card {
+      margin: 10px 0;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.1); }
+      body .cardcol .card a {
+        color: black; }
+      body .cardcol .card a:hover {
+        color: darkslateblue;
+        text-decoration: none; }
+      body .cardcol .card .card-text {
+        color: #808080; }
+      body .cardcol .card .btn {
+        color: white;
+        cursor: auto;
+        margin-top: 8px; }
+      body .cardcol .card .good {
+        background-color: #4FA584; }
+      body .cardcol .card .neutral {
+        background-color: #FFD700; }
+      body .cardcol .card .bad {
+        background-color: #EE3B3B; }
+      body .cardcol .card .comment {
+        background-color: #5CACEE; }
+      body .cardcol .card .list-group {
+        border: none;
+        font-size: 15px; }
+
+/*# sourceMappingURL=department-course.css.map */

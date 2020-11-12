@@ -1,0 +1,431 @@
+{% extends "base2.html" %}
+
+{% block head_meta %}
+        <title>Less0n - {{ course.subject.id }} {{ course.number }}</title>
+{% endblock %}
+
+{% block head_css %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/course-detail.css') }}">
+{% endblock %}
+
+{% block body_main %}
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <div class="course-title">
+                    <h3 class="display-4">{{ course.subject.id }} {{ course.number }}</h3>
+                    <h1 class="display-5">{{ course.name }}</h1>
+                </div>
+                <div class="course-info">
+                    <p class="lead">Department: <a href="{{ url_for('department_course', dept_arg=course.department.id) }}">{{ course.department.name }}</a></p>
+                    <p class="lead">Subject: {{ course.subject.name }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add instructor form -->
+        <div class="modal fade bd-example-modal-lg" id="profModal" tabindex="-1" role="dialog" aria-labelledby="profModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <form method="post" action="{{ url_for('add_new_prof') }}?redirect={{ request.path }}" class="prof-form modal-form">
+                        <div class="comment-bar">
+                            <div class="comment-classname">Add an Instructor for {{ course.subject.id }} {{ course.number }}</div>
+                            <input type="hidden" name="course" value="{{ course.id }}" required>
+                            <button type="button" class="close close-icon" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="section-form">
+                                <div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>Full Name <span class="required">*</span></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" name="name" placeholder="Instructor's Full Name" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="department">Department <span class="required">*</span></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <select name="department" id="department" class="form-control" required>
+                                                <option value="Choose" selected="true" disabled="disabled">Choose the department</option>
+                                                {% for dept in depts %}
+                                                <option value="{{ dept.id }}">{{ dept.id }} - {{ dept.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="profsemester" class="control-label">Semester <span class="required">*</span></label>
+                                        </div>
+                                        <div class="col-md-8 sem">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <select name="year" id="profyear" class="form-control" required>
+                                                        <option value="{{ now.year }}" selected>{{ now.year }}</option>
+                                                        {% for y in range(now.year - 1, now.year - 5, -1) %}
+                                                        <option value="{{ y }}">{{ y }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <select name="semester" id="profsemester" class="form-control" required>
+                                                        <option value="Fall" selected>Fall</option>
+                                                        <option value="Spring">Spring</option>
+                                                        <option value="Summer">Summer</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-footer">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="statistics container">
+            <div class="row">
+                <div class="stats_box col-md-4">
+                    <div id="faculty_choice" class="stats_box_content">
+                        <div class="row">
+                            <div class="">
+                                <button id="left"><i class="fa fa-chevron-circle-left"></i></button>
+                            </div>
+                            <div class="">
+                                <a><img id="prof-pic" src=""></a>
+                            </div>
+                            <div class="">
+                                <button id="right"><i class="fa fa-chevron-circle-right"></i></button>
+                            </div>
+                        </div>
+                        <h4><a>Professor</a></h4>
+                    </div>
+                </div>
+
+                <div class="stats_box col-md-4">
+                    <div id="tag_list" class="stats_box_content">
+                        <div class="tags">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats_box col-md-4">
+                    <div id="bar_stats" class="stats_box_content">
+                        <div class="stat">Ratings: <span id="rating_numerical"></span></div>
+                        <div class="progress">
+                            <div id="rating_progress_bar" class="progress_bar"></div>
+                        </div>
+                        <div class="stat">Grade: <span id="grade_numerical"></span></div>
+                        <div class="progress">
+                            <div id="grade_progress_bar" class="progress_bar"></div>
+                        </div>
+                        <div class="stat">Workload: <span id="workload_numerical"></span></div>
+                        <div class="progress">
+                            <div id="workload_progress_bar" class="progress_bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <button id="add-comment" type="button" class="btn btn-warning" data-target="#commentModal">
+                <i class="fa fa-edit"></i> Add Comment
+            </button>
+            <button id="add-prof" type="button" class="btn btn-info" data-target="#profModal">
+                <i class="fa fa-user-plus"></i> Add Instructor
+            </button>
+
+            <div id="sortby">
+                <form>
+                    <select class="form-control">
+                        <option value="rating">Sort by Rating</option>
+                        <option value="grade">Sort by Grade</option>
+                        <option value="workload">Sort by Workload</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+
+        <!-- Add comment form -->
+        <div class="modal fade bd-example-modal-lg" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <form method="post" action="{{ url_for('comment') }}?redirect={{ request.path }}" class="comment-form modal-form">
+                        <div class="comment-bar">
+                            <div class="comment-classname">Add a Comment for {{ course.subject.id }} {{ course.number }}</div>
+                            <input type="hidden" name="course" value="{{ course.id }}" required>
+                            <div id="professor" class="row">
+                                <p>Instructor <span class="required">*</span></p>
+                                <select name="prof" id="professor-selection" class="form-control" required>
+                                    <option value="" selected="true" disabled="disabled">Choose your instructor</option>
+                                </select>
+                            </div>
+                            <button type="button" class="close close-icon" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        <div class="section-form">
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Comment Title</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" name="title" placeholder="Title" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="semester" class="control-label">Semester <span class="required">*</span></label>
+                                    </div>
+                                    <div class="col-md-8 sem">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <select name="year" id="year" class="form-control" required>
+                                                    <option value="{{ now.year }}" selected>{{ now.year }}</option>
+                                                    {% for y in range(now.year - 1, now.year - 5, -1) %}
+                                                    <option value="{{ y }}">{{ y }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <select name="semester" id="semester" class="form-control" required>
+                                                    <option value="Fall">Fall</option>
+                                                    <option value="Spring">Spring</option>
+                                                    <option value="Summer">Summer</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="grade">Grade <span class="required">*</span></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select name="grade" id="grade" class="form-control" required>
+                                            <option value="" selected="true" disabled="disabled">Choose your grade</option>
+                                            <option value="A+">A+</option>
+                                            <option value="A">A</option>
+                                            <option value="A-">A-</option>
+                                            <option value="B+">B+</option>
+                                            <option value="B">B</option>
+                                            <option value="B-">B-</option>
+                                            <option value="C+">C+</option>
+                                            <option value="C">C</option>
+                                            <option value="C-">C-</option>
+                                            <option value="D">D</option>
+                                            <option value="F">F</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="rating">Rating <span class="required">*</span></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class='rating-stars text-center'>
+                                            <ul id='stars'>
+                                                <li class='star' title='Poor' data-value='1'>
+                                                    <i class='fa fa-star'></i>
+                                                </li>
+                                                <li class='star' title='Fair' data-value='2'>
+                                                    <i class='fa fa-star'></i>
+                                                </li>
+                                                <li class='star' title='Good' data-value='3'>
+                                                    <i class='fa fa-star'></i>
+                                                </li>
+                                                <li class='star' title='Excellent' data-value='4'>
+                                                    <i class='fa fa-star'></i>
+                                                </li>
+                                                <li class='star' title='WOW!!!' data-value='5'>
+                                                    <i class='fa fa-star'></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <input type="hidden" name="rating" id="rating" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="workload">Workload <span class="required">*</span></label>
+                                    </div>
+                                    <div class="col-md-8 penswork">
+                                        <div class='workload-pens text-center'>
+                                            <ul id='pens'>
+                                                <li class='pen' title='WOW!!' data-value='1'>
+                                                    <i class='fa fa-pencil'></i>
+                                                </li>
+                                                <li class='pen' title='Comfortable' data-value='2'>
+                                                    <i class='fa fa-pencil'></i>
+                                                </li>
+                                                <li class='pen' title='Fair' data-value='3'>
+                                                    <i class='fa fa-pencil'></i>
+                                                </li>
+                                                <li class='pen' title='Tired' data-value='4'>
+                                                    <i class='fa fa-pencil'></i>
+                                                </li>
+                                                <li class='pen' title='Heavy!!' data-value='5'>
+                                                    <i class='fa fa-pencil'></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <input type="hidden" name="workload" id="workload" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="tags">Tags</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" name="tags" value="Interesting,Useful" data-role="tagsinput" id="tags" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Drop us a line</label>
+                                    </div>
+                                    <div class="col-md-8 span-2-of-3">
+                                        <textarea name="message" placeholder="Your message" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <p id="error"></p>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="comment-footer">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="container card-columns"></div>
+{% endblock %}
+
+{% block body2_js %}
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput-angular.min.js"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/course-detail.js') }}"></script>
+        <script type="text/javascript">
+            $.ajax({
+                type: 'GET',
+                url: '/course/{{ course.id }}/json/',
+                dataType: 'json',
+                success: function(data) {
+                    all_profs = data;
+                    changeProf(0, all_profs);
+
+                    // Pop-up prof selection list
+                    for (i = 1; i < all_profs.length; i++) {
+                        $('#professor-selection').append('<option value="'+all_profs[i]['uni']+'">'+all_profs[i]['name']+'</option>');
+                    }
+                }
+            });
+
+            $('#add-comment').on('click', function() {
+                {%- if current_user.is_authenticated -%}
+                    $("#commentModal").modal("show");
+                {%- else -%}
+                    $("#commentModal").modal("hide");
+                    $.notify({
+                        message: 'Please <a id="notif" href="{{ url_for('login') }}?redirect={{ request.path }}">sign in</a> with your Lionmail before leaving a comment.'
+                    },{
+                        element: 'body',
+                        position: 'fixed',
+                        type: "danger",
+                        allow_dismiss: true,
+                        placement: {
+                            from: "top",
+                            align: "center"
+                        },
+                        offset: 60,
+                        spacing: 10,
+                        z_index: 1031,
+                        delay: 3000,
+                        timer: 1000,
+                        url_target: '_blank',
+                        animate: {
+                            enter: 'animated fadeInDown',
+                            exit: 'animated fadeOutUp'
+                        },
+                        onShow: null,
+                        onShown: null,
+                        onClose: null,
+                        onClosed: null,
+                        icon_type: 'class',
+                        template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                            '<span data-notify="icon"></span> ' +
+                            '<span data-notify="title">{1}</span> ' +
+                            '<span data-notify="message">{2}</span>' +
+                            '<div class="progress" data-notify="progressbar">' +
+                                '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+                            '</div>' +
+                            '<a href="{3}" target="{4}" data-notify="url"></a>' +
+                        '</div>'
+                    });
+                {%- endif -%}
+            });
+
+            $('#add-prof').on('click', function() {
+                {%- if current_user.is_authenticated -%}
+                    $("#profModal").modal("show");
+                {%- else -%}
+                    $("#profModal").modal("hide");
+                    $.notify({
+                        message: 'Please <a id="notif" href="{{ url_for('login') }}?redirect={{ request.path }}">sign in</a> with your Lionmail before adding an instructor.'
+                    },{
+                        element: 'body',
+                        position: 'fixed',
+                        type: "danger",
+                        allow_dismiss: true,
+                        placement: {
+                            from: "top",
+                            align: "center"
+                        },
+                        offset: 60,
+                        spacing: 10,
+                        z_index: 1031,
+                        delay: 3000,
+                        timer: 1000,
+                        url_target: '_blank',
+                        animate: {
+                            enter: 'animated fadeInDown',
+                            exit: 'animated fadeOutUp'
+                        },
+                        onShow: null,
+                        onShown: null,
+                        onClose: null,
+                        onClosed: null,
+                        icon_type: 'class',
+                        template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                            '<span data-notify="icon"></span> ' +
+                            '<span data-notify="title">{1}</span> ' +
+                            '<span data-notify="message">{2}</span>' +
+                            '<div class="progress" data-notify="progressbar">' +
+                                '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+                            '</div>' +
+                            '<a href="{3}" target="{4}" data-notify="url"></a>' +
+                        '</div>'
+                    });
+                {%- endif -%}
+            });
+        </script>
+{% endblock %}

@@ -1,0 +1,82 @@
+/*.body-main{*/
+    /*min-height: 100vh;*/
+/*}*/
+
+.nav-child {
+    margin-top: 60px;
+    max-width: 1140px;
+    margin: 60px auto;
+    margin-bottom: 0px;
+    background-color: #fff !important;
+    padding-left: 6px;
+    padding-right: 0;
+    border-bottom: 2px solid #eae9e9;
+    /*width: 100%;*/
+}
+
+#sort-alphabetical {
+    max-width: 1140px;
+    margin: 10px auto;
+    text-align: center;
+}
+
+#sort-alphabetical a {
+    margin-right: 50px;
+    margin-left: 50px;
+    font-size: 20px;
+    font-weight: 300;
+    cursor: pointer;
+}
+
+/*department card*/
+#alphabetical-card {
+    max-width: 1140px;
+    margin: 10px auto;
+}
+.card{
+    width: 350px;
+    display: inline-block;
+    border-radius:5px;
+    border-left: 2px solid #e67e22;
+    margin-bottom: 20px;
+    -webkit-box-shadow: 0 3px 3px #efefef;
+    box-shadow: 0 3px 3px #efefef;
+    height: auto;
+    
+}
+
+.selected{
+    color: #e67e22 !important;
+}
+
+
+.card-title{
+    font-size: 20px;
+    font-weight: 300;
+
+}
+
+.btn{
+    font-weight: 300;
+}
+
+.card-body .btn{
+   font-weight: 300;
+    background-color: #55affc;
+    border-color: #55affc;
+}
+
+.card-body .btn:hover{
+   font-weight: 300;
+    background-color: #3d7eb5;
+    border-color: #3d7eb5;
+}
+
+.btn-card{
+    background-color: #e4e4e4;
+    border: none;
+}
+
+.nav-buttom{
+    /*margin-top: -115px;*/
+}

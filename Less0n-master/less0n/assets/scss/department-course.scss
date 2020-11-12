@@ -1,0 +1,150 @@
+@import "style-variables";
+
+body {
+  background-color: white;
+  font-family: $lato !important;
+
+  .jumbotron {
+  	background-color: $dark;
+  	height: 450px;
+    color: white;
+
+    @media screen and (max-width: $small) {
+      height: 470px;
+    }
+
+    @media screen and (max-width: $extra-small) {
+      height: 470px;
+    }
+
+    .container {
+      margin-top: 50px;
+
+      .course-title {
+        float: left;
+      }
+
+      .dept-info {
+        float: left;
+        margin-top: 10px;
+
+        h1 {
+          font-weight: 300;
+
+          @media screen and (max-width: $small) {
+            font-size: 2em;
+          }
+
+          @media screen and (max-width: $extra-small) {
+            font-size: 2em;
+          }
+        }
+
+        a {
+          color: white;
+        }
+
+        a:hover {
+          color: lightgoldenrodyellow;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  #sortby {
+  	form {
+      width: 230px;
+      float: right;
+      position: relative;
+      top: -220px;
+
+      @media screen and (max-width: $small) {
+        float: left;
+        top: -160px;
+      }
+
+      @media screen and (max-width: $extra-small) {
+        float: left;
+        top: -160px;
+      }
+  	}
+  }
+
+  .cardcol {
+    position: relative;
+    top: -200px;
+    overflow: auto;
+    clear: both;
+
+    @media screen and (max-width: $small) {
+      top: -150px;
+    }
+
+    @media screen and (max-width: $extra-small) {
+      top: -150px;
+    }
+
+    .border-good {
+      border-top: 8px solid $border-good;
+    }
+
+    .border-neutral {
+      border-top: 8px solid $border-neutral;
+    }
+
+    .border-bad {
+      border-top: 8px solid $border-bad;
+    }
+
+    .border-bg-secondary {
+      border-top: 8px solid $border-bg-secondary;
+    }
+
+    .card {
+      margin: 10px 0;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.1);
+
+      a {
+        color: black;
+      }
+
+      a:hover {
+        color: darkslateblue;
+        text-decoration: none;
+      }
+
+      .card-text {
+      	color: #808080;
+      }
+
+      .btn {
+      	color: white;
+      	cursor: auto;
+      	margin-top: 8px;
+      }
+
+      .good {
+	      background-color: $good;
+	    }
+
+	    .neutral {
+	      background-color: $neutral;
+	    }
+
+	    .bad {
+	      background-color: $bad;
+	    }
+
+	    .comment {
+	      background-color: $comment;
+	    }
+
+      .list-group {
+        border: none;
+        font-size: 15px;
+      }
+    }
+  }
+}
+

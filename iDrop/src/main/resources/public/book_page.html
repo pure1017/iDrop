@@ -46,6 +46,7 @@
       });
     }
   </script>
+  <script src="assets/js/book_rating.js"></script>
 </head>
 
 <body>
@@ -147,7 +148,7 @@
         <p style="clear: left;">Categories:</p>
         <p style="clear: left;">Summary:</p>
 
-        <div class="text-center"><button type="submit">Rating</button></div>
+        <div class="text-center"><button id="rating-button" type="submit">Rating</button></div>
 
       </div>
     </section>
@@ -155,6 +156,7 @@
 <!--    Modal Section-->
     <div class="bg-modal">
       <div class="modal-content">
+        <div class="close">+</div>
         <img src="assets/img/rating_logo.jpg">
         <div id="inner_rate">
           <form action="">

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.29">
+<file name="/Users/pure/Documents/software engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/models/Message.java">
+</file>
+<file name="/Users/pure/Documents/software engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/models/Player.java">
+</file>
+<file name="/Users/pure/Documents/software engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/models/GameBoard.java">
+</file>
+<file name="/Users/pure/Documents/software engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/models/Move.java">
+</file>
+<file name="/Users/pure/Documents/software engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/controllers/PlayGame.java">
+<error line="28" column="5" severity="warning" message="Javadoc comment is placed in the wrong location." source="com.puppycrawl.tools.checkstyle.checks.javadoc.InvalidJavadocPositionCheck"/>
+</file>
+<file name="/Users/pure/Documents/software engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/controllers/UiWebSocket.java">
+</file>
+</checkstyle>

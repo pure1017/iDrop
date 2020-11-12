@@ -1670,9 +1670,9 @@ section {
   background-color: rgba(0, 0, 0, 0.7);
   position: absolute;
   top: 0;
-  display: flex;
   justify-content: center;
   align-items: center;
+  display: none;
 }
 
 .modal-content
@@ -1682,6 +1682,8 @@ section {
   background-color: white;
   border-radius: 4px;
   text-align: center;
+  padding: 20px;
+  position: relative;
 }
 
 .modal-content img
@@ -1690,6 +1692,16 @@ section {
   margin-left: auto;
   margin-right: auto;
   width: 30%;
+}
+
+.close
+{
+  position: absolute;
+  top: 0;
+  right: 14px;
+  font-size: 42px;
+  transform: rotate(45deg);
+  cursor: pointer;
 }
 
 #inner_rate
