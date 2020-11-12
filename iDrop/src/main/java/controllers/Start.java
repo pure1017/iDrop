@@ -33,6 +33,7 @@ class Start {
     app.get("/", ctx -> {
       ctx.redirect("/start.html");
     });
+    
   }
   
   /** Send message to all players.
