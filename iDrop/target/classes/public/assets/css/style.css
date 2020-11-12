@@ -689,9 +689,13 @@ section {
 }
 
 /*--------------------------------------------------------------
-# Services
+# Group
 --------------------------------------------------------------*/
-.services .icon-box {
+.group .row {
+  justify-content: center; /* For horizontal alignment */
+}
+
+.group .icon-box {
   padding: 30px;
   position: relative;
   overflow: hidden;
@@ -702,7 +706,7 @@ section {
   z-index: 1;
 }
 
-.services .icon-box::before {
+.group .icon-box::before {
   content: '';
   position: absolute;
   background: #e1f0fa;
@@ -715,7 +719,7 @@ section {
   z-index: -1;
 }
 
-.services .icon-box:hover::before {
+.group .icon-box:hover::before {
   background: #3498db;
   right: 0;
   top: 0;
@@ -724,7 +728,7 @@ section {
   border-radius: 0px;
 }
 
-.services .icon {
+.group .icon {
   margin: 0 auto 20px auto;
   padding-top: 10px;
   display: inline-block;
@@ -736,37 +740,37 @@ section {
   transition: all 0.3s ease-in-out;
 }
 
-.services .icon i {
+.group .icon i {
   font-size: 36px;
   line-height: 1;
   color: #fff;
 }
 
-.services .title {
+.group .title {
   font-weight: 700;
   margin-bottom: 15px;
   font-size: 18px;
 }
 
-.services .title a {
+.group .title a {
   color: #111;
 }
 
-.services .description {
+.group .description {
   font-size: 15px;
   line-height: 28px;
   margin-bottom: 0;
 }
 
-.services .icon-box:hover .title a, .services .icon-box:hover .description {
+.group .icon-box:hover .title a, .group .icon-box:hover .description {
   color: #fff;
 }
 
-.services .icon-box:hover .icon {
+.group .icon-box:hover .icon {
   background: #fff;
 }
 
-.services .icon-box:hover .icon i {
+.group .icon-box:hover .icon i {
   color: #3498db;
 }
 
@@ -832,9 +836,9 @@ section {
 }
 
 /*--------------------------------------------------------------
-# Features
+# Categories
 --------------------------------------------------------------*/
-.features .icon-box {
+.categories .icon-box {
   display: flex;
   align-items: center;
   padding: 20px;
@@ -842,13 +846,13 @@ section {
   transition: ease-in-out 0.3s;
 }
 
-.features .icon-box i {
+.categories .icon-box i {
   font-size: 32px;
   padding-right: 10px;
   line-height: 1;
 }
 
-.features .icon-box h3 {
+.categories .icon-box h3 {
   font-weight: 700;
   margin: 0;
   padding: 0;
@@ -856,16 +860,16 @@ section {
   font-size: 16px;
 }
 
-.features .icon-box h3 a {
+.categories .icon-box h3 a {
   color: #222222;
   transition: ease-in-out 0.3s;
 }
 
-.features .icon-box h3 a:hover {
+.categories .icon-box h3 a:hover {
   color: #3498db;
 }
 
-.features .icon-box:hover {
+.categories .icon-box:hover {
   background: #eef7fc;
 }
 
@@ -1423,6 +1427,59 @@ section {
   background: #2383c4;
 }
 
+.host_group .php-email-form button[type="submit"] {
+  background: #3498db;
+  border: 0;
+  padding: 10px 24px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+}
+
+.host_group .php-email-form button[type="submit"]:hover {
+  background: #2383c4;
+}
+
+.join_group .php-email-form button[type="submit"] {
+  background: #3498db;
+  border: 0;
+  padding: 10px 24px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+}
+
+.join_group .php-email-form button[type="submit"]:hover {
+  background: #2383c4;
+}
+
+.book-page  button[type="submit"] {
+  background: #3498db;
+  border: 0;
+  padding: 10px 24px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+}
+
+.book-page  button[type="submit"]:hover {
+  background: #2383c4;
+}
+
+.modal-content  button[type="submit"] {
+  background: #3498db;
+  border: 0;
+  padding: 10px 24px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+  margin-top: 10px;
+}
+
+.modal-content  button[type="submit"]:hover {
+  background: #2383c4;
+}
+
 @-webkit-keyframes animate-loading {
   0% {
     transform: rotate(0deg);
@@ -1563,6 +1620,316 @@ section {
   }
 }
 
+
+/*--------------------------------------------------------------
+# rating
+--------------------------------------------------------------*/
+.rate {
+    float: left;
+    height: 60px;
+    padding: 0 10px;
+}
+
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+
+.bg-modal
+{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content
+{
+  width: 500px;
+  height: 300px;
+  background-color: white;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.modal-content img
+{
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+}
+
+#inner_rate
+{
+  display: table;
+  margin: 0 auto;
+}
+
+#inner_comment
+{
+  display: table;
+  margin: 0 auto;
+  width: 400px;
+}
+/*--------------------------------------------------------------
+# Chat Box
+--------------------------------------------------------------*/
+.chat_box .container
+{
+  max-width: 500px !important;
+  margin: auto;
+  margin-top: 4%;
+  font-family: sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.chat_box img
+{
+  max-width: 100%;
+  border-radius: 50%;
+}
+
+.chat_box .msg-header
+{
+  border: 1px solid #ccc;
+  width: 100%;
+  height: 10%;
+  border-bottom: none;
+  display: inline-block;
+  background-color: #007bff;
+}
+
+.chat_box .msg-header-img
+{
+  border-radius: 50%;
+  width: 40px;
+  margin-left: 5%;
+  margin-top: 12px;
+  float: left;
+}
+
+.chat_box .active
+{
+  width: 240px;
+  float: left;
+  margin-top: 10px;
+}
+
+.chat_box .active h4
+{
+  font-size: 20px;
+  margin-left: 10px;
+  color: #fff;
+}
+
+.chat_box .active h6
+{
+  font-size: 10px;
+  margin-left: 10px;
+  /*line-height: 2px;*/
+  color: #fff;
+}
+
+.chat_box .header-icons
+{
+  width: 120px;
+  float: right;
+  margin-top: 12px;
+  margin-right: 10px;
+}
+
+.chat_box .header-icons .fa
+{
+  color: #fff;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.chat_box .chat-page
+{
+  margin-top:-8px;
+  padding: 0 0 50px 0;
+}
+
+.chat_box .msg-inbox
+{
+  border: 1px solid #ccc;
+  overflow: hidden;
+  padding-bottom: 30px;
+}
+
+.chat_box .chats
+{
+  padding: 30px 25px 0 25px;
+}
+
+.chat_box .msg-page
+{
+  height: 516px;
+  overflow-y: auto;
+}
+
+.chat_box .received-chats-img
+{
+  display: inline-block;
+  width: 20px;
+  float: left;
+}
+
+.chat_box .received-msg
+{
+  display: inline-block;
+  padding: 0 0 0 10px;
+  vertical-align: top;
+  width: 92%;
+}
+
+.chat_box .received-msg-inbox
+{
+  width: 57%;
+}
+
+.chat_box .received-msg-inbox p
+{
+  background: #efefef none repeat scroll 0 0;
+  border-radius: 10px;
+  color: #646464;
+  font-size: 14px;
+  margin: 0;
+  padding: 5px 10px 5px 12px;
+  width: 100%;
+}
+
+.chat_box .time
+{
+  color: #777;
+  display: block;
+  font-size: 12px;
+  margin: 8px 0 0;
+}
+
+.chat_box .outgoing-chats
+{
+  overflow: hidden;
+  margin: 26px 20px;
+}
+
+.chat_box .outgoing-chats-msg p
+{
+  background: #007bff none repeat scroll 0 0;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 14px;
+  margin: 0;
+  padding: 5px 10px 5px 12px;
+  width: 100%;
+}
+
+.chat_box .outgoing-chats-msg
+{
+  float: left;
+  width: 46%;
+  margin-left: 45%;
+}
+
+.chat_box .outgoing-chats-img
+{
+  display: inline-block;
+  width: 20px;
+  float: right;
+}
+
+.chat_box .msg-bottom
+{
+  position: relative;
+  height: 10%;
+  overflow: auto;
+  background-color: #007bff;
+}
+
+.chat_box .input-group
+{
+  float: right;
+  margin-top: 13px;
+  margin-right: 20px;
+  margin-bottom: 13px;
+  outline: none !important;
+  border-radius: 20px;
+  width: 61% !important;
+  background-color: #fff;
+}
+
+.chat_box .form-control
+{
+  border: none !important;
+  border-radius: 20px !important;
+}
+
+.chat_box .input-group-text
+{
+  background: transparent !important;
+  border: none !important;
+}
+
+.chat_box .input-group .fa
+{
+  color: #007bff;
+  float: right;
+}
+
+.chat_box .bottom-icons
+{
+  float: left;
+  margin-top: 17px;
+  width: 30% !important;
+  margin-left: 22px;
+}
+
+.chat_box .bottom-icons .fa
+{
+  color: #fff;
+  padding: 5px;
+}
+
+.chat_box .form-control:focus
+{
+  border-color: none !important;
+  box-shadow: none !important;
+  border-radius: 20px;
+}
 /*--------------------------------------------------------------
 # Footer
 --------------------------------------------------------------*/

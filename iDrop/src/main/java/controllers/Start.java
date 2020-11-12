@@ -31,8 +31,9 @@ class Start {
     
     // New Game
     app.get("/", ctx -> {
-      ctx.redirect("/index.html");
+      ctx.redirect("/start.html");
     });
+    
   }
   
   /** Send message to all players.
