@@ -4,9 +4,9 @@ import java.util.Set;
 
 public class Item {
   private String itemId;
-  private Set<String> author;
+  private String author;
   private String title;
-  //private double rating;
+  private double rating;
   private Set<String> categories;
   private String imageUrl;
   private String url;
@@ -16,7 +16,7 @@ public class Item {
     return itemId;
   }
   
-  public Set<String> getAuthor() {
+  public String getAuthor() {
     return author;
   }
   
@@ -24,11 +24,9 @@ public class Item {
     return title;
   }
   
-  /*
   public double getRating() {
     return rating;
   }
-  */
   
   public Set<String> getCategories() {
     return categories;
@@ -47,11 +45,12 @@ public class Item {
   }
   
   public static class ItemBuilder {
-    public void setItemId(String itemId) {
+
+	public void setItemId(String itemId) {
       this.itemId = itemId;
     }
     
-    public void setAuthor(Set<String> author) {
+    public void setAuthor(String author) {
       this.author = author;
     }
     
@@ -59,12 +58,9 @@ public class Item {
       this.title = title;
     }
     
-    
-    /**
     public void setRating(double rating) {
       this.rating = rating;
     }
-    */
     
     public void setCategories(Set<String> categories) {
       this.categories = categories;
@@ -82,8 +78,9 @@ public class Item {
       this.describe = describe;
     }
     
+    private double rating;
     private String itemId;
-    private Set<String> author;
+    private String author;
     private String title;
     private Set<String> categories;
     private String imageUrl;
@@ -99,7 +96,7 @@ public class Item {
     this.itemId = builder.itemId;
     this.author = builder.author;
     this.title = builder.title;
-    //this.rating = 0.0;
+    this.rating = 0.0;
     this.categories = builder.categories;
     this.imageUrl = builder.imageUrl;
     this.url = builder.url;

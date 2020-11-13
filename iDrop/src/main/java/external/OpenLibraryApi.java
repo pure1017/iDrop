@@ -70,16 +70,17 @@ public class OpenLibraryApi {
     return new ArrayList<>();
   }
   
-  private Set<String> getAuthors(JSONObject doc) throws JSONException {
-    Set<String> authors = new HashSet<>();
+  private String getAuthor(JSONObject doc) throws JSONException {
+    String author = null;
     if (!doc.isNull("author_name")) {
       JSONArray nameSub = doc.getJSONArray("author_name");
-      for (int i = 0; i < nameSub.length(); ++i) {
-        String name = nameSub.getString(i);
-        authors.add(name);
-      }
+      author = nameSub.getString(0);
+      //for (int i = 0; i < nameSub.length(); ++i) {
+      //  String name = nameSub.getString(i);
+      //  authors.add(name);
+      //}
     }
-    return authors;
+    return author;
   }
   
   private Set<String> getCategories(JSONObject doc) throws JSONException {
@@ -151,7 +152,7 @@ public class OpenLibraryApi {
         builder.setImageUrl(coverUrl);
       }
       
-      builder.setAuthor(getAuthors(doc));
+      builder.setAuthor(getAuthor(doc));
       builder.setCategories(getCategories(doc));
       builder.setDescribe(getDescribe(doc));
     
