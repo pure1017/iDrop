@@ -68,7 +68,18 @@
        <groupId>org.xerial</groupId>
        <artifactId>sqlite-jdbc</artifactId>
        <version>3.32.3.2</version>
-       </dependency>
+    </dependency>  
+    <dependency>
+       <groupId>com.google.api-client</groupId>
+       <artifactId>google-api-client</artifactId>
+       <version>1.30.10</version>
+    </dependency>
+    <dependency>
+       <groupId>com.google.http-client</groupId>
+       <artifactId>google-http-client-gson</artifactId>
+       <version>1.21.0</version>
+    </dependency>
+    
   </dependencies>
   
   <build>
