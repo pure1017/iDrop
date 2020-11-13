@@ -46,15 +46,22 @@ public class MysqlTableCreation {
       // Step 3 Create new tables
       sql = "CREATE TABLE items ("
         + "item_id VARCHAR(255) NOT NULL,"
-        + "name VARCHAR(255),"
+        + "author VARCHAR(255),"
+        + "title VARCHAR(255),"
         + "rating FLOAT,"
-        + "address VARCHAR(255),"
-        + "image_url VARCHAR(255),"
+        + "describe VARCHAR(255),"
+        + "cover_url VARCHAR(255),"
         + "url VARCHAR(255),"
-        + "distance FLOAT,"
         + "PRIMARY KEY (item_id))";
       stmt.executeUpdate(sql);
-
+      
+      sql = "CREATE TABLE authors ("
+        + "item_id VARCHAR(255) NOT NULL,"
+        + "author VARCHAR(255) NOT NULL,"
+        + "PRIMARY KEY (item_id, category),"
+        + "FOREIGN KEY (item_id) REFERENCES items(item_id))";
+      stmt.executeUpdate(sql);
+      
       sql = "CREATE TABLE categories ("
         + "item_id VARCHAR(255) NOT NULL,"
         + "category VARCHAR(255) NOT NULL,"
