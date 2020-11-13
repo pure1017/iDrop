@@ -1,7 +1,0 @@
-Flask==1.1.0
-flask_sqlalchemy==2.4.0
-flask_login==0.4.0
-requests==2.22.0
-requests_oauthlib==1.2.0
-gunicorn==19.9.0
-psycopg2==2.7.6
