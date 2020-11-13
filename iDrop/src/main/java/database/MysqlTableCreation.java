@@ -58,7 +58,7 @@ public class MysqlTableCreation {
       sql = "CREATE TABLE authors ("
         + "item_id VARCHAR(255) NOT NULL,"
         + "author VARCHAR(255) NOT NULL,"
-        + "PRIMARY KEY (item_id, category),"
+        + "PRIMARY KEY (item_id, author),"
         + "FOREIGN KEY (item_id) REFERENCES items(item_id))";
       stmt.executeUpdate(sql);
       
