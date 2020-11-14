@@ -34,6 +34,24 @@ class Start {
       ctx.redirect("/start.html");
     });
     
+    //Sign in with Google
+    app.post("/storeauthcode", ctx -> {
+      System.out.println(ctx.queryParam("code"));
+      ctx.result("code received");
+    });
+    
+    //Host Group
+    app.post("/hostGroup", ctx -> {
+      System.out.println(ctx.queryParam("bookName"));
+      ctx.result("sent");
+    });
+    
+    //Join Group
+    app.post("/joinGroup", ctx -> {
+      System.out.println(ctx.queryParam("bookName"));
+      ctx.result("sent");
+    });
+    
   }
   
   /** Send message to all players.

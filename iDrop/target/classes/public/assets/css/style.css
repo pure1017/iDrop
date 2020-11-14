@@ -1449,6 +1449,19 @@ section {
   border-radius: 50px;
 }
 
+#signinButton:hover {
+  background: #2383c4;
+}
+
+#signinButton {
+  background: #3498db;
+  border: 0;
+  padding: 10px 24px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+}
+
 .join_group .php-email-form button[type="submit"]:hover {
   background: #2383c4;
 }

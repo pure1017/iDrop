@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="google-signin-client_id" content="236055320521-rsf99kh834fv176d1u5sm9a3oinskia7.apps.googleusercontent.com">
 
   <title>iBook</title>
   <meta content="" name="description">
@@ -39,14 +40,14 @@
     function start() {
       gapi.load('auth2', function() {
         auth2 = gapi.auth2.init({
-          client_id: '236055320521-rsf99kh834fv176d1u5sm9a3oinskia7.apps.googleusercontent.com.apps.googleusercontent.com',
+          client_id: '236055320521-rsf99kh834fv176d1u5sm9a3oinskia7.apps.googleusercontent.com',
           // Scopes to request in addition to 'profile' and 'email'
           //scope: 'additional_scope'
         });
       });
     }
   </script>
-
+  <script src="assets/js/googleSignin.js"></script>
 </head>
 
 <body>
@@ -70,41 +71,7 @@
           <li><a href="#contact">Contact</a></li>
 
 <!--          <li class="get-started"><a href="#about">Login/Sign up</a></li>-->
-          <li id="signinButton" class="get-started"><a href="#about">Sign in with Google</a></li>
-            <script>
-              $('#signinButton').click(function() {
-                // signInCallback defined in step 6.
-                auth2.grantOfflineAccess().then(signInCallback);
-              });
-            </script>
-            <script>
-              function signInCallback(authResult) {
-                if (authResult['code']) {
-
-                  // Hide the sign-in button now that the user is authorized, for example:
-                  $('#signinButton').attr('style', 'display: none');
-
-                  // Send the code to the server
-                  $.ajax({
-                    type: 'POST',
-                    url: 'http://localhost:8080/storeauthcode',
-                    // Always include an `X-Requested-With` header in every AJAX request,
-                    // to protect against CSRF attacks.
-                    headers: {
-                      'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    contentType: 'application/octet-stream; charset=utf-8',
-                    success: function(result) {
-                      // Handle or verify the server response.
-                    },
-                    processData: false,
-                    data: authResult['code']
-                  });
-                } else {
-                  // There was an error.
-                }
-              }
-            </script>
+          <li class="get-started"><a id="signinButton" href="#about" data-onsuccess="onSignIn">Sign in with Google</a></li>
         </ul>
       </nav><!-- .nav-menu -->
 

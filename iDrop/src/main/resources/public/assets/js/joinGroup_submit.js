@@ -2,20 +2,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = {
         bookName: document.getElementById("book_name"),
         groupName: document.getElementById("group_name"),
-        beginDate: document.getElementById("begin_date"),
-        groupSize: document.getElementById("group_size"),
-        groupDescription: document.getElementById("group_description"),
-        submit: document.getElementById("host_submit"),
+        joinMessage: document.getElementById("join_message"),
+        submit: document.getElementById("join_submit"),
         messages: document.getElementById("form-messages")
     };
 
     form.submit.addEventListener('click', function () {
         let req = JSON.stringify({});
         let param = '?bookName='+form.bookName.value+'&groupName='+form.groupName.value+
-        '&beginDate='+form.beginDate.value+'&groupSize='+form.beginDate.value+'&groupDescription='+form.groupDescription.value;
+        '&joinMessage='+form.joinMessage.value;
         console.log(param);
         ajax('POST',
-            '/hostGroup'+param,
+            '/joinGroup'+param,
             req,
             // successful callback
             function(res) {
