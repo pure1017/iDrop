@@ -39,14 +39,22 @@
     function start() {
       gapi.load('auth2', function() {
         auth2 = gapi.auth2.init({
-          client_id: '236055320521-rsf99kh834fv176d1u5sm9a3oinskia7.apps.googleusercontent.com.apps.googleusercontent.com',
+          client_id: '236055320521-rsf99kh834fv176d1u5sm9a3oinskia7.apps.googleusercontent.com',
           // Scopes to request in addition to 'profile' and 'email'
           //scope: 'additional_scope'
         });
       });
     }
-  </script>
 
+    function onSignIn(googleUser) {
+      var profile = googleUser.getBasicProfile();
+      console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+      console.log('Name: ' + profile.getName());
+      console.log('Image URL: ' + profile.getImageUrl());
+      console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    }
+  </script>
+  <script src="assets/js/googleSignin.js"></script>
 </head>
 
 <body>
@@ -70,41 +78,8 @@
           <li><a href="#contact">Contact</a></li>
 
 <!--          <li class="get-started"><a href="#about">Login/Sign up</a></li>-->
-          <li id="signinButton" class="get-started"><a href="#about">Sign in with Google</a></li>
-            <script>
-              $('#signinButton').click(function() {
-                // signInCallback defined in step 6.
-                auth2.grantOfflineAccess().then(signInCallback);
-              });
-            </script>
-            <script>
-              function signInCallback(authResult) {
-                if (authResult['code']) {
+          <li class="get-started"><a id="signinButton" href="#about" data-onsuccess="onSignIn">Sign in with Google</a></li>
 
-                  // Hide the sign-in button now that the user is authorized, for example:
-                  $('#signinButton').attr('style', 'display: none');
-
-                  // Send the code to the server
-                  $.ajax({
-                    type: 'POST',
-                    url: 'http://localhost:8080/storeauthcode',
-                    // Always include an `X-Requested-With` header in every AJAX request,
-                    // to protect against CSRF attacks.
-                    headers: {
-                      'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    contentType: 'application/octet-stream; charset=utf-8',
-                    success: function(result) {
-                      // Handle or verify the server response.
-                    },
-                    processData: false,
-                    data: authResult['code']
-                  });
-                } else {
-                  // There was an error.
-                }
-              }
-            </script>
         </ul>
       </nav><!-- .nav-menu -->
 

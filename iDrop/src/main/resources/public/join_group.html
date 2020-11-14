@@ -46,7 +46,7 @@
       });
     }
   </script>
-
+  <script src="assets/js/joinGroup_submit.js"></script>
 </head>
 
 <body>
@@ -135,23 +135,23 @@
           <div class="form-group">
             <label class="control-label col-sm-2">Book:</label>
             <div class="col-sm-10">
-              <input type="text" name="name" class="form-control" id="book name" placeholder="Book Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+              <input type="text" name="name" class="form-control" id="book_name" placeholder="Book Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-2">Group:</label>
             <div class="col-sm-10">
-              <input type="text" name="name" class="form-control" id="group name" placeholder="Group Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+              <input type="text" name="name" class="form-control" id="group_name" placeholder="Group Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-3">Message to the Host:</label>
             <div class="col-sm-10">
-              <textarea rows="4" class="form-control" maxlength="1000" placeholder="This is the default text"></textarea>
+              <textarea rows="4" class="form-control" id="join_message" maxlength="1000" placeholder="This is the default text"></textarea>
             </div>
           </div>
 
-          <div class="text-center"><button type="submit">Submit</button></div>
+          <div class="text-center"><button type="submit" id="join_submit">Submit</button></div>
         </form>
       </div>
     </section>
