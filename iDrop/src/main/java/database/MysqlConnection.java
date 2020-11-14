@@ -231,6 +231,32 @@ public class MysqlConnection {
       e.printStackTrace();
     }
   }
+  
+  /**
+   * This is to get the items based on categories.
+   * @param category The category of books
+   * @return Three item ids with the highest ratings
+   */
+  public Set<String> getItemsOnCat(String category) {
+    // TODO Auto-generated method stub
+    if (conn == null) {
+      return null;
+    }
+    Set<String> itemList = new HashSet<>();
+    try {
+      String sql = "SELECT item_id from categories join items on categories.id = items.id"
+          + " WHERE categories.category = ? sort by item_id.rating desc limit 3";
+      PreparedStatement statement = conn.prepareStatement(sql);
+      statement.setString(1, category);
+      ResultSet rs = statement.executeQuery();
+      while (rs.next()) {
+        itemList.add(rs.getString("item_id"));
+      }
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+    return itemList;
+  }
 
   /**
    * This is to get the full user name.
