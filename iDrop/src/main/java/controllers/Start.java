@@ -37,6 +37,7 @@ class Start {
     //Sign in with Google
     app.post("/storeauthcode", ctx -> {
       System.out.println(ctx.queryParam("code"));
+      ctx.result("code received");
     });
     
     //Host Group

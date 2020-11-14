@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="google-signin-client_id" content="236055320521-rsf99kh834fv176d1u5sm9a3oinskia7.apps.googleusercontent.com">
 
   <title>iBook</title>
   <meta content="" name="description">
@@ -45,14 +46,6 @@
         });
       });
     }
-
-    function onSignIn(googleUser) {
-      var profile = googleUser.getBasicProfile();
-      console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-      console.log('Name: ' + profile.getName());
-      console.log('Image URL: ' + profile.getImageUrl());
-      console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-    }
   </script>
   <script src="assets/js/googleSignin.js"></script>
 </head>
@@ -79,7 +72,6 @@
 
 <!--          <li class="get-started"><a href="#about">Login/Sign up</a></li>-->
           <li class="get-started"><a id="signinButton" href="#about" data-onsuccess="onSignIn">Sign in with Google</a></li>
-
         </ul>
       </nav><!-- .nav-menu -->
 

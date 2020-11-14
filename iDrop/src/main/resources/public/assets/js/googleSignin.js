@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
   const signin = document.getElementById("signinButton");
   signin.addEventListener('click', function () {
-     console.log("click");
+     // const googleUser = gapi.auth2.getAuthInstance().currentUser.get();
+     // console.log(googleUser);
      auth2.grantOfflineAccess().then(signInCallback);
   });
 
-  function signInCallback(authResult, googleUser) {
+  function signInCallback(authResult) {
       console.log(authResult);
-      console.log(googleUser);
 
       if (authResult['code']) {
 
@@ -15,23 +15,31 @@ document.addEventListener('DOMContentLoaded', function () {
           // signin.attr('style', 'display: none');
           document.querySelector("#signinButton").style.display = 'none';
 
-        // Send the code to the server
-        //   ajax('POST',)
-        $.ajax({
-          type: 'POST',
-          url: 'http://localhost:8080/storeauthcode',
-          // Always include an `X-Requested-With` header in every AJAX request,
-          // to protect against CSRF attacks.
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-          },
-          contentType: 'application/octet-stream; charset=utf-8',
-          success: function(result) {
-            // Handle or verify the server response.
-          },
-          processData: false,
-          data: authResult['code']
-        });
+          let req = JSON.stringify({});
+          // Send the code to the server
+          ajax('POST', "/storeauthcode?code="+authResult['code'], req,
+              function (res) {
+                console.log(res);
+              },
+              // failed callback
+            function() {
+                showErrorMessage('Something went wrong.');
+              });
+        // $.ajax({
+        //   type: 'POST',
+        //   url: 'http://localhost:8080/storeauthcode',
+        //   // Always include an `X-Requested-With` header in every AJAX request,
+        //   // to protect against CSRF attacks.
+        //   headers: {
+        //     'X-Requested-With': 'XMLHttpRequest'
+        //   },
+        //   contentType: 'application/octet-stream; charset=utf-8',
+        //   success: function(result) {
+        //     // Handle or verify the server response.
+        //   },
+        //   processData: false,
+        //   data: authResult['code']
+        // });
       } else {
         // There was an error.
       }
@@ -72,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
           xhr.send();
       } else {
           xhr.setRequestHeader("Content-Type",
-              "application/x-www-form-urlencoded");
+              "application/json;charset=utf-8");
           xhr.send(data);
     }
 }
