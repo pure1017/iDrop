@@ -46,8 +46,8 @@ public class MysqlTableCreation {
       // Step 3 Create new tables
       sql = "CREATE TABLE items ("
         + "item_id VARCHAR(255) NOT NULL,"
-        + "author VARCHAR(255),"
         + "title VARCHAR(255),"
+        + "author VARCHAR(255),"
         + "rating FLOAT,"
         + "describe VARCHAR(255),"
         + "cover_url VARCHAR(255),"
