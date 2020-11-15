@@ -29,17 +29,19 @@ import java.util.Collections;
 public class GoogleApiLogin {
   /**
    * login function.
- * @throws IOException 
- * @throws FileNotFoundException 
+ * @throws IOException .
+ * @throws FileNotFoundException .
    */
-  public static void login(String authCode) throws FileNotFoundException, IOException {
+  public static String login(String authCode) throws FileNotFoundException, IOException {
 
     // Set path to the Web application client_secret_*.json file you downloaded from the
     // Google API Console: https://console.developers.google.com/apis/credentials
     // You can also find your Web application client ID and client secret from the
     // console and specify them directly when you create the GoogleAuthorizationCodeTokenRequest
     // object.
-    String clientSecretFile = "/path/to/client_secret.json";
+    //String clientSecretFile = "/path/to/client_secret.json";
+    String clientSecretFile = "client_secret_236055320521-rsf99kh834fv176d1u5sm9a3oinskia7"
+        + ".apps.googleusercontent.com.json";
 
     // Exchange auth code for access token
     GoogleClientSecrets clientSecrets =
@@ -135,5 +137,7 @@ public class GoogleApiLogin {
     } catch (Exception e) {
       e.printStackTrace();
     }
+    
+    return userId;
   }
 }
