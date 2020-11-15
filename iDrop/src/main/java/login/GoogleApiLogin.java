@@ -40,14 +40,13 @@ public class GoogleApiLogin {
     // console and specify them directly when you create the GoogleAuthorizationCodeTokenRequest
     // object.
     //String clientSecretFile = "/path/to/client_secret.json";
-    String clientSecretFile = "client_secret_236055320521-rsf99kh834fv176d1u5sm9a3oinskia7"
-        + ".apps.googleusercontent.com.json";
-
+    String clientSecretFile = "C:\\Users\\Mr.Cao\\Desktop\\aseproject\\iDrop\\iDrop\\src\\main\\java\\login\\client_secret_236055320521-rsf99kh834fv176d1u5sm9a3oinskia7.apps.googleusercontent.com.json";
     // Exchange auth code for access token
     GoogleClientSecrets clientSecrets =
         GoogleClientSecrets.load(
         JacksonFactory.getDefaultInstance(), new FileReader(clientSecretFile));
 
+    System.out.println("2");
     String redirectUri = "";
     GoogleTokenResponse tokenResponse =
         new GoogleAuthorizationCodeTokenRequest(
@@ -61,7 +60,8 @@ public class GoogleApiLogin {
         // app. If you don't have a web version of your app, you can
         // specify an empty string.
         .execute();
-
+    
+    System.out.println(3);
     //String accessToken = tokenResponse.getAccessToken();
 
 
@@ -122,7 +122,7 @@ public class GoogleApiLogin {
         e.printStackTrace();
       }
       if (conn == null) {
-        return;
+        return null;
       }
       //check if the user exists
       Statement stmt = conn.createStatement();

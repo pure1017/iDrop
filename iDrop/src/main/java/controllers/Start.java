@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import login.GoogleApiLogin;
+
 import java.io.IOException;
 import java.util.Queue;
 import org.eclipse.jetty.websocket.api.Session;
@@ -36,7 +38,11 @@ class Start {
     
     //Sign in with Google
     app.post("/storeauthcode", ctx -> {
-      System.out.println(ctx.queryParam("code"));
+      //System.out.println(ctx.queryParam("code"));
+      String authCode = ctx.queryParam("code");
+      System.out.println(authCode);
+      String userId = GoogleApiLogin.login(authCode);
+      System.out.println(userId);
       ctx.result("code received");
     });
     
