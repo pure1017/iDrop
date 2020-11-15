@@ -63,6 +63,16 @@ class Start {
       System.out.println(ctx.queryParam("bookName"));
       ctx.result("Petter");
     });
+    
+    //Like a book
+    app.post("/like", ctx -> {
+      //To Do
+    });
+    
+    //Cancel_Like a book
+    app.post("/cancel_like", ctx -> {
+      //To Do
+    });
   }
   
   /** Send message to all players.
