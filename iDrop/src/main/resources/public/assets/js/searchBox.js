@@ -1,27 +1,35 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const form = {
-        bookName: document.getElementById("book_name"),
-        groupName: document.getElementById("group_name"),
-        beginDate: document.getElementById("begin_date"),
-        groupSize: document.getElementById("group_size"),
-        groupDescription: document.getElementById("group_description"),
-        submit: document.getElementById("host_submit"),
-        messages: document.getElementById("form-messages")
+  const form = {
+        bookName: document.getElementById("search-input"),
+        submit: document.getElementById("search-submit")
     };
 
-    form.submit.addEventListener('click', function () {
-        let req = JSON.stringify({});
-        let param = '?bookName='+form.bookName.value+'&groupName='+form.groupName.value+
-        '&beginDate='+form.beginDate.value+'&groupSize='+form.beginDate.value+'&groupDescription='+form.groupDescription.value;
+  var bookName = "bookName"
+  var rate = 3;
+  var author = "author";
+  var category = "category";
+  var summary = "summary";
+  sessionStorage.setItem("rate", rate);
+  sessionStorage.setItem("author", author);
+  sessionStorage.setItem("category", category);
+  sessionStorage.setItem("summary", summary);
 
-        ajax('POST',
-            '/hostGroup'+param,
+  form.submit.addEventListener('click', function () {
+     let req = JSON.stringify({});
+     let param = "?bookName="+form.bookName.value;
+     ajax('POST',
+            '/search'+param,
             req,
             // successful callback
             function(res) {
-                // var items = JSON.parse(res);
-                if(res === "sent"){
-                    location.href='success.html';
+                var items = JSON.parse(res);
+                if(res){
+                    bookName = items["bookName"];
+                    rate = items["rate"];
+                    author = items["author"];
+                    category = items["category"];
+                    summary = items["summary"];
+                    location.href='book_page.html';
                 }
             },
             // failed callback

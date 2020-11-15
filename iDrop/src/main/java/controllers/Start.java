@@ -58,6 +58,11 @@ class Start {
       ctx.result("sent");
     });
     
+    //Search Book
+    app.post("/search", ctx -> {
+      System.out.println(ctx.queryParam("bookName"));
+      ctx.result("Petter");
+    });
   }
   
   /** Send message to all players.

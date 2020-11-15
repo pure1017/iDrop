@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="google-signin-client_id" content="236055320521-rsf99kh834fv176d1u5sm9a3oinskia7.apps.googleusercontent.com">
 
   <title>iBook</title>
   <meta content="" name="description">
@@ -28,6 +29,9 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <!-- BEGIN Pre-requisites -->
   <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js">
   </script>
@@ -39,13 +43,16 @@
     function start() {
       gapi.load('auth2', function() {
         auth2 = gapi.auth2.init({
-          client_id: '236055320521-rsf99kh834fv176d1u5sm9a3oinskia7.apps.googleusercontent.com.apps.googleusercontent.com',
+          client_id: '236055320521-rsf99kh834fv176d1u5sm9a3oinskia7.apps.googleusercontent.com',
           // Scopes to request in addition to 'profile' and 'email'
           //scope: 'additional_scope'
         });
       });
     }
   </script>
+  <script src="assets/js/googleSignin.js"></script>
+  <script src="assets/js/searchBox.js"></script>
+  <script src="assets/js/book_page.js"></script>
   <script src="assets/js/book_rating.js"></script>
 </head>
 
@@ -64,50 +71,21 @@
       <nav class="nav-menu d-none d-lg-block">
         <ul>
           <li class="active"><a href="start.html">Home</a></li>
-          <li><a href="start.html#categories">Categories</a></li>
-          <li><a href="start.html#testimonials">Recommendations</a></li>
-          <li><a href="start.html#group">Group</a></li>
-          <li><a href="start.html#contact">Contact</a></li>
+          <li><a href="#categories">Categories</a></li>
+          <li><a href="#testimonials">Recommendations</a></li>
+          <li><a href="#group">Group</a></li>
+          <li><a href="#contact">Contact</a></li>
 
 <!--          <li class="get-started"><a href="#about">Login/Sign up</a></li>-->
-          <li id="signinButton" class="get-started"><a href="#about">Sign in with Google</a></li>
-            <script>
-              $('#signinButton').click(function() {
-                // signInCallback defined in step 6.
-                auth2.grantOfflineAccess().then(signInCallback);
-              });
-            </script>
-            <script>
-              function signInCallback(authResult) {
-                if (authResult['code']) {
-
-                  // Hide the sign-in button now that the user is authorized, for example:
-                  $('#signinButton').attr('style', 'display: none');
-
-                  // Send the code to the server
-                  $.ajax({
-                    type: 'POST',
-                    url: 'http://localhost:8080/storeauthcode',
-                    // Always include an `X-Requested-With` header in every AJAX request,
-                    // to protect against CSRF attacks.
-                    headers: {
-                      'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    contentType: 'application/octet-stream; charset=utf-8',
-                    success: function(result) {
-                      // Handle or verify the server response.
-                    },
-                    processData: false,
-                    data: authResult['code']
-                  });
-                } else {
-                  // There was an error.
-                }
-              }
-            </script>
+          <li class="get-started"><a id="signinButton" href="#about">Sign in with Google</a></li>
         </ul>
       </nav><!-- .nav-menu -->
-
+      <div class="search-box">
+        <input type="text" id="search-input" class="tbox" placeholder="Book Name"/>
+        <button type="submit" id="search-submit" class="searchButton">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
     </div>
   </header><!-- End Header -->
 
@@ -132,7 +110,7 @@
       <div class="container">
         <p style="float: right;"><a href="innerGroup_page.html"><img src="assets/img/testimonials/little_prince.jpg" height="230px" width="180px" border="1px" style="margin-right: 20px"></a></p>
         <p>Rate:</p>
-        <div class="rate">
+        <div class="rate_static">
           <input type="radio" id="star5" name="rate" value="5" />
           <label for="star5" title="text">5 stars</label>
           <input type="radio" id="star4" name="rate" value="4" />
@@ -144,11 +122,14 @@
           <input type="radio" id="star1" name="rate" value="1" />
           <label for="star1" title="text">1 star</label>
         </div>
-        <p style="clear: left;">Author:</p>
-        <p style="clear: left;">Categories:</p>
-        <p style="clear: left;">Summary:</p>
+        <p id="author" style="clear: left;">Author:</p>
+        <p id="category" style="clear: left;">Category:</p>
+        <p id="summary" style="clear: left;">Summary:</p>
 
-        <div class="text-center"><button id="rating-button" type="submit">Rating</button></div>
+        <div class="flex-container">
+          <div class="text-center"><button id="rating-button" type="submit">Rating</button></div>
+          <div class="text-center"><button id="favorite-button" type="submit"><i class="bx bxs-like"></i></button></div>
+        </div>
 
       </div>
     </section>

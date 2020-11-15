@@ -29,6 +29,9 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <!-- BEGIN Pre-requisites -->
   <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js">
   </script>
@@ -48,6 +51,7 @@
     }
   </script>
   <script src="assets/js/googleSignin.js"></script>
+  <script src="assets/js/searchBox.js"></script>
 </head>
 
 <body>
@@ -71,10 +75,15 @@
           <li><a href="#contact">Contact</a></li>
 
 <!--          <li class="get-started"><a href="#about">Login/Sign up</a></li>-->
-          <li class="get-started"><a id="signinButton" href="#about" data-onsuccess="onSignIn">Sign in with Google</a></li>
+          <li class="get-started"><a id="signinButton" href="#about">Sign in with Google</a></li>
         </ul>
       </nav><!-- .nav-menu -->
-
+      <div class="search-box">
+        <input type="text" id="search-input" class="tbox" placeholder="Book Name"/>
+        <button type="submit" id="search-submit" class="searchButton">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
     </div>
   </header><!-- End Header -->
 

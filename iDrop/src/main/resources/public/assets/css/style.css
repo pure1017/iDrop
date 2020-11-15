@@ -229,6 +229,46 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+.search-box {
+  float: right;
+  display: flex;
+  margin: 10px 25px;
+}
+
+.tbox {
+  padding: 5px;
+  width: 200px;
+  border-color: lightgray;
+  border-style: solid;
+  outline-color: #3498db;
+  border-radius: 10px;
+}
+
+.searchButton {
+  width: 40px;
+  color: #3498db;
+  background-color: #fff;
+  border: 1px solid #3498db;
+  border-radius: 10px;
+}
+
+.searchButton:hover {
+  background-color: #3498db;
+}
+
+.searchButton:hover .fa{
+  color: #fff;
+}
+
+.searchButton:active {
+  border:1px solid #007bff;
+  outline-color: #007bff;
+}
+
+.searchButton:focus {
+  outline-color: #3498db;
+}
+
 /* Mobile Navigation */
 .mobile-nav-toggle {
   position: fixed;
@@ -1466,6 +1506,21 @@ section {
   background: #2383c4;
 }
 
+.flex-container {
+  display: flex;
+  padding: 10px;
+  text-align:center;
+  margin: auto;
+  width: 30%;
+}
+.flex-container .text-center {
+  padding: 20px;
+  margin: 0 auto;
+}
+#favorite-button .active {
+  color: #ffc700;
+}
+
 .book-page  button[type="submit"] {
   background: #3498db;
   border: 0;
@@ -1637,6 +1692,34 @@ section {
 /*--------------------------------------------------------------
 # rating
 --------------------------------------------------------------*/
+.rate_static {
+    float: left;
+    height: 60px;
+    padding: 0 10px;
+}
+
+.rate_static:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+
+.rate_static:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    font-size:30px;
+    color:#ccc;
+}
+
+.rate_static:not(:checked) > label:before {
+    content: '★ ';
+}
+
+/*.rate_static #star5 ~ label {*/
+/*  color: #ffc700;*/
+/*}*/
+
 .rate {
     float: left;
     height: 60px;
@@ -1690,7 +1773,7 @@ section {
 
 .modal-content
 {
-  width: 500px;
+  width: 500px !important;
   height: 300px;
   background-color: white;
   border-radius: 4px;
