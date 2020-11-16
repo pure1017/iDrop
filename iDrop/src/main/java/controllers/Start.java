@@ -2,13 +2,18 @@ package controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import entity.Item;
+import external.OpenLibraryApi;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-import login.GoogleApiLogin;
-
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
+import login.GoogleApiLogin;
 import org.eclipse.jetty.websocket.api.Session;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 class Start {
 
@@ -60,7 +65,21 @@ class Start {
     
     //Search Book
     app.post("/search", ctx -> {
-      System.out.println(ctx.queryParam("bookName"));
+      String bookName = ctx.queryParam("bookName");
+      System.out.println(bookName);
+      OpenLibraryApi olApi = new OpenLibraryApi();
+      List<Item> items = olApi.search(bookName, "title");
+      // to get JSON version of items
+      List<JSONObject> list = new ArrayList<>();
+      try {
+        for (Item item : items) {
+          JSONObject obj = item.toJsonObject();
+          list.add(obj);
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      JSONArray array = new JSONArray(list);
       ctx.result("Petter");
     });
     

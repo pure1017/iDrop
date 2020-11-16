@@ -1,6 +1,9 @@
 package entity;
 
 import java.util.Set;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Item {
   private String itemId;
@@ -42,6 +45,28 @@ public class Item {
   
   public String getDescribe() {
     return describe;
+  }
+  
+  /**
+   * to get the JSON version of item.
+   * @return
+   */
+  
+  public JSONObject toJsonObject() {
+    JSONObject obj = new JSONObject();
+    try {
+      obj.put("item_id", itemId);
+      obj.put("author", author);
+      obj.put("title", title);
+      obj.put("rating", rating);
+      obj.put("subject", new JSONArray(categories));
+      obj.put("cover_url", imageUrl);
+      obj.put("url", url);
+      obj.put("description", describe);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    return obj;
   }
   
   public static class ItemBuilder {

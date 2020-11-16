@@ -50,7 +50,7 @@ public class GoogleApiLogin {
     
     String clientId = "236055320521-rsf99kh834fv176d1u5sm9a3oinskia7.apps.googleusercontent.com";
     String clientSecret = "AWMEtkmHgmHSHArhhBqVo3_c";
-    String redirectUri = "";
+    String redirectUri = "http://localhost:8080";
     GoogleTokenResponse tokenResponse =
         new GoogleAuthorizationCodeTokenRequest(
         new NetHttpTransport(),
@@ -136,7 +136,7 @@ public class GoogleApiLogin {
       //if the user do not exits, rs.next() return false.
       if (!rs.next()) {
         sql = String.format("INSERT INTO users (user_id,email,first_name,last_name)"
-          + "VALUES (%s, %s, '%s', %s)", userId, email, givenName, familyName);
+          + "VALUES ('%s', '%s', '%s', '%s')", userId, email, givenName, familyName);
         stmt.executeUpdate(sql);  
       }
     } catch (Exception e) {

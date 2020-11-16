@@ -49,7 +49,7 @@ public class MysqlTableCreation {
         + "title VARCHAR(255),"
         + "author VARCHAR(255),"
         + "rating FLOAT,"
-        + "describe VARCHAR(255),"
+        + "description VARCHAR(10000),"
         + "cover_url VARCHAR(255),"
         + "url VARCHAR(255),"
         + "PRIMARY KEY (item_id))";
