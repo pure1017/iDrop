@@ -209,7 +209,7 @@ public class MysqlConnection {
     }
 
     try {
-      String sql = "INSERT IGNORE INTO items VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+      String sql = "INSERT IGNORE INTO items VALUES (?, ?, ?, ?, ?, ?, ?)";
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setString(1, item.getItemId());
       stmt.setString(2, item.getTitle());

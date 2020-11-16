@@ -86,8 +86,117 @@ public class MysqlTableCreation {
       stmt.executeUpdate(sql);
 
       System.out.println("Tables created successfully.");
+      
+      addFakedata();
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
+  
+  /**
+   * This is to add some fake data for testing.
+   */
+  public static void addFakedata() {
+    try {
+      // This is java.sql.Connection. Not com.mysql.jdbc.Connection.
+      Connection conn = null;
+
+      // Step 1 Connect to MySQL.
+      try {
+        System.out.println("Connecting to jdbc:sqlite:ase.db");
+        //Dynamically get reflection of data at runtime. 
+        Class.forName("org.sqlite.JDBC");
+        conn = DriverManager.getConnection("jdbc:sqlite:ase.db");
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      if (conn == null) {
+        return;
+      }
+      
+      //add 2 fake users
+      Statement stmt = conn.createStatement();
+      String sql = "INSERT INTO users VALUES ("
+          + "'11111', '1111@columbia.edu', 'Xinpei', 'Ma')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      sql = "INSERT INTO users VALUES ("
+          + "'22222', '2222@columbia.edu', 'Feiqiang', 'Shen')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+
+      //add 4 fake books
+      sql = "INSERT INTO items VALUES ('111', 'wangtingyi', 'tingyi', 5.0, "
+          + "'some description', 'image url', 'url')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      sql = "INSERT INTO items VALUES ('222', 'liumiao', 'miao', 5.0, "
+              + "'some description', 'image url', 'url')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+          
+      sql = "INSERT INTO items VALUES ('333', 'maxinpei', 'xinpei', 5.0, "
+              + "'some description', 'image url', 'url')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      sql = "INSERT INTO items VALUES ('444', 'linhao', 'hao', 5.0, "
+              + "'some description', 'image url', 'url')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      //add fake categories
+      sql = "INSERT INTO categories VALUES ('111', 'male')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      sql = "INSERT INTO categories VALUES ('222', 'male')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      sql = "INSERT INTO categories VALUES ('333', 'female')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      sql = "INSERT INTO categories VALUES ('444', 'female')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      //add fake history
+      sql = "INSERT INTO history (user_id, item_id) VALUES ('11111', '111')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      sql = "INSERT INTO history (user_id, item_id) VALUES ('11111', '333')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      sql = "INSERT INTO history (user_id, item_id) VALUES ('22222', '222')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      sql = "INSERT INTO history (user_id, item_id) VALUES ('22222', '444')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+
+      System.out.println("added fake data");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    //add fake users
+    
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
