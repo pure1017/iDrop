@@ -55,7 +55,7 @@ public class MysqlConnection {
     }
     
     try {
-      String sql = "INSERT IGNORE INTO history (user_id, item_id) VALUES (?, ?)";
+      String sql = "INSERT INTO history (user_id, item_id) VALUES (?, ?)";
       //ignore checks primary key
       PreparedStatement stmt = conn.prepareStatement(sql);
       for (String itemId : itemIds) {
@@ -147,7 +147,7 @@ public class MysqlConnection {
         while (rs.next()) {
           builder.setItemId(rs.getString("item_id"));
           //builder.setAuthor(rs.getString("author"));
-          builder.setImageUrl(rs.getString("image_url"));
+          builder.setImageUrl(rs.getString("cover_url"));
           builder.setUrl(rs.getString("url"));
           builder.setCategories(getCategories(itemId));
           favoriteItems.add(builder.build());
@@ -209,7 +209,7 @@ public class MysqlConnection {
     }
 
     try {
-      String sql = "INSERT IGNORE INTO items VALUES (?, ?, ?, ?, ?, ?, ?)";
+      String sql = "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?)";
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setString(1, item.getItemId());
       stmt.setString(2, item.getTitle());
@@ -220,7 +220,7 @@ public class MysqlConnection {
       stmt.setString(7, item.getUrl());
       stmt.execute();
 
-      sql = "INSERT IGNORE INTO categories VALUES (?, ?)";
+      sql = "INSERT INTO categories VALUES (?, ?)";
       stmt = conn.prepareStatement(sql);
       for (String category : item.getCategories()) {
         stmt.setString(1, item.getItemId());

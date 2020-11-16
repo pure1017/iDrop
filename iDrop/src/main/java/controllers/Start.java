@@ -61,9 +61,14 @@ class Start {
     });
     
     //Get favorite item
-    app.post("/getfavorite", ctx -> {
+    app.get("/getfavorite", ctx -> {
+    	
+      //sample request from frontend
+      //http://localhost:8080/getfavorite?userId=11111
       String userId = ctx.queryParam("userId");
       JSONArray arr = new JSONArray();
+      
+      System.out.println(userId);
       
       MysqlConnection conn = new MysqlConnection();
       Set<Item> items  = conn.getFavoriteItems(userId);
@@ -83,16 +88,24 @@ class Start {
     
     //Set favorite item
     app.post("/setfavorite", ctx -> {
+    	
+      //sample request
+      //http://localhost:8080/setfavorite?userId=11111&itemId=222
       String userId = ctx.queryParam("userId");
-      
-      HttpServletRequest request = ctx.req;
-      JSONObject input = RpcHelper.readJsonObject(request);
-      
-      JSONArray array = input.getJSONArray("favorite");
+      String itemId = ctx.queryParam("itemId");
+      System.out.println(userId);
+      System.out.println(itemId);
       List<String> itemIds = new ArrayList<>();
-      for (int i = 0; i < array.length(); ++i) {
-        itemIds.add(array.get(i).toString());
-      }
+      itemIds.add(itemId);
+//      HttpServletRequest request = ctx.req;
+//      JSONObject input = RpcHelper.readJsonObject(request);
+//      System.out.println(input);
+//      
+//      JSONArray array = input.getJSONArray("favorite");
+//      List<String> itemIds = new ArrayList<>();
+//      for (int i = 0; i < array.length(); ++i) {
+//        itemIds.add(array.get(i).toString());
+//      }
       
       MysqlConnection conn = new MysqlConnection();
       conn.setFavoriteItems(userId, itemIds);
@@ -102,16 +115,24 @@ class Start {
     
     //Unset favorite item
     app.delete("/unsetfavorite", ctx -> {
+      
+      //sample request
+      //http://localhost:8080/setfavorite?userId=11111&itemId=333
       String userId = ctx.queryParam("userId");
-        
-      HttpServletRequest request = ctx.req;
-      JSONObject input = RpcHelper.readJsonObject(request);
-        
-      JSONArray array = input.getJSONArray("favorite");
+      String itemId = ctx.queryParam("itemId");
+      System.out.println(userId);
+      System.out.println(itemId);
       List<String> itemIds = new ArrayList<>();
-      for (int i = 0; i < array.length(); ++i) {
-        itemIds.add(array.get(i).toString());
-      }
+      itemIds.add(itemId);
+      
+//      HttpServletRequest request = ctx.req;
+//      JSONObject input = RpcHelper.readJsonObject(request);
+//        
+//      JSONArray array = input.getJSONArray("favorite");
+//      List<String> itemIds = new ArrayList<>();
+//      for (int i = 0; i < array.length(); ++i) {
+//        itemIds.add(array.get(i).toString());
+//      }
         
       MysqlConnection conn = new MysqlConnection();
       conn.unsetFavoriteItems(userId, itemIds);
