@@ -2,16 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08a6b24c-2a41-4dfb-bdc2-af3a0a53f87e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/book_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/book_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/changelog.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/chat_box_test.html" beforeDir="false" afterPath="$PROJECT_DIR$/chat_box_test.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/host_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/host_group.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/innerGroup_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/innerGroup_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inner_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/inner_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/join_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/join_group.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/my_group.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start.html" beforeDir="false" afterPath="$PROJECT_DIR$/start.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/success.html" beforeDir="false" afterPath="$PROJECT_DIR$/success.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/404.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/css/404style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/public.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/public.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +16,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="HTML File" />
+        <option value="CSS File" />
         <option value="JavaScript File" />
       </list>
     </option>
@@ -36,9 +33,11 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -74,7 +73,7 @@
       <workItem from="1605423234191" duration="289000" />
       <workItem from="1605423552639" duration="4826000" />
       <workItem from="1605429479000" duration="9535000" />
-      <workItem from="1605600242975" duration="3351000" />
+      <workItem from="1605600242975" duration="5882000" />
     </task>
     <servers />
   </component>
