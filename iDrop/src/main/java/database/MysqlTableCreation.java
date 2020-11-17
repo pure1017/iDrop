@@ -6,12 +6,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class MysqlTableCreation {
-  // Run this as Java application to reset db schema.
   /**
-   * This is to create tables.
-   * @param args args
+   * This is the main function.	
+   * @param args .
    */
   public static void main(String[] args) {
+    createTables();
+    addFakeData();
+  }
+  
+  /**
+   * This is to create tables.
+   */
+  public static boolean createTables() {
     try {
       // This is java.sql.Connection. Not com.mysql.jdbc.Connection.
       Connection conn = null;
@@ -26,7 +33,7 @@ public class MysqlTableCreation {
         e.printStackTrace();
       }
       if (conn == null) {
-        return;
+        return false;
       }
 
       // Step2 Drop tables in case they exist
@@ -87,16 +94,16 @@ public class MysqlTableCreation {
 
       System.out.println("Tables created successfully.");
       
-      addFakedata();
     } catch (Exception e) {
       e.printStackTrace();
     }
+    return true;
   }
   
   /**
    * This is to add some fake data for testing.
    */
-  public static void addFakedata() {
+  public static boolean addFakeData() {
     try {
       // This is java.sql.Connection. Not com.mysql.jdbc.Connection.
       Connection conn = null;
@@ -111,7 +118,7 @@ public class MysqlTableCreation {
         e.printStackTrace();
       }
       if (conn == null) {
-        return;
+        return true;
       }
       
       //add 2 fake users
@@ -185,8 +192,7 @@ public class MysqlTableCreation {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    //add fake users
-    
+    return true;
   }
 }
 

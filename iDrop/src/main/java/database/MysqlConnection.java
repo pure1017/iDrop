@@ -32,7 +32,7 @@ public class MysqlConnection {
   /**
    * close the connection.
    */
-  public void close() {
+  public boolean close() {
     // TODO Auto-generated method stub
     if (conn != null) {
       try {
@@ -41,6 +41,7 @@ public class MysqlConnection {
         e.printStackTrace();
       }
     }
+    return true;
   }
 
   /**
@@ -48,10 +49,10 @@ public class MysqlConnection {
    * @param userId user id
    * @param itemIds items id
    */
-  public void setFavoriteItems(String userId, List<String> itemIds) {
+  public boolean setFavoriteItems(String userId, List<String> itemIds) {
     // TODO Auto-generated method stub
     if (conn == null) {
-      return;
+      return false;
     }
     
     try {
@@ -66,6 +67,7 @@ public class MysqlConnection {
     } catch (SQLException e) {
       e.printStackTrace();
     }
+    return true;
   }
 
   /**
@@ -73,10 +75,10 @@ public class MysqlConnection {
    * @param userId .
    * @param itemIds .
    */
-  public void unsetFavoriteItems(String userId, List<String> itemIds) {
+  public boolean unsetFavoriteItems(String userId, List<String> itemIds) {
     // TODO Auto-generated method stub
     if (conn == null) {
-      return;
+      return false;
     }
 
     try {
@@ -90,6 +92,7 @@ public class MysqlConnection {
     } catch (SQLException e) {
       e.printStackTrace();
     }
+    return true;
   }
 
   /**
@@ -202,10 +205,10 @@ public class MysqlConnection {
    * This is to save items.
    * @param item .
    */
-  public void saveItem(Item item) {
+  public boolean saveItem(Item item) {
     // TODO Auto-generated method stub
     if (conn == null) {
-      return;
+      return false;
     }
 
     try {
@@ -230,6 +233,7 @@ public class MysqlConnection {
     } catch (SQLException e) {
       e.printStackTrace();
     }
+    return true;
   }
   
   /**
@@ -257,56 +261,4 @@ public class MysqlConnection {
     }
     return itemList;
   }
-
-  /**
-   * This is to get the full user name.
-   * @param userId .
-   * @return
-   */
-  public String getFullname(String userId) {
-    // TODO Auto-generated method stub
-    if (conn == null) {
-      return null;
-    }
-    String name = "";
-    try {
-      String sql = "SELECT first_name, last_name from users WHERE user_id = ?";
-      PreparedStatement statement = conn.prepareStatement(sql);
-      statement.setString(1, userId);
-      ResultSet rs = statement.executeQuery();
-      if (rs.next()) {
-        name = String.join(" ", rs.getString("first_name"), rs.getString("last_name"));
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return name;
-  }
-
-  /**
-   * This is to verify login.
-   * @param userId .
-   * @param password .
-   * @return
-   */
-  public boolean verifyLogin(String userId, String password) {
-    // TODO Auto-generated method stub
-    if (conn == null) {
-      return false;
-    }
-    try {
-      String sql = "SELECT user_id from users WHERE user_id = ? and password = ?";
-      PreparedStatement statement = conn.prepareStatement(sql);
-      statement.setString(1, userId);
-      statement.setString(2, password);
-      ResultSet rs = statement.executeQuery();
-      if (rs.next()) {
-        return true;
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return false;
-  }
-
 }
