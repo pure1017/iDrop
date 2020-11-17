@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08a6b24c-2a41-4dfb-bdc2-af3a0a53f87e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../java/controllers/Start.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/controllers/Start.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/book_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/book_page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/googleSignin.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/googleSignin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/searchBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/searchBox.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -70,7 +73,7 @@
       <workItem from="1605423234191" duration="289000" />
       <workItem from="1605423552639" duration="4826000" />
       <workItem from="1605429479000" duration="9535000" />
-      <workItem from="1605600242975" duration="6454000" />
+      <workItem from="1605600242975" duration="8147000" />
     </task>
     <servers />
   </component>

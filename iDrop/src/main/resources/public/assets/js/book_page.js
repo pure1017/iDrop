@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     for (var i = 1; i<= rate; i++) {
         document.querySelector('.rate_static #star'+i+' ~ label').style.color = '#ffc700';
     }
-    document.querySelector('.rate_static #star'+3+' ~ label').style.color = '#ffc700';
+
     document.getElementById("author").innerHTML = "Author: " + author;
     document.getElementById("category").innerHTML = "Category: " + category;
     document.getElementById("summary").innerHTML = "Summary: " + summary;

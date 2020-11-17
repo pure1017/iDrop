@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   var userId = "userId";
-  sessionStorage.setItem("userId", userId);
 
   function signInCallback(authResult) {
       console.log(authResult);
@@ -23,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
           ajax('POST', "/storeauthcode?code="+authResult['code'], req,
               function (res) {
                   userId = res;
+                  sessionStorage.setItem("userId", userId);
               },
               // failed callback
             function() {

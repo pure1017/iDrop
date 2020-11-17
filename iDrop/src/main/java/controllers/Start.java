@@ -170,6 +170,7 @@ class Start {
           System.out.println(item);
           obj = item.toJsonObject();
           //list.add(obj);
+          break;
         }
       } catch (Exception e) {
         e.printStackTrace();

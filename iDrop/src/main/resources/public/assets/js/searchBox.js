@@ -12,16 +12,15 @@ document.addEventListener('DOMContentLoaded', function () {
   var summary = "summary";
   var itemId = "1"
   var bookCover = ""
-  sessionStorage.setItem("bookName", bookName);
-  sessionStorage.setItem("rate", rate);
-  sessionStorage.setItem("author", author);
-  sessionStorage.setItem("category", category);
-  sessionStorage.setItem("summary", summary);
-  sessionStorage.setItem("itemId", itemId);
-  sessionStorage.setItem("bookCover", bookCover);
+  // sessionStorage.setItem("bookName", bookName);
+  // sessionStorage.setItem("rate", rate);
+  // sessionStorage.setItem("author", author);
+  // sessionStorage.setItem("category", category);
+  // sessionStorage.setItem("summary", summary);
+  // sessionStorage.setItem("itemId", itemId);
+  // sessionStorage.setItem("bookCover", bookCover);
 
   form.submit.addEventListener('click', function () {
-     console.log("clickclick");
      let req = JSON.stringify({});
      let param = "?bookName="+form.bookName.value;
      ajax('POST',
@@ -30,14 +29,22 @@ document.addEventListener('DOMContentLoaded', function () {
             // successful callback
             function(res) {
                 var items = JSON.parse(res);
+                console.log(items);
                 if(res){
-                    bookCover = items["cover_url"];
-                    bookName = items["title"];
-                    rate = items["rating"];
-                    author = items["author"];
-                    category = items["subject"];
-                    summary = items["description"];
-                    itemId = items["item_id"]
+                    bookCover = items["map"]["cover_url"];
+                    bookName = items["map"]["title"];
+                    rate = items["map"]["rating"];
+                    author = items["map"]["author"];
+                    category = items["map"]["subject"]["myArrayList"];
+                    summary = items["map"]["description"];
+                    itemId = items["map"]["item_id"];
+                    sessionStorage.setItem("bookName", bookName);
+                    sessionStorage.setItem("rate", rate);
+                    sessionStorage.setItem("author", author);
+                    sessionStorage.setItem("category", category);
+                    sessionStorage.setItem("summary", summary);
+                    sessionStorage.setItem("itemId", itemId);
+                    sessionStorage.setItem("bookCover", bookCover);
                     location.href='book_page.html';
                 }
             },
