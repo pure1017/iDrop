@@ -97,6 +97,17 @@ public class MysqlConnectionTest {
 //  }
   
   /**
+   * This is to test method getItemsOnCat().
+   */
+  @Test
+  public void testGetItemsOnCat() {
+    String category = "fiction";
+    MysqlConnection mc = new MysqlConnection();
+    Set<String> check = mc.getItemsOnCat(category);
+    assertEquals(HashSet.class, check.getClass());
+  }
+  
+  /**
    * This is to test method saveItem().
    */
   @Test
