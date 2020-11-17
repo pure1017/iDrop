@@ -1,9 +1,9 @@
-#Mon Sep 14 17:46:47 CST 2020
-configuration*?=C5D6743C0883328B29E98D1C3485C08547598290
-/Users/pure/Documents/software\ engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/models/Player.java=1599931208000
-module-resource*?\:checkstyle-xpath-suppressions.xml=687BD979053F0BFAFD7A1313F5959EAD6DA23B35
-module-resource*?\:checkstyle-suppressions.xml=CF3498F362F977242C8506E82C1F8754EF3D93FA
-/Users/pure/Documents/software\ engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/models/Move.java=1599931208000
-/Users/pure/Documents/software\ engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/models/GameBoard.java=1599931208000
-/Users/pure/Documents/software\ engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/models/Message.java=1599931208000
-/Users/pure/Documents/software\ engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/controllers/UiWebSocket.java=1599931208000
+#Tue Nov 17 19:31:56 CST 2020
+configuration*?=2710BA192EAD4E527FD333CE2224A9D86A26EE28
+C\:\\Users\\Mr.Cao\\Desktop\\aseproject\\iDrop\\iDrop\\src\\main\\java\\controllers\\Start.java=1605605703175
+C\:\\Users\\Mr.Cao\\Desktop\\aseproject\\iDrop\\iDrop\\src\\main\\java\\controllers\\UiWebSocket.java=1605493098058
+C\:\\Users\\Mr.Cao\\Desktop\\aseproject\\iDrop\\iDrop\\src\\main\\java\\recommendation\\BookRecommend.java=1605594527533
+C\:\\Users\\Mr.Cao\\Desktop\\aseproject\\iDrop\\iDrop\\src\\main\\java\\entity\\Item.java=1605493098064
+module-resource*?\:checkstyle-xpath-suppressions.xml=FFF4E9D6F22539FEF15F183E562CEBE7AF2AE6DE
+C\:\\Users\\Mr.Cao\\Desktop\\aseproject\\iDrop\\iDrop\\src\\main\\java\\database\\MysqlConnection.java=1605594527558
+module-resource*?\:checkstyle-suppressions.xml=3F387588F960CD319F660CF1EB10360DF178CD63

@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="8.29">
-<file name="/Users/pure/Documents/software engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/models/Message.java">
+<file name="C:\Users\Mr.Cao\Desktop\aseproject\iDrop\iDrop\src\main\java\controllers\RpcHelper.java">
+<error line="6" severity="warning" message="导入组之前的额外空行 &apos;javax.servlet.http.HttpServletRequest&apos;。" source="com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck"/>
+<error line="9" severity="warning" message="导入组之前的额外空行 &apos;org.json.JSONArray&apos;。" source="com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck"/>
 </file>
-<file name="/Users/pure/Documents/software engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/models/Player.java">
+<file name="C:\Users\Mr.Cao\Desktop\aseproject\iDrop\iDrop\src\main\java\controllers\Start.java">
 </file>
-<file name="/Users/pure/Documents/software engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/models/GameBoard.java">
+<file name="C:\Users\Mr.Cao\Desktop\aseproject\iDrop\iDrop\src\main\java\controllers\UiWebSocket.java">
 </file>
-<file name="/Users/pure/Documents/software engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/models/Move.java">
+<file name="C:\Users\Mr.Cao\Desktop\aseproject\iDrop\iDrop\src\main\java\database\MysqlConnection.java">
 </file>
-<file name="/Users/pure/Documents/software engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/controllers/PlayGame.java">
-<error line="28" column="5" severity="warning" message="Javadoc comment is placed in the wrong location." source="com.puppycrawl.tools.checkstyle.checks.javadoc.InvalidJavadocPositionCheck"/>
+<file name="C:\Users\Mr.Cao\Desktop\aseproject\iDrop\iDrop\src\main\java\database\MysqlTableCreation.java">
+<error line="10" column="32" severity="warning" message="行内含有制表符 tab 。" source="com.puppycrawl.tools.checkstyle.checks.whitespace.FileTabCharacterCheck"/>
 </file>
-<file name="/Users/pure/Documents/software engineering/hw/4156-PublicAssignment-master/hw1/src/main/java/controllers/UiWebSocket.java">
+<file name="C:\Users\Mr.Cao\Desktop\aseproject\iDrop\iDrop\src\main\java\entity\Item.java">
+</file>
+<file name="C:\Users\Mr.Cao\Desktop\aseproject\iDrop\iDrop\src\main\java\external\OpenLibraryApi.java">
+<error line="215" severity="warning" message="变量&apos;author&apos;声明及第一次使用距离4行（最多：3 行）。若需要存储该变量的值，请将其声明为final的（方法调用前声明以避免副作用影响原值）。" source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="216" severity="warning" message="变量&apos;rating&apos;声明及第一次使用距离5行（最多：3 行）。若需要存储该变量的值，请将其声明为final的（方法调用前声明以避免副作用影响原值）。" source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="218" severity="warning" message="变量&apos;description&apos;声明及第一次使用距离6行（最多：3 行）。若需要存储该变量的值，请将其声明为final的（方法调用前声明以避免副作用影响原值）。" source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="219" severity="warning" message="变量&apos;coverurl&apos;声明及第一次使用距离7行（最多：3 行）。若需要存储该变量的值，请将其声明为final的（方法调用前声明以避免副作用影响原值）。" source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="220" severity="warning" message="变量&apos;url&apos;声明及第一次使用距离8行（最多：3 行）。若需要存储该变量的值，请将其声明为final的（方法调用前声明以避免副作用影响原值）。" source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+</file>
+<file name="C:\Users\Mr.Cao\Desktop\aseproject\iDrop\iDrop\src\main\java\login\GoogleApiLogin.java">
+<error line="7" severity="warning" message="导入组之前的额外空行 &apos;com.google.api.client.googleapis.auth.oauth2.GoogleIdToken&apos;。" source="com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck"/>
+<error line="17" severity="warning" message="导入组之前的额外空行 &apos;java.io.FileNotFoundException&apos;。" source="com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck"/>
+<error line="43" severity="warning" message="本行字符数 204个，最多：100个。" source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+</file>
+<file name="C:\Users\Mr.Cao\Desktop\aseproject\iDrop\iDrop\src\main\java\recommendation\BookRecommend.java">
 </file>
 </checkstyle>

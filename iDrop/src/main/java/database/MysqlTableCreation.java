@@ -188,6 +188,8 @@ public class MysqlTableCreation {
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
 
+      sql = "SELECT catefory from categories WHERE item_id = '222'";
+      
       System.out.println("added fake data");
     } catch (Exception e) {
       e.printStackTrace();

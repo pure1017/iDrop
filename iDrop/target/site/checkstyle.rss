@@ -19,15 +19,15 @@ under the License.
 -->
 <rss version="0.91">
   <channel>
-    <title>hw1 - Checkstyle report</title>
+    <title>project - Checkstyle report</title>
     <link>${project.url}</link>
-    <description>hw1 - Checkstyle report</description>
+    <description>project - Checkstyle report</description>
     <language>en-us</language>
     <copyright>&#169;2020</copyright>
     <item>
-      <title>File: 6,
+      <title>File: 9,
              Errors: 0,
-             Warnings: 1,
+             Warnings: 11,
              Infos: 0
       </title>
             <link>${project.url}/checkstyle.html</link>
@@ -46,7 +46,35 @@ under the License.
           <tbody>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#controllers.PlayGame.java">controllers/PlayGame.java</a>
+                  <a href="${project.url}/checkstyle.html#login.GoogleApiLogin.java">login/GoogleApiLogin.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#controllers.RpcHelper.java">controllers/RpcHelper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#database.MysqlTableCreation.java">database/MysqlTableCreation.java</a>
                 </td>
                 <td>
                   0
@@ -60,7 +88,21 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#models.Player.java">models/Player.java</a>
+                  <a href="${project.url}/checkstyle.html#external.OpenLibraryApi.java">external/OpenLibraryApi.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#database.MysqlConnection.java">database/MysqlConnection.java</a>
                 </td>
                 <td>
                   0
@@ -74,7 +116,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#models.GameBoard.java">models/GameBoard.java</a>
+                  <a href="${project.url}/checkstyle.html#recommendation.BookRecommend.java">recommendation/BookRecommend.java</a>
                 </td>
                 <td>
                   0
@@ -88,21 +130,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#models.Move.java">models/Move.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#models.Message.java">models/Message.java</a>
+                  <a href="${project.url}/checkstyle.html#controllers.Start.java">controllers/Start.java</a>
                 </td>
                 <td>
                   0
@@ -117,6 +145,20 @@ under the License.
                           <tr>
                 <td>
                   <a href="${project.url}/checkstyle.html#controllers.UiWebSocket.java">controllers/UiWebSocket.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#entity.Item.java">entity/Item.java</a>
                 </td>
                 <td>
                   0
