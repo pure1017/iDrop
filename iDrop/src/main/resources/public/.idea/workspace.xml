@@ -2,14 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08a6b24c-2a41-4dfb-bdc2-af3a0a53f87e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../../../ase.db" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../ase.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/book_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/book_page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/googleSignin.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/googleSignin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/hostGroup_submit.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/hostGroup_submit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/joinGroup_submit.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/joinGroup_submit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/searchBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/searchBox.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/book_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/book_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/changelog.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat_box_test.html" beforeDir="false" afterPath="$PROJECT_DIR$/chat_box_test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/host_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/host_group.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/innerGroup_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/innerGroup_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inner_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/inner_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/join_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/join_group.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/my_group.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start.html" beforeDir="false" afterPath="$PROJECT_DIR$/start.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/success.html" beforeDir="false" afterPath="$PROJECT_DIR$/success.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +74,7 @@
       <workItem from="1605423234191" duration="289000" />
       <workItem from="1605423552639" duration="4826000" />
       <workItem from="1605429479000" duration="9535000" />
-      <workItem from="1605600242975" duration="2960000" />
+      <workItem from="1605600242975" duration="3351000" />
     </task>
     <servers />
   </component>
