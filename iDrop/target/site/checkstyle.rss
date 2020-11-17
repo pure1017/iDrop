@@ -25,9 +25,9 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2020</copyright>
     <item>
-      <title>File: 9,
+      <title>File: 1,
              Errors: 0,
-             Warnings: 11,
+             Warnings: 0,
              Infos: 0
       </title>
             <link>${project.url}/checkstyle.html</link>
@@ -46,119 +46,7 @@ under the License.
           <tbody>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#login.GoogleApiLogin.java">login/GoogleApiLogin.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#controllers.RpcHelper.java">controllers/RpcHelper.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#database.MysqlTableCreation.java">database/MysqlTableCreation.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#external.OpenLibraryApi.java">external/OpenLibraryApi.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  5
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#database.MysqlConnection.java">database/MysqlConnection.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#recommendation.BookRecommend.java">recommendation/BookRecommend.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#controllers.Start.java">controllers/Start.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#controllers.UiWebSocket.java">controllers/UiWebSocket.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#entity.Item.java">entity/Item.java</a>
                 </td>
                 <td>
                   0

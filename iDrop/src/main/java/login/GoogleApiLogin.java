@@ -2,8 +2,6 @@ package login;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
-
-
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -13,7 +11,6 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -33,18 +30,6 @@ public class GoogleApiLogin {
  * @throws FileNotFoundException .
    */
   public static String login(String authCode) throws FileNotFoundException, IOException {
-
-    // Set path to the Web application client_secret_*.json file you downloaded from the
-    // Google API Console: https://console.developers.google.com/apis/credentials
-    // You can also find your Web application client ID and client secret from the
-    // console and specify them directly when you create the GoogleAuthorizationCodeTokenRequest
-    // object.
-    //String clientSecretFile = "/path/to/client_secret.json";
-    //String clientSecretFile = "C:\\Users\\Mr.Cao\\Desktop\\aseproject\\iDrop\\iDrop\\src\\main\\java\\login\\client_secret_236055320521-rsf99kh834fv176d1u5sm9a3oinskia7.apps.googleusercontent.com.json";
-    // Exchange auth code for access token
-    //GoogleClientSecrets clientSecrets =
-    //    GoogleClientSecrets.load(
-    //    JacksonFactory.getDefaultInstance(), new FileReader(clientSecretFile));
 
     System.out.println("2");
     

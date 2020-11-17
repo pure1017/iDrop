@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class MysqlTableCreation {
   /**
-   * This is the main function.	
+   * This is the main function.
    * @param args .
    */
   public static void main(String[] args) {

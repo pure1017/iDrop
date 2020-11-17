@@ -209,16 +209,6 @@ public class OpenLibraryApi {
         System.out.println("Bad connection to DB when saveItem");
         return;
       }
-      //get info from item
-      String itemid = item.getItemId();
-      itemid = itemid.replaceAll("/", "");
-      String author = item.getAuthor();
-      Double rating = item.getRating();
-      String title = item.getTitle();
-      String description = item.getDescribe();
-      String coverurl = item.getImageUrl();
-      String url = item.getUrl();
-      System.out.println("item_id : " + itemid);
       /*
       //check if the user exists
       Statement stmt = conn.createStatement();
@@ -238,14 +228,24 @@ public class OpenLibraryApi {
         }   
       }
       */
+      //get info from item
+      String itemid = item.getItemId();
+      itemid = itemid.replaceAll("/", "");
+      String title = item.getTitle();
+      System.out.println("item_id : " + itemid);
       String sql = "INSERT OR IGNORE INTO items VALUES (?, ?, ?, ?, ?, ?, ?)";
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setString(1, itemid);
       stmt.setString(2, title);
+      String author = item.getAuthor();
       stmt.setString(3, author);
+      Double rating = item.getRating();
       stmt.setDouble(4, rating);
+      String description = item.getDescribe();
       stmt.setString(5, description);
+      String coverurl = item.getImageUrl();
       stmt.setString(6, coverurl);
+      String url = item.getUrl();
       stmt.setString(7, url);
       stmt.execute();
       
