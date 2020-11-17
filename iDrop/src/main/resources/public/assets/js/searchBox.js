@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
   const form = {
         bookName: document.getElementById("search-input"),
-        submit: document.getElementById("search-submit")
+        submit: document.getElementById("search-submit"),
+        input: document.getElementById("search-input")
     };
 
   var bookName = "bookName"
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
   sessionStorage.setItem("bookCover", bookCover);
 
   form.submit.addEventListener('click', function () {
+     console.log("clickclick");
      let req = JSON.stringify({});
      let param = "?bookName="+form.bookName.value;
      ajax('POST',
@@ -44,6 +46,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 showErrorMessage('Cannot submit items.');
             });
     });
+
+  form.input.addEventListener("keyup", function (event) {
+      if(event.keyCode === 13) {
+          // Cancel the default action, if needed
+          event.preventDefault();
+          // Trigger the button element with a click
+          form.submit.click();
+      }
+  });
 
     /**
      * AJAX helper

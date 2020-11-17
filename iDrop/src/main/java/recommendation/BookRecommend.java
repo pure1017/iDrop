@@ -19,7 +19,7 @@ public class BookRecommend {
    * @param userId user's id
    * @return
    */
-  public List<String> recommendItems(String userId) {
+  public static List<String> recommendItems(String userId) {
     List<String> recommendedItems = new ArrayList<>();
 
     MysqlConnection conn = new MysqlConnection();
