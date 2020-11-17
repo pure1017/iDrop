@@ -43,7 +43,7 @@ public class OpenLibraryApi {
       e.printStackTrace();
     }
     
-    if (typeKey != "author" && typeKey != "title") {
+    if (typeKey.equals("author") && typeKey.equals("title")) {
       typeKey = "q";
     }
     
@@ -56,7 +56,7 @@ public class OpenLibraryApi {
       int responseCode = connection.getResponseCode();
       System.out.println("Response Code" + responseCode);
       
-      BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+      BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
       StringBuilder response = new StringBuilder();
       String inputLine = "";
       while ((inputLine = in.readLine()) != null) {
@@ -103,23 +103,21 @@ public class OpenLibraryApi {
   }
   
   private String getDescribe(JSONObject doc) throws JSONException {
-    String query = new String();
-    String id = new String();
-    
-    if (!doc.isNull("key")) {
-      id = doc.getString("key");
-      query = String.format("%s.json", id);
-    } else {
-      return new String();
+
+    if (doc.isNull("key")) {
+      return "";
     }
     try {
+      String id = doc.getString("key");
+      String query = String.format("%s.json", id);
       HttpURLConnection connection = (HttpURLConnection) new URL(DESURL + query).openConnection();
       connection.setRequestMethod("GET");
     
       int responseCode = connection.getResponseCode();
       System.out.println("Response Code" + responseCode);
 
-      BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+      BufferedReader in = new BufferedReader(new InputStreamReader(
+          connection.getInputStream(), "UTF-8"));
       StringBuilder response = new StringBuilder();
       String inputLine = "";
       while ((inputLine = in.readLine()) != null) {
@@ -133,7 +131,7 @@ public class OpenLibraryApi {
         System.out.println("Description of " + id + " " + res);
         return res;
       }
-      String description = new String();
+      String description = "";
       try { 
         description = obj.getString("description"); 
         System.out.println("Description of " + id + " " + description);
@@ -148,7 +146,7 @@ public class OpenLibraryApi {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return new String();
+    return "";
   }
   
   private List<Item> getItemList(JSONArray docs) throws JSONException {
@@ -196,9 +194,10 @@ public class OpenLibraryApi {
   
   public void saveItem(Item item) {
     //set data to database
+    Connection conn = null;
+    PreparedStatement stmt = null;
     try {
       // This is java.sql.Connection. Not com.mysql.jdbc.Connection.
-      Connection conn = null;
       // Step 1 Connect to MySQL.
       try {
         System.out.println("Connecting to jdbc:sqlite:ase.db");
@@ -212,32 +211,13 @@ public class OpenLibraryApi {
         System.out.println("Bad connection to DB when saveItem");
         return;
       }
-      /*
-      //check if the user exists
-      Statement stmt = conn.createStatement();
-      String sql = String.format("SELECT item_id from items where item_id = %s", itemid);
-      ResultSet rs = stmt.executeQuery(sql);
-      //if the user do not exits, rs.next() return false.
-      if (!rs.next()) {
-        sql = String.format("INSERT INTO items "
-          + "(item_id,title,author,rating,description,cover_url,url)"
-          + "VALUES ('%s', '%s', '%s', %f, '%s', '%s', '%s')",
-          itemid, title, author, rating, description, coverurl, url);
-        stmt.executeUpdate(sql);  
-        for (String category : item.getCategories()) {
-          sql = String.format("INSERT IGNOGE INTO categories (item_id,category)" 
-            + "VALUES ('%s', '%s')", itemid, category);
-          stmt.executeUpdate(sql);
-        }   
-      }
-      */
       //get info from item
       String itemid = item.getItemId();
       itemid = itemid.replaceAll("/", "");
-      String title = item.getTitle();
       System.out.println("item_id : " + itemid);
       String sql = "INSERT OR IGNORE INTO items VALUES (?, ?, ?, ?, ?, ?, ?)";
-      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt = conn.prepareStatement(sql);
+      String title = item.getTitle();
       stmt.setString(1, itemid);
       stmt.setString(2, title);
       String author = item.getAuthor();
@@ -251,7 +231,9 @@ public class OpenLibraryApi {
       String url = item.getUrl();
       stmt.setString(7, url);
       stmt.execute();
-      
+      if (stmt != null) {
+        stmt.close();
+      }
       sql = "INSERT OR IGNORE INTO categories VALUES (?, ?)";
       stmt = conn.prepareStatement(sql);
       for (String category : item.getCategories()) {
@@ -262,7 +244,22 @@ public class OpenLibraryApi {
       System.out.println("Good saveItem to DB");
     } catch (Exception e) {
       e.printStackTrace();
-    }
+    } finally {
+      try {
+        if (stmt != null) {
+          stmt.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      try {
+        if (conn != null) {
+          conn.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }  
   }
   
   /**
