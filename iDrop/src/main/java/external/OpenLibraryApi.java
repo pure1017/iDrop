@@ -153,8 +153,11 @@ public class OpenLibraryApi {
   
   private List<Item> getItemList(JSONArray docs) throws JSONException {
     List<Item> itemList = new ArrayList<>();
-
+    int readLimit = 1;
     for (int i = 0; i < docs.length(); ++i) {
+      if (i == readLimit) {
+        break;
+      }
       JSONObject doc = docs.getJSONObject(i);
       
       ItemBuilder builder = new ItemBuilder();

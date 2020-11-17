@@ -163,19 +163,20 @@ class Start {
       OpenLibraryApi olApi = new OpenLibraryApi();
       List<Item> items = olApi.search(bookName, "title");
       // to get JSON version of items
-      List<JSONObject> list = new ArrayList<>();
+      //List<JSONObject> list = new ArrayList<>();
+      JSONObject obj = new JSONObject();
       try {
         for (Item item : items) {
           System.out.println(item);
-          JSONObject obj = item.toJsonObject();
-          list.add(obj);
+          obj = item.toJsonObject();
+          //list.add(obj);
         }
       } catch (Exception e) {
         e.printStackTrace();
       }
-      JSONArray array = new JSONArray(list);
+      //JSONArray array = new JSONArray(list);
       Gson gson = new Gson();
-      ctx.result(gson.toJson(array));
+      ctx.result(gson.toJson(obj));
     });
     
   }
