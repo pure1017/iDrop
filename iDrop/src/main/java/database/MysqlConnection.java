@@ -239,7 +239,7 @@ public class MysqlConnection {
   /**
    * This is to get the items based on categories.
    * @param category The category of books
-   * @return Three item ids with the highest ratings
+   * @return Item ids with the highest ratings
    */
   public Set<String> getItemsOnCat(String category) {
     // TODO Auto-generated method stub

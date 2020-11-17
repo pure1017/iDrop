@@ -1,7 +1,6 @@
 package recommendation;
 
 import database.MysqlConnection;
-import entity.Item;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
