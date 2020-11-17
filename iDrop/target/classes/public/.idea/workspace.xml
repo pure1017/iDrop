@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="08a6b24c-2a41-4dfb-bdc2-af3a0a53f87e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../java/controllers/Start.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/controllers/Start.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/book_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/book_page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/googleSignin.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/googleSignin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/searchBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/searchBox.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../.." />
+  </component>
+  <component name="JupyterTrust" id="76774225-0fc5-45b8-89c9-78e63e176fe4" />
+  <component name="ProjectId" id="1jlxSOyW4CKMjEdUNzEa1GYw1In" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/img/clients" />
+      <recent name="$PROJECT_DIR$/assets/img/testimonials" />
+      <recent name="$PROJECT_DIR$/assets/img" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="08a6b24c-2a41-4dfb-bdc2-af3a0a53f87e" name="Default Changelist" comment="" />
+      <created>1604392478814</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1604392478814</updated>
+      <workItem from="1604392480043" duration="3701000" />
+      <workItem from="1604640554362" duration="12898000" />
+      <workItem from="1604671934624" duration="5000" />
+      <workItem from="1604906154257" duration="14000" />
+      <workItem from="1604906203536" duration="27196000" />
+      <workItem from="1605422413228" duration="670000" />
+      <workItem from="1605423234191" duration="289000" />
+      <workItem from="1605423552639" duration="4826000" />
+      <workItem from="1605429479000" duration="9535000" />
+      <workItem from="1605600242975" duration="8147000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="320" y="72" key="#Plugins" timestamp="1605423604764">
+      <screen x="0" y="25" width="1440" height="805" />
+    </state>
+    <state x="320" y="72" key="#Plugins/0.25.1440.805@0.25.1440.805" timestamp="1605423604764" />
+    <state x="229" y="63" key="SettingsEditor" timestamp="1605422438421">
+      <screen x="0" y="25" width="1440" height="805" />
+    </state>
+    <state x="229" y="63" key="SettingsEditor/0.25.1440.805@0.25.1440.805" timestamp="1605422438421" />
+  </component>
+</project>
