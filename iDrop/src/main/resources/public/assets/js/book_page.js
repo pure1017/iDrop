@@ -1,10 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
     var bookName = sessionStorage.getItem("bookName");
+    var bookCover = sessionStorage.getItem("bookCover");
     var rate = sessionStorage.getItem("rate");
     var author = sessionStorage.getItem("author");
     var category = sessionStorage.getItem("category");
     var summary = sessionStorage.getItem("summary");
-    var favorite_btn = document.getElementById("favorite-button");
+    var userId = sessionStorage.getItem("userId");
+    var itemId = sessionStorage.getItem("itemId");
 
     rate = Math.round(rate);
 
@@ -15,28 +17,36 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("author").innerHTML = "Author: " + author;
     document.getElementById("category").innerHTML = "Category: " + category;
     document.getElementById("summary").innerHTML = "Summary: " + summary;
+    document.getElementById("book_name_1").innerHTML = bookName;
+    document.getElementById("book_name_2").innerHTML = bookName;
+    document.getElementById("book_cover").src = bookCover;
+
 
     document.getElementById("favorite-button").addEventListener("click", function() {
         let req = JSON.stringify({});
         if (document.querySelector('#favorite-button i').classList.contains('active')) {
             document.querySelector('#favorite-button i').classList.remove('active');
-            ajax('POST', '/like?bookName='+bookName, req,
+            var param = '?userId='+userId+'&itemId='+itemId;
+            ajax('POST', '/setfavorite'+param, req,
                 // successful callback
             function(res) {
+                console.log(res);
             },
             // failed callback
             function() {
-                showErrorMessage('Cannot like items.');
+                showErrorMessage('Cannot setfavorite items.');
             });
         } else {
             document.querySelector('#favorite-button i').classList.add('active');
-            ajax('POST', '/cancel_like?bookName='+bookName, req,
+            var param = '?userId='+userId+'&itemId='+itemId;
+            ajax('POST', '/unsetfavorite'+param, req,
                 // successful callback
             function(res) {
+                console.log(res);
             },
             // failed callback
             function() {
-                showErrorMessage('Cannot cancel_like items.');
+                showErrorMessage('Cannot unsetfavorite items.');
             });
         }
     });

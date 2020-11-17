@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
   const form = {
         bookName: document.getElementById("search-input"),
-        submit: document.getElementById("search-submit")
+        submit: document.getElementById("search-submit"),
+        input: document.getElementById("search-input")
     };
 
   var bookName = "bookName"
@@ -9,12 +10,18 @@ document.addEventListener('DOMContentLoaded', function () {
   var author = "author";
   var category = "category";
   var summary = "summary";
+  var itemId = "1"
+  var bookCover = ""
+  sessionStorage.setItem("bookName", bookName);
   sessionStorage.setItem("rate", rate);
   sessionStorage.setItem("author", author);
   sessionStorage.setItem("category", category);
   sessionStorage.setItem("summary", summary);
+  sessionStorage.setItem("itemId", itemId);
+  sessionStorage.setItem("bookCover", bookCover);
 
   form.submit.addEventListener('click', function () {
+     console.log("clickclick");
      let req = JSON.stringify({});
      let param = "?bookName="+form.bookName.value;
      ajax('POST',
@@ -24,11 +31,13 @@ document.addEventListener('DOMContentLoaded', function () {
             function(res) {
                 var items = JSON.parse(res);
                 if(res){
-                    bookName = items["bookName"];
-                    rate = items["rate"];
+                    bookCover = items["cover_url"];
+                    bookName = items["title"];
+                    rate = items["rating"];
                     author = items["author"];
-                    category = items["category"];
-                    summary = items["summary"];
+                    category = items["subject"];
+                    summary = items["description"];
+                    itemId = items["item_id"]
                     location.href='book_page.html';
                 }
             },
@@ -37,6 +46,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 showErrorMessage('Cannot submit items.');
             });
     });
+
+  form.input.addEventListener("keyup", function (event) {
+      if(event.keyCode === 13) {
+          // Cancel the default action, if needed
+          event.preventDefault();
+          // Trigger the button element with a click
+          form.submit.click();
+      }
+  });
 
     /**
      * AJAX helper
