@@ -9,9 +9,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -78,7 +76,14 @@ public class OpenLibraryApi {
     return new ArrayList<>();
   }
   
-  private String getAuthor(JSONObject doc) throws JSONException {
+  /**
+   * get author name from doc.
+   * @param doc JSONObject
+   * @return author name
+   * @throws JSONException JSON error
+   */
+  
+  public String getAuthor(JSONObject doc) throws JSONException {
     String author = null;
     if (!doc.isNull("author_name")) {
       JSONArray nameSub = doc.getJSONArray("author_name");
@@ -91,7 +96,14 @@ public class OpenLibraryApi {
     return author;
   }
   
-  private Set<String> getCategories(JSONObject doc) throws JSONException {
+  /**
+   * get categories set from doc.
+   * @param doc JSONObject
+   * @return categories set
+   * @throws JSONException JSON error
+   */
+  
+  public Set<String> getCategories(JSONObject doc) throws JSONException {
     Set<String> categories = new HashSet<>();
     if (!doc.isNull("subject")) {
       JSONArray nameSub = doc.getJSONArray("subject");
@@ -103,7 +115,14 @@ public class OpenLibraryApi {
     return categories;
   }
   
-  private String getDescribe(JSONObject doc) throws JSONException {
+  /**
+   * get description from doc.
+   * @param doc JSONObject
+   * @return Description
+   * @throws JSONException JSON error
+   */
+  
+  public String getDescribe(JSONObject doc) throws JSONException {
 
     if (doc.isNull("key")) {
       return "";
@@ -150,7 +169,14 @@ public class OpenLibraryApi {
     return "";
   }
   
-  private List<Item> getItemList(JSONArray docs) throws JSONException {
+  /**
+   * get item from docs.
+   * @param docs JSONArray
+   * @return items
+   * @throws JSONException JSON error
+   */
+  
+  public List<Item> getItemList(JSONArray docs) throws JSONException {
     List<Item> itemList = new ArrayList<>();
     int readLimit = 1;
     for (int i = 0; i < docs.length(); ++i) {
@@ -172,7 +198,7 @@ public class OpenLibraryApi {
       }
       
       if (!doc.isNull("cover_i")) {
-        String coverUrl = String.format("https://covers.openlibrary.org/b/id/%s-L.jpg", String.valueOf(doc.getDouble("cover_i")));
+        String coverUrl = String.format("https://covers.openlibrary.org/b/id/%s-L.jpg", String.valueOf(doc.getInt("cover_i")));
         builder.setImageUrl(coverUrl);
       }
       

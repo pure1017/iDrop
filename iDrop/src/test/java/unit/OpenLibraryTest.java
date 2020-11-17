@@ -3,17 +3,28 @@ package unit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import entity.Item;
+import entity.Item.ItemBuilder;
 import external.OpenLibraryApi;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 
 public class OpenLibraryTest {
+  
+  /**
+   * to test method search. 
+   */
   
   @Test
   public void testSearch() {
@@ -23,14 +34,117 @@ public class OpenLibraryTest {
     Item item = items.get(0);
     assertEquals("/works/OL27448W", item.getItemId());
     assertEquals("The Lord of the Rings", item.getTitle());
-    assertEquals("J.R.R Tolkien", item.getAuthor());
+    assertEquals("J.R.R. Tolkien", item.getAuthor());
   }
   
+  /**
+   * to test method getCategories.
+   */
+  
   @Test
-  public void testSave() {
-    String title = "the lord of rings";
+  public void testGetCategories() {
+   
+    JSONObject obj = new JSONObject();
+    try {
+      obj.put("key", "/works/OL27448W");
+      List<String> categories = new ArrayList<>();
+      categories.add("English");
+      categories.add("Engineer");
+      obj.put("subject", new JSONArray(categories)); 
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
     OpenLibraryApi olApi = new OpenLibraryApi();
-    List<Item> items = olApi.search(title, "title");
+    assertEquals(true, olApi.getCategories(obj).contains("English"));
+  }
+  
+  /**
+   * to test method getDescribe.
+   */
+  
+  @Test
+  public void testGetDescribe() {
+    JSONObject obj = new JSONObject();
+    try {
+      obj.put("key", "/works/OL27448W");
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    OpenLibraryApi olApi = new OpenLibraryApi();
+    assertEquals(String.class, olApi.getDescribe(obj).getClass());
+  }
+  
+  /**
+   * to test method getItemList.
+   */
+  
+  @Test
+  public void testGetItemList() {
+    JSONObject obj = new JSONObject();
+    try {
+      List<String> author = new ArrayList<>();
+      author.add("author");
+      obj.put("key", "/works/OL27448W");
+      obj.put("author_name", author);
+      obj.put("title", "title");
+      obj.put("rating", 5.0);
+      List<String> categories = new ArrayList<>();
+      categories.add("English");
+      categories.add("Engineer");
+      obj.put("subject", new JSONArray(categories));
+      obj.put("cover_i", 2222);
+      
+      
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    JSONArray objs = new JSONArray();
+    objs.put(obj);
+    OpenLibraryApi olApi = new OpenLibraryApi();
+    List<Item> items = olApi.getItemList(objs);
+    assertEquals(items.get(0).getImageUrl(), "https://covers.openlibrary.org/b/id/2222-L.jpg");
+  }
+  
+  /**
+   * to test method getAuthor.
+   */
+  
+  @Test
+  public void testGetAuthor() {
+    JSONObject obj = new JSONObject();
+    
+    try {
+      List<String> author = new ArrayList<>();
+      author.add("author");
+      obj.put("author_name", new JSONArray(author));
+
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }      
+    OpenLibraryApi olApi = new OpenLibraryApi();
+    assertEquals("author", olApi.getAuthor(obj));
+  }
+  
+  /**
+   * to test method saveItem.
+   */
+  
+  @Test
+  public void testSaveItem() {
+    
+    ItemBuilder builder = new ItemBuilder();
+    builder.setAuthor("author");
+    Set<String> types = new HashSet<>();
+    builder.setCategories(types);
+    builder.setDescribe("describe");
+    builder.setImageUrl("imageUrl");
+    builder.setItemId("itemId");
+    builder.setRating(5.0);
+    builder.setTitle("title");
+    builder.setUrl("url");
+    Item item = builder.build();
+    OpenLibraryApi olApi = new OpenLibraryApi();
+    olApi.saveItem(item);
     Connection conn = null;
     Statement stmt = null;
     try {
@@ -46,12 +160,12 @@ public class OpenLibraryTest {
         return;
       }
       stmt = conn.createStatement();
-      String sql = "SELECT item_id, title, author FROM items where item_id = 'worksOL27448W'";
+      String sql = "SELECT item_id, title, author FROM items where item_id = 'itemId'";
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        assertEquals("worksOL27448W", rs.getString("item_id"));
-        assertEquals("The Lord of the Rings", rs.getString("title"));
-        assertEquals("J.R.R Tolkien", rs.getString("author"));
+        assertEquals("itemId", rs.getString("item_id"));
+        assertEquals("title", rs.getString("title"));
+        assertEquals("author", rs.getString("author"));
       }
       rs.close();
      

@@ -2,17 +2,17 @@ package unit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.junit.jupiter.api.Test;
-
 import database.MysqlConnection;
 import database.MysqlTableCreation;
 import entity.Item;
 import entity.Item.ItemBuilder;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import org.junit.jupiter.api.Test;
+
+
 
 public class MysqlConnectionTest {
   /**
@@ -84,17 +84,21 @@ public class MysqlConnectionTest {
     assertEquals(HashSet.class, check.getClass());
   }
   
-//  /**
-//   * This is to test method searchItems().
-//   */
-//  @Test
-//  public void testSearchItems() {
-//    String keyword = "";
-//    String typeKey = "";
-//    MysqlConnection mc = new MysqlConnection();
-//    List<Item> check = mc.searchItems(keyword, typeKey);
-//    assertEquals(List.class, check.getClass());
-//  }
+  /**
+   * This is to test method searchItems().
+   */
+  @Test
+  public void testSearchItems() {
+    
+    MysqlConnection mc = new MysqlConnection();
+    String title = "the lord of rings";  
+    List<Item> items = mc.searchItems(title, "title");
+    Item item = items.get(0);
+    assertEquals("/works/OL27448W", item.getItemId());
+    assertEquals("The Lord of the Rings", item.getTitle());
+    assertEquals("J.R.R. Tolkien", item.getAuthor());
+    
+  }
   
   /**
    * This is to test method getItemsOnCat().

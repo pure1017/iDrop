@@ -4,10 +4,11 @@
     <fullyQualifiedTypeName name="external.OpenLibraryApi"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="entity.Item"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
-    <fullyQualifiedTypeName name="org.json.JSONObject"/>
     <fullyQualifiedTypeName name="org.json.JSONArray"/>
     <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
     <fullyQualifiedTypeName name="java.sql.Statement"/>
     <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.Test"/>
+    <fullyQualifiedTypeName name="org.json.JSONObject"/>
 </qualifiedTypeNameHistroy>
