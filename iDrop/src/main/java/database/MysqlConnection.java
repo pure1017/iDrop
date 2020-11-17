@@ -174,7 +174,7 @@ public class MysqlConnection {
     }
     Set<String> categories = new HashSet<>();
     try {
-      String sql = "SELECT category from categories WHERE item_id = ? ";
+      String sql = "SELECT category from categories WHERE item_id = '?' ";
       PreparedStatement statement = conn.prepareStatement(sql);
       statement.setString(1, itemId);
       ResultSet rs = statement.executeQuery();
