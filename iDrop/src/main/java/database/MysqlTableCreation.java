@@ -19,9 +19,10 @@ public class MysqlTableCreation {
    * This is to create tables.
    */
   public static boolean createTables() {
+    Connection conn = null;
+    Statement stmt = null;
     try {
       // This is java.sql.Connection. Not com.mysql.jdbc.Connection.
-      Connection conn = null;
 
       // Step 1 Connect to MySQL.
       try {
@@ -37,7 +38,7 @@ public class MysqlTableCreation {
       }
 
       // Step2 Drop tables in case they exist
-      Statement stmt = conn.createStatement();
+      stmt = conn.createStatement();
       String sql = "DROP TABLE IF EXISTS categories";
       stmt.executeUpdate(sql);
 
@@ -91,11 +92,27 @@ public class MysqlTableCreation {
         + "'1111', '3229c1097c00d497a0fd282d586be050', 'Hankun', 'Cao')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
-
+      stmt.close();
+      conn.close();
       System.out.println("Tables created successfully.");
       
     } catch (Exception e) {
       e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (conn != null) {
+        try {
+          conn.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
     }
     return true;
   }
@@ -104,9 +121,10 @@ public class MysqlTableCreation {
    * This is to add some fake data for testing.
    */
   public static boolean addFakeData() {
+    Connection conn = null;
+    Statement stmt = null;
     try {
       // This is java.sql.Connection. Not com.mysql.jdbc.Connection.
-      Connection conn = null;
 
       // Step 1 Connect to MySQL.
       try {
@@ -122,7 +140,7 @@ public class MysqlTableCreation {
       }
       
       //add 2 fake users
-      Statement stmt = conn.createStatement();
+      stmt = conn.createStatement();
       String sql = "INSERT INTO users VALUES ("
           + "'11111', '1111@columbia.edu', 'Xinpei', 'Ma')";
       System.out.println("Executing query: " + sql);
@@ -189,10 +207,26 @@ public class MysqlTableCreation {
       stmt.executeUpdate(sql);
 
       sql = "SELECT catefory from categories WHERE item_id = '222'";
-      
+      stmt.close();
+      conn.close();
       System.out.println("added fake data");
     } catch (Exception e) {
       e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (conn != null) {
+        try {
+          conn.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
     }
     return true;
   }

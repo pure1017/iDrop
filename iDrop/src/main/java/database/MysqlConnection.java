@@ -54,18 +54,27 @@ public class MysqlConnection {
     if (conn == null) {
       return false;
     }
-    
+    PreparedStatement stmt = null;
     try {
       String sql = "INSERT INTO history (user_id, item_id) VALUES (?, ?)";
       //ignore checks primary key
-      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt = conn.prepareStatement(sql);
       for (String itemId : itemIds) {
         stmt.setString(1, userId);
         stmt.setString(2, itemId);
         stmt.execute();
       }
+      stmt.close();
     } catch (SQLException e) {
       e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
     }
     return true;
   }
@@ -80,17 +89,26 @@ public class MysqlConnection {
     if (conn == null) {
       return false;
     }
-
+    PreparedStatement stmt = null;
     try {
       String sql = "DELETE FROM history WHERE user_id = ? AND item_id = ?";
-      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt = conn.prepareStatement(sql);
       for (String itemId : itemIds) {
         stmt.setString(1, userId);
         stmt.setString(2, itemId);
         stmt.execute();
       }
+      stmt.close();
     } catch (SQLException e) {
       e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
     }
     return true;
   }
@@ -107,19 +125,36 @@ public class MysqlConnection {
     }
 
     Set<String> favoriteItemIds = new HashSet<>();
-
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
     try {
       String sql = "SELECT item_id from history where user_id = ?";
-      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt = conn.prepareStatement(sql);
       stmt.setString(1, userId);
-      ResultSet rs = stmt.executeQuery();
+      rs = stmt.executeQuery();
       while (rs.next()) {
         String itemId = rs.getString("item_id");
         favoriteItemIds.add(itemId);
       }
-
+      stmt.close();
+      rs.close();
     } catch (SQLException e) {
       e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          rs.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
     }
     return favoriteItemIds;
   }
@@ -137,13 +172,14 @@ public class MysqlConnection {
 
     Set<Item> favoriteItems = new HashSet<>();
     Set<String> itemIds = getFavoriteItemIds(userId);
-
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
     try {
       String sql = "SELECT * FROM items WHERE item_id = ?";
-      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt = conn.prepareStatement(sql);
       for (String itemId : itemIds) {
         stmt.setString(1, itemId);
-        ResultSet rs = stmt.executeQuery();
+        rs = stmt.executeQuery();
 
         ItemBuilder builder = new ItemBuilder();
 
@@ -156,8 +192,24 @@ public class MysqlConnection {
           favoriteItems.add(builder.build());
         }
       }
+      stmt.close();
     } catch (SQLException e) {
       e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          rs.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
     }
     return favoriteItems;
   }
@@ -173,16 +225,35 @@ public class MysqlConnection {
       return null;
     }
     Set<String> categories = new HashSet<>();
+    PreparedStatement statement = null;
+    ResultSet rs = null;
     try {
       String sql = "SELECT category from categories WHERE item_id = '?' ";
-      PreparedStatement statement = conn.prepareStatement(sql);
+      statement = conn.prepareStatement(sql);
       statement.setString(1, itemId);
-      ResultSet rs = statement.executeQuery();
+      rs = statement.executeQuery();
       while (rs.next()) {
         categories.add(rs.getString("category"));
       }
+      rs.close();
+      statement.close();
     } catch (Exception e) {
       System.out.println(e.getMessage());
+    } finally {
+      if (statement != null) {
+        try {
+          statement.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          rs.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
     }
     return categories;
   }
@@ -210,10 +281,10 @@ public class MysqlConnection {
     if (conn == null) {
       return false;
     }
-
+    PreparedStatement stmt = null;
     try {
       String sql = "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?)";
-      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt = conn.prepareStatement(sql);
       stmt.setString(1, item.getItemId());
       stmt.setString(2, item.getTitle());
       stmt.setString(3, item.getAuthor());
@@ -222,7 +293,8 @@ public class MysqlConnection {
       stmt.setString(6, item.getImageUrl());
       stmt.setString(7, item.getUrl());
       stmt.execute();
-
+      stmt.close();
+      
       sql = "INSERT INTO categories VALUES (?, ?)";
       stmt = conn.prepareStatement(sql);
       for (String category : item.getCategories()) {
@@ -230,8 +302,17 @@ public class MysqlConnection {
         stmt.setString(2, category);
         stmt.execute();
       }
+      stmt.close();
     } catch (SQLException e) {
       e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
     }
     return true;
   }
@@ -247,17 +328,36 @@ public class MysqlConnection {
       return null;
     }
     Set<String> itemList = new HashSet<>();
+    PreparedStatement statement = null;
+    ResultSet rs = null;
     try {
       String sql = "SELECT item_id from categories join items on categories.id = items.id"
           + " WHERE categories.category = ? sort by item_id.rating desc limit 3";
-      PreparedStatement statement = conn.prepareStatement(sql);
+      statement = conn.prepareStatement(sql);
       statement.setString(1, category);
-      ResultSet rs = statement.executeQuery();
+      rs = statement.executeQuery();
       while (rs.next()) {
         itemList.add(rs.getString("item_id"));
       }
+      rs.close();
+      statement.close();
     } catch (Exception e) {
       System.out.println(e.getMessage());
+    } finally {
+      if (statement != null) {
+        try {
+          statement.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          rs.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
     }
     return itemList;
   }

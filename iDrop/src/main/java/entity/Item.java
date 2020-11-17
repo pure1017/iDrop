@@ -121,7 +121,7 @@ public class Item {
     this.itemId = builder.itemId;
     this.author = builder.author;
     this.title = builder.title;
-    this.rating = 0.0;
+    this.rating = builder.rating;
     this.categories = builder.categories;
     this.imageUrl = builder.imageUrl;
     this.url = builder.url;

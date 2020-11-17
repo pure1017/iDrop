@@ -98,9 +98,11 @@ public class GoogleApiLogin {
 
     
     //set data to database
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
     try {
       // This is java.sql.Connection. Not com.mysql.jdbc.Connection.
-      Connection conn = null;
 
       // Step 1 Connect to MySQL.
       try {
@@ -115,19 +117,43 @@ public class GoogleApiLogin {
         return null;
       }
       //check if the user exists
-      Statement stmt = conn.createStatement();
+      stmt = conn.createStatement();
       String sql = String.format("SELECT user_id from users where user_id = %s", userId);
-      ResultSet rs = stmt.executeQuery(sql);
+      rs = stmt.executeQuery(sql);
       //if the user do not exits, rs.next() return false.
       if (!rs.next()) {
         sql = String.format("INSERT INTO users (user_id,email,first_name,last_name)"
           + "VALUES ('%s', '%s', '%s', '%s')", userId, email, givenName, familyName);
         stmt.executeUpdate(sql);  
       }
+      rs.close();
+      stmt.close();
+      conn.close();
     } catch (Exception e) {
       e.printStackTrace();
-    }
-    
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          rs.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (conn != null) {
+        try {
+          conn.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }  
     return userId;
   }
 }
