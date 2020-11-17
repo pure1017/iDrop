@@ -7,9 +7,11 @@ document.addEventListener('DOMContentLoaded', function () {
         messages: document.getElementById("form-messages")
     };
 
+    var userId = sessionStorage.getItem("userId");
+
     form.submit.addEventListener('click', function () {
         let req = JSON.stringify({});
-        let param = '?bookName='+form.bookName.value+'&groupName='+form.groupName.value+
+        let param = '?userId='+userId+'bookName='+form.bookName.value+'&groupName='+form.groupName.value+
         '&joinMessage='+form.joinMessage.value;
         console.log(param);
         ajax('POST',

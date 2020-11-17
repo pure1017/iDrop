@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
      auth2.grantOfflineAccess().then(signInCallback);
   });
 
+  var userId = "userId";
+  sessionStorage.setItem("userId", userId);
+
   function signInCallback(authResult) {
       console.log(authResult);
 
@@ -19,11 +22,11 @@ document.addEventListener('DOMContentLoaded', function () {
           // Send the code to the server
           ajax('POST', "/storeauthcode?code="+authResult['code'], req,
               function (res) {
-                console.log(res);
+                  userId = res;
               },
               // failed callback
             function() {
-                showErrorMessage('Something went wrong.');
+                  showErrorMessage('Something went wrong while login in.');
               });
         // $.ajax({
         //   type: 'POST',

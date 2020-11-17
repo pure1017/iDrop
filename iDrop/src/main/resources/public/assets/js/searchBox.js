@@ -9,10 +9,15 @@ document.addEventListener('DOMContentLoaded', function () {
   var author = "author";
   var category = "category";
   var summary = "summary";
+  var itemId = "1"
+  var bookCover = ""
+  sessionStorage.setItem("bookName", bookName);
   sessionStorage.setItem("rate", rate);
   sessionStorage.setItem("author", author);
   sessionStorage.setItem("category", category);
   sessionStorage.setItem("summary", summary);
+  sessionStorage.setItem("itemId", itemId);
+  sessionStorage.setItem("bookCover", bookCover);
 
   form.submit.addEventListener('click', function () {
      let req = JSON.stringify({});
@@ -24,11 +29,13 @@ document.addEventListener('DOMContentLoaded', function () {
             function(res) {
                 var items = JSON.parse(res);
                 if(res){
-                    bookName = items["bookName"];
-                    rate = items["rate"];
+                    bookCover = items["cover_url"];
+                    bookName = items["title"];
+                    rate = items["rating"];
                     author = items["author"];
-                    category = items["category"];
-                    summary = items["summary"];
+                    category = items["subject"];
+                    summary = items["description"];
+                    itemId = items["item_id"]
                     location.href='book_page.html';
                 }
             },

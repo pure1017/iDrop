@@ -53,7 +53,7 @@ class Start {
       System.out.println(authCode);
       String userId = GoogleApiLogin.login(authCode);
       System.out.println(userId);
-      ctx.result("code received");
+      ctx.result(userId);
     });
     
     //Get favorite item
@@ -174,18 +174,10 @@ class Start {
         e.printStackTrace();
       }
       JSONArray array = new JSONArray(list);
-      ctx.result("Petter");
+      Gson gson = new Gson();
+      ctx.result(gson.toJson(array));
     });
     
-    //Like a book
-    app.post("/like", ctx -> {
-      //To Do
-    });
-    
-    //Cancel_Like a book
-    app.post("/cancel_like", ctx -> {
-      //To Do
-    });
   }
   
   /** Send message to all players.

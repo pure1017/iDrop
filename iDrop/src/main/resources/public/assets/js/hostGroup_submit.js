@@ -9,10 +9,13 @@ document.addEventListener('DOMContentLoaded', function () {
         messages: document.getElementById("form-messages")
     };
 
+    var userId = sessionStorage.getItem("userId");
+
     form.submit.addEventListener('click', function () {
         let req = JSON.stringify({});
-        let param = '?bookName='+form.bookName.value+'&groupName='+form.groupName.value+
-        '&beginDate='+form.beginDate.value+'&groupSize='+form.beginDate.value+'&groupDescription='+form.groupDescription.value;
+        let param = '?userId='+userId+'bookName='+form.bookName.value+'&groupName='+form.groupName.value+
+        '&beginDate='+form.beginDate.value+'&groupSize='+form.beginDate.value+'&groupDescription='+
+        form.groupDescription.value;
 
         ajax('POST',
             '/hostGroup'+param,
