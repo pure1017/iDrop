@@ -56,7 +56,8 @@ public class OpenLibraryApi {
       int responseCode = connection.getResponseCode();
       System.out.println("Response Code" + responseCode);
       
-      BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+      BufferedReader in = new BufferedReader(
+          new InputStreamReader(connection.getInputStream(), "UTF-8"));
       StringBuilder response = new StringBuilder();
       String inputLine = "";
       while ((inputLine = in.readLine()) != null) {

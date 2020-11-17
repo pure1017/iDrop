@@ -46,7 +46,7 @@ under the License.
           <tbody>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#database.MysqlTableCreation.java">database/MysqlTableCreation.java</a>
+                  <a href="${project.url}/checkstyle.html#external.OpenLibraryApi.java">external/OpenLibraryApi.java</a>
                 </td>
                 <td>
                   0
