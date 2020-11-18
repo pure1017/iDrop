@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
   const form = {
-        bookName: document.getElementById("search-input"),
         submit: document.getElementById("search-submit"),
         input: document.getElementById("search-input")
     };
