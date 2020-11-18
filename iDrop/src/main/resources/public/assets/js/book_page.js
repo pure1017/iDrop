@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var itemId = sessionStorage.getItem("itemId");
 
     rate = Math.round(rate);
+    if (rate === 0) {
+        rate = 4;
+    }
 
     for (var i = 1; i<= rate; i++) {
         document.querySelector('.rate_static #star'+i+' ~ label').style.color = '#ffc700';

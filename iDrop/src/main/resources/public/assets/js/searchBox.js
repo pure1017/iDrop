@@ -32,6 +32,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log(items);
                 if(res){
                     bookCover = items["map"]["cover_url"];
+                    console.log(bookCover);
+                    if (bookCover[bookCover.length-8] === '.' && bookCover[bookCover.length-7] === '0') {
+                        bookCover = bookCover.substring(0, bookCover.length-8) + bookCover.substring(bookCover.length-6, bookCover.length);
+                    }
+                    console.log(bookCover);
                     bookName = items["map"]["title"];
                     rate = items["map"]["rating"];
                     author = items["map"]["author"];
