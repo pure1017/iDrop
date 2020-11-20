@@ -2,19 +2,10 @@ package unit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.junit.jupiter.api.Test;
-
-import database.MysqlConnection;
-import database.MysqlTableCreation;
 import entity.Item;
-import entity.Item.ItemBuilder;
+import java.util.HashSet;
+import java.util.Set;
+import org.junit.jupiter.api.Test;
 import recommendation.BookRecommend;
 
 public class RecommendTest {
