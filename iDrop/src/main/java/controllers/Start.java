@@ -139,9 +139,15 @@ class Start {
     //get recommendation
     app.post("/recommend", ctx -> {
       String userId = ctx.queryParam("userId");
-      BookRecommend br = new BookRecommend();
-      List<String> res = br.recommendItems(userId);
-      ctx.result("sent");
+      Set<Item> items = BookRecommend.recommendItems(userId);
+      JSONArray arr = new JSONArray();
+      
+      for (Item item : items) {
+        JSONObject obj = item.toJsonObject();
+        arr.put(obj);
+      }
+      Gson gson = new Gson();
+      ctx.result(gson.toJson(arr));
     });
     
     //Host Group
@@ -163,7 +169,6 @@ class Start {
       OpenLibraryApi olApi = new OpenLibraryApi();
       List<Item> items = olApi.search(bookName, "title");
       // to get JSON version of items
-      //List<JSONObject> list = new ArrayList<>();
       JSONObject obj = new JSONObject();
       try {
         for (Item item : items) {

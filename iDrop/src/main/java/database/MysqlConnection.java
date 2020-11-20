@@ -185,7 +185,7 @@ public class MysqlConnection {
 
         while (rs.next()) {
           builder.setItemId(rs.getString("item_id"));
-          //builder.setAuthor(rs.getString("author"));
+          builder.setAuthor(rs.getString("author"));
           builder.setImageUrl(rs.getString("cover_url"));
           builder.setUrl(rs.getString("url"));
           builder.setCategories(getCategories(itemId));
@@ -228,7 +228,7 @@ public class MysqlConnection {
     PreparedStatement statement = null;
     ResultSet rs = null;
     try {
-      String sql = "SELECT category from categories WHERE item_id = '?' ";
+      String sql = "SELECT category from categories WHERE item_id = ?";
       statement = conn.prepareStatement(sql);
       statement.setString(1, itemId);
       rs = statement.executeQuery();
@@ -331,8 +331,9 @@ public class MysqlConnection {
     PreparedStatement statement = null;
     ResultSet rs = null;
     try {
-      String sql = "SELECT item_id from categories join items on categories.id = items.id"
-          + " WHERE categories.category = ? sort by item_id.rating desc limit 3";
+      String sql = "SELECT items.item_id from items inner join categories "
+          + "ON categories.item_id = items.item_id"
+          + " WHERE categories.category = ? ORDER BY items.rating DESC LIMIT 5";
       statement = conn.prepareStatement(sql);
       statement.setString(1, category);
       rs = statement.executeQuery();
@@ -361,4 +362,62 @@ public class MysqlConnection {
     }
     return itemList;
   }
+  
+  
+  /**
+   * This is to get items based on item ids. 
+   * @param itemIds the item ids
+   * @return the items
+   */
+  public Set<Item> getItemsOnIds(Set<String> itemIds) {
+    // TODO Auto-generated method stub
+    if (conn == null) {
+      return new HashSet<>();
+    }
+
+    Set<Item> recomdItems = new HashSet<>();
+    //Set<String> itemIds = getFavoriteItemIds(userId);
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    try {
+      String sql = "SELECT * FROM items WHERE item_id = ?";
+      stmt = conn.prepareStatement(sql);
+      for (String itemId : itemIds) {
+        stmt.setString(1, itemId);
+        rs = stmt.executeQuery();
+
+        ItemBuilder builder = new ItemBuilder();
+
+        while (rs.next()) {
+          builder.setItemId(rs.getString("item_id"));
+          builder.setTitle(rs.getString("title"));
+          builder.setAuthor(rs.getString("author"));
+          builder.setImageUrl(rs.getString("cover_url"));
+          builder.setUrl(rs.getString("url"));
+          builder.setCategories(getCategories(itemId));
+          recomdItems.add(builder.build());
+        }
+      }
+      stmt.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          rs.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return recomdItems;
+  }
+  
 }

@@ -77,7 +77,7 @@ public class MysqlConnectionTest {
    * This is to test method getCategories().
    */
   @Test
-  public void testGetCatefories() {
+  public void testGetCategories() {
     String itemId = "222";
     MysqlConnection mc = new MysqlConnection();
     Set<String> check = mc.getCategories(itemId);
@@ -105,9 +105,24 @@ public class MysqlConnectionTest {
    */
   @Test
   public void testGetItemsOnCat() {
-    String category = "fiction";
+    String category = "female";
     MysqlConnection mc = new MysqlConnection();
     Set<String> check = mc.getItemsOnCat(category);
+    Set<String> sample = new HashSet<>();
+    sample.add("333");
+    sample.add("444");
+    assertEquals(sample, check);
+  }
+  
+  /**
+   * This is to test method getItemsOnIds().
+   */
+  @Test
+  public void testGetItemsOnIds() {
+    Set<String> itemIds = new HashSet<String>();
+    itemIds.add("1111");
+    MysqlConnection mc = new MysqlConnection();
+    Set<Item> check = mc.getItemsOnIds(itemIds);
     assertEquals(HashSet.class, check.getClass());
   }
   

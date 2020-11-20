@@ -1,6 +1,8 @@
 package recommendation;
 
 import database.MysqlConnection;
+import entity.Item;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,18 +21,20 @@ public class BookRecommend {
    * @param userId user's id
    * @return
    */
-  public static List<String> recommendItems(String userId) {
-    List<String> recommendedItems = new ArrayList<>();
-
+  public static Set<Item> recommendItems(String userId) {
+    
     MysqlConnection conn = new MysqlConnection();
     
     // Step 1 Get all favorite items
     Set<String> favoriteItemIds = conn.getFavoriteItemIds(userId);
-
     // Step 2 Get all categories of favorite items, sort by count
     Map<String, Integer> allCategories = new HashMap<>();
+    
     for (String itemId : favoriteItemIds) {
+      System.out.println(itemId);
       Set<String> categories = conn.getCategories(itemId);
+      System.out.println(categories);
+      
       for (String category : categories) {
         allCategories.put(category, allCategories.getOrDefault(category, 0) + 1);
       }
@@ -44,26 +48,35 @@ public class BookRecommend {
             return Integer.compare(o2.getValue(), o1.getValue());
         }
     });
+    
+    System.out.println(categoryList);
 
     // Step 3, do search based on category, filter out favorited events, sort by
     // distance
     Set<String> visitedItems = new HashSet<>();
-    
-    for (Entry<String, Integer> category : categoryList) {
-      Set<String> itemList = conn.getItemsOnCat(category.getKey());
+    Entry<String, Integer> category = categoryList.get(0);
+    System.out.println(category);
+    // for (Entry<String, Integer> category : categoryList) {
+    System.out.println(category.getKey());
+    Set<String> itemList = conn.getItemsOnCat(category.getKey());
+    System.out.println(itemList);
+    List<String> filteredItemids = new ArrayList<>();
       
-      List<String> filteredItemids = new ArrayList<>();
-      
-      for (String itemId : itemList) {
-        if (!favoriteItemIds.contains(itemId)
-                && !visitedItems.contains(itemId)) {
-          filteredItemids.add(itemId);
-        }
+    for (String itemId : itemList) {
+      if (!favoriteItemIds.contains(itemId)
+              && !visitedItems.contains(itemId)) {
+        filteredItemids.add(itemId);
       }
-      
-      visitedItems.addAll(itemList);
-      recommendedItems.addAll(filteredItemids);
     }
-    return recommendedItems;
+      
+    visitedItems.addAll(itemList);
+    
+    Set<String> recommendedItemids = new HashSet<>();
+    recommendedItemids.addAll(filteredItemids);
+    
+    Set<Item> recomdItems = new HashSet<>();
+    recomdItems = conn.getItemsOnIds(recommendedItemids);
+    System.out.println(recomdItems);
+    return recomdItems;
   }
 }

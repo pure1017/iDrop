@@ -152,22 +152,22 @@ public class MysqlTableCreation {
       stmt.executeUpdate(sql);
 
       //add 4 fake books
-      sql = "INSERT INTO items VALUES ('111', 'wangtingyi', 'tingyi', 5.0, "
+      sql = "INSERT INTO items VALUES ('111', 'wangtingyi', 'tingyi', 1.0, "
           + "'some description', 'image url', 'url')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       
-      sql = "INSERT INTO items VALUES ('222', 'liumiao', 'miao', 5.0, "
+      sql = "INSERT INTO items VALUES ('222', 'liumiao', 'miao', 2.0, "
               + "'some description', 'image url', 'url')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
           
-      sql = "INSERT INTO items VALUES ('333', 'maxinpei', 'xinpei', 5.0, "
+      sql = "INSERT INTO items VALUES ('333', 'maxinpei', 'xinpei', 3.0, "
               + "'some description', 'image url', 'url')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       
-      sql = "INSERT INTO items VALUES ('444', 'linhao', 'hao', 5.0, "
+      sql = "INSERT INTO items VALUES ('444', 'linhao', 'hao', 4.0, "
               + "'some description', 'image url', 'url')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);

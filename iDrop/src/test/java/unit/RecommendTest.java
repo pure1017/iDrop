@@ -24,9 +24,8 @@ public class RecommendTest {
   @Test
   public void testRecommend(){
     String userId = "11111";
-    List<String> check = BookRecommend.recommendItems(userId);
-    assertEquals(ArrayList.class, check.getClass());
-    System.out.println(check);
+    Set<Item> check = BookRecommend.recommendItems(userId);
+    assertEquals(HashSet.class, check.getClass());
   }
   
 }
