@@ -2,11 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08a6b24c-2a41-4dfb-bdc2-af3a0a53f87e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../java/controllers/Start.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/controllers/Start.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/start.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/favorite_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/book_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/book_page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/googleSignin.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/googleSignin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/searchBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/searchBox.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/my_group.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start.html" beforeDir="false" afterPath="$PROJECT_DIR$/start.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/book_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/book_page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/googleSignin.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/googleSignin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/hostGroup_submit.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/hostGroup_submit.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/joinGroup_submit.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/joinGroup_submit.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/searchBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/searchBox.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/book_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/book_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/chat_box_test.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/chat_box_test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/host_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/host_group.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/innerGroup_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/innerGroup_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/inner_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/inner_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/join_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/join_group.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/my_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/my_group.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/start.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/start.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/success.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/success.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,13 +60,13 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/assets/img/clients" />
       <recent name="$PROJECT_DIR$/assets/img/testimonials" />
       <recent name="$PROJECT_DIR$/assets/img" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -74,6 +90,7 @@
       <workItem from="1605423552639" duration="4826000" />
       <workItem from="1605429479000" duration="9535000" />
       <workItem from="1605600242975" duration="8147000" />
+      <workItem from="1605839428763" duration="6176000" />
     </task>
     <servers />
   </component>
