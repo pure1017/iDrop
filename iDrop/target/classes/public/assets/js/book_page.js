@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             document.querySelector('#favorite-button i').classList.add('active');
             param = '?userId='+userId+'&itemId='+itemId;
-            ajax('POST', '/unsetfavorite'+param, req,
+            ajax('DELETE', '/unsetfavorite'+param, req,
                 // successful callback
             function(res) {
                 console.log(res);
