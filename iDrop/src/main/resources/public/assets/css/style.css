@@ -1467,6 +1467,19 @@ section {
   background: #2383c4;
 }
 
+#favorite_list, #refresh_btn {
+  background: #3498db;
+  border: 0;
+  padding: 10px 24px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+}
+
+#favorite_list:hover, #refresh_btn:hover {
+  background: #2383c4;
+}
+
 .host_group .php-email-form button[type="submit"] {
   background: #3498db;
   border: 0;
@@ -1518,6 +1531,26 @@ section {
   margin: 0 auto;
 }
 #favorite-button .active {
+  color: #ffc700;
+}
+
+.favorite_list_content {
+  display: flex;
+  padding: 10px;
+  width: 30%;
+}
+
+.favorite_list_btn{
+  float: left;
+  background: #3498db;
+  border: 0;
+  padding: 10px 24px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+}
+
+.favorite_list_btn i{
   color: #ffc700;
 }
 

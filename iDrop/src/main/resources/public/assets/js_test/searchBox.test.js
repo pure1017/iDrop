@@ -27,3 +27,14 @@ test('click key enter to trigger search', () => {
 
   expect(mockFn).toBeCalled();
 });
+
+
+test('ajax function', () => {
+  const ajax_func = require('../js/searchBox');
+  var result = ajax_func('POST', '/', {}, function(res) {
+                console.log(res);
+            }, function() {
+                showErrorMessage('error occurs.');
+            });
+  expect(result).toBe("");
+});
