@@ -99,4 +99,5 @@ function ajax(method, url, data, callback, errorHandler) {
 
     return result;
 }
+
 module.exports = ajax;

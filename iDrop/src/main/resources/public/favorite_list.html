@@ -51,7 +51,8 @@
     }
   </script>
   <script src="assets/js/googleSignin.js"></script>
-  <script src="assets/js/searchBox.js"></script>
+  <script type="module" src="assets/js/searchBox.js"></script>
+  <script src="assets/js/favorite_list.js"></script>
 </head>
 
 <body>
@@ -106,15 +107,8 @@
 
     <section class="inner-page">
       <div class="container">
-        <p>
-          <div style="clear: left;">
-            <p style="float: left;"><img src="assets/img/testimonials/the_kite_runner.jpg" height="230px" width="180px" border="1px" style="margin-right: 20px"></p>
-            <p>Book Name:</p>
-            <p>Author:</p>
-            <p style="display: none">itemId: 11111</p>
-            <div class="favorite_list_content"><button class="favorite_list_btn" id="11111" type="submit"><i class="bx bxs-like"></i></button></div>
-          </div>
-
+        <p id="favorite_container">
+<!--            data from backend-->
         </p>
       </div>
     </section>

@@ -12,7 +12,6 @@ test('click favorite_button', () => {
   expect(mockFn).toBeCalled();
 });
 
-
 test('ajax function', () => {
   const ajax_func = require('../js/book_page');
   var result = ajax_func('POST', '/', {}, function(res) {
