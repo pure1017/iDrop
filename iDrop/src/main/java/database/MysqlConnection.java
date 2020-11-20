@@ -185,7 +185,8 @@ public class MysqlConnection {
 
         while (rs.next()) {
           builder.setItemId(rs.getString("item_id"));
-          //builder.setAuthor(rs.getString("author"));
+          builder.setTitle(rs.getString("title"));
+          builder.setAuthor(rs.getString("author"));
           builder.setImageUrl(rs.getString("cover_url"));
           builder.setUrl(rs.getString("url"));
           builder.setCategories(getCategories(itemId));

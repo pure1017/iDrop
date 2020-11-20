@@ -27,9 +27,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById("favorite-button").addEventListener("click", function() {
         let req = JSON.stringify({});
+        var param = "";
         if (document.querySelector('#favorite-button i').classList.contains('active')) {
             document.querySelector('#favorite-button i').classList.remove('active');
-            var param = '?userId='+userId+'&itemId='+itemId;
+            param = '?userId='+userId+'&itemId='+itemId;
             ajax('POST', '/setfavorite'+param, req,
                 // successful callback
             function(res) {
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         } else {
             document.querySelector('#favorite-button i').classList.add('active');
-            var param = '?userId='+userId+'&itemId='+itemId;
+            param = '?userId='+userId+'&itemId='+itemId;
             ajax('POST', '/unsetfavorite'+param, req,
                 // successful callback
             function(res) {
@@ -53,43 +54,49 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     });
-
-    /**
-     * AJAX helper
-     *
-     * @param method -
-     *            GET|POST|PUT|DELETE
-     * @param url -
-     *            API end point
-     * @param callback -
-     *            This the successful callback
-     * @param errorHandler -
-     *            This is the failed callback
-     */
-    function ajax(method, url, data, callback, errorHandler) {
-        var xhr = new XMLHttpRequest();
-
-        xhr.open(method, url, true);
-
-        xhr.onload = function() {
-        	if (xhr.status === 200) {
-        		callback(xhr.responseText);
-        	} else {
-        		errorHandler();
-        	}
-        };
-
-        xhr.onerror = function() {
-            console.error("The request couldn't be completed.");
-            errorHandler();
-        };
-
-        if (data === null) {
-            xhr.send();
-        } else {
-            xhr.setRequestHeader("Content-Type",
-                "application/json;charset=utf-8");
-            xhr.send(data);
-        }
-    }
 });
+
+/**
+ * AJAX helper
+ *
+ * @param method -
+ *            GET|POST|PUT|DELETE
+ * @param url -
+ *            API end point
+ * @param callback -
+ *            This the successful callback
+ * @param errorHandler -
+ *            This is the failed callback
+ */
+function ajax(method, url, data, callback, errorHandler) {
+    var xhr = new XMLHttpRequest();
+    var result = "";
+
+    xhr.open(method, url, true);
+
+    xhr.onload = function() {
+        result = "sent";
+        if (xhr.status === 200) {
+            callback(xhr.responseText);
+        } else {
+            errorHandler();
+        }
+    };
+
+    xhr.onerror = function() {
+        result = "error";
+        console.error("The request couldn't be completed.");
+        errorHandler();
+    };
+
+    if (data === null) {
+        xhr.send();
+    } else {
+        xhr.setRequestHeader("Content-Type",
+            "application/json;charset=utf-8");
+        xhr.send(data);
+    }
+
+    return result;
+}
+module.exports = ajax;
