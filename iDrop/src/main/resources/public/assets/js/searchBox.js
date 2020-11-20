@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   form.submit.addEventListener('click', function () {
      let req = JSON.stringify({});
-     let param = "?bookName="+form.bookName.value;
+     let param = "?bookName="+form.input.value;
      ajax('POST',
             '/search'+param,
             req,

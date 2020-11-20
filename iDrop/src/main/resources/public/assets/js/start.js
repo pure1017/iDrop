@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 const cover_favorite_tmp = [];
                 const itemId_favorite_tmp = [];
                 for (var item in items["myArrayList"]) {
-                    console.log(items["myArrayList"][item]["map"]);
                     bookName_favorite_tmp.push(items["myArrayList"][item]["map"]["title"]);
                     author_favorite_tmp.push(items["myArrayList"][item]["map"]["author"]);
                     cover_favorite_tmp.push(items["myArrayList"][item]["map"]["cover_url"]);
@@ -42,8 +41,15 @@ document.addEventListener('DOMContentLoaded', function () {
             // successful callback
             function(res) {
                 var items = JSON.parse(res);
+                const bookName_recommend_tmp = [];
+                const author_recommend_tmp = [];
+                const cover_recommend_tmp = [];
+                const desc_recommend_tmp = [];
                 for (var item in items['myArrayList']) {
-
+                    bookName_recommend_tmp.push(items["myArrayList"][item]["map"]["title"]);
+                    author_recommend_tmp.push(items["myArrayList"][item]["map"]["author"]);
+                    cover_recommend_tmp.push(items["myArrayList"][item]["map"]["cover_url"]);
+                    desc_recommend_tmp.push(items["myArrayList"][item]["map"]["title"]);
                 }
             },
             // failed callback
