@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // });
 
 // document.addEventListener('DOMContentLoaded', function () {
-    for (i = 0; i < bookName_favorite_tmp.length; i++) {
+    for (let i = 0; i < bookName_favorite_tmp.length; i++) {
         (function () {
             var id_tmp = itemId_favorite_tmp[i];
             let req = JSON.stringify({});

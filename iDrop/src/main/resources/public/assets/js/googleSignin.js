@@ -1,16 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const signin = document.getElementById("signinButton");
-  signin.addEventListener('click', function () {
+    let userId = sessionStorage.getItem("userId");
+    console.log("userId:"+userId);
+    const signin = document.getElementById("signinButton");
+    signin.addEventListener('click', function () {
      // const googleUser = gapi.auth2.getAuthInstance().currentUser.get();
      // console.log(googleUser);
      auth2.grantOfflineAccess().then(signInCallback);
   });
 
-  var userId = "userId";
-
   function signInCallback(authResult) {
-      console.log(authResult);
-
       if (authResult['code']) {
 
           // Hide the sign-in button now that the user is authorized, for example:
@@ -23,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
               function (res) {
                   userId = res;
                   sessionStorage.setItem("userId", userId);
+                  console.log("userId:"+userId);
               },
               // failed callback
             function() {

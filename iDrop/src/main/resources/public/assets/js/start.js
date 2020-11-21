@@ -3,7 +3,7 @@ const userId = sessionStorage.getItem("userId");
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("favorite_list").addEventListener('click', function () {
         let req = JSON.stringify({});
-        let param = '?userId='+11111;
+        let param = '?userId='+userId;
         ajax('GET',
             '/getfavorite'+param,
             req,
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("refresh_btn").addEventListener('click', function () {
         let req = JSON.stringify({});
         let param = '?userId='+userId;
-        ajax('GET',
+        ajax('POST',
             '/recommend'+param,
             req,
             // successful callback
@@ -49,7 +49,22 @@ document.addEventListener('DOMContentLoaded', function () {
                     bookName_recommend_tmp.push(items["myArrayList"][item]["map"]["title"]);
                     author_recommend_tmp.push(items["myArrayList"][item]["map"]["author"]);
                     cover_recommend_tmp.push(items["myArrayList"][item]["map"]["cover_url"]);
-                    desc_recommend_tmp.push(items["myArrayList"][item]["map"]["title"]);
+                    desc_recommend_tmp.push(items["myArrayList"][item]["map"]["description"]);
+                }
+                sessionStorage.setItem("bookName_recommend_tmp", JSON.stringify(bookName_recommend_tmp));
+                sessionStorage.setItem("author_recommend_tmp", JSON.stringify(author_recommend_tmp));
+                sessionStorage.setItem("cover_recommend_tmp", JSON.stringify(cover_recommend_tmp));
+                sessionStorage.setItem("desc_recommend_tmp", JSON.stringify(desc_recommend_tmp));
+
+                for (let i = 0; i < bookName_recommend_tmp.length; i++) {
+                    var div_recommend = document.getElementById("recommend"+(1+i));
+                    div_recommend.innerHTML = '<img src='+ cover_recommend_tmp[i] +' class="testimonial-img" alt="">\n' +
+                        '              <h3>'+ bookName_recommend_tmp[i] +'</h3>\n' +
+                        '              <h4>'+ author_recommend_tmp[i] +'</h4>\n' +
+                        '              <p>\n' +
+                        '                <i class="bx bxs-quote-alt-left quote-icon-left"></i>\n' + desc_recommend_tmp[i] +
+                        '                <i class="bx bxs-quote-alt-right quote-icon-right"></i>\n' +
+                        '              </p>'
                 }
             },
             // failed callback
