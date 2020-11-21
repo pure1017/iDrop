@@ -84,9 +84,17 @@ document.addEventListener('DOMContentLoaded', function () {
         ajax('POST', '/rating'+param, req,
                 // successful callback
             function(res) {
-                console.log(res);
-                setTimeout(function(){ alert("rating submitted!"); }, 10);
-                document.querySelector('.bg-modal').style.display = 'none';
+                if (res === "book rated") {
+                    console.log(res);
+                    setTimeout(function () {
+                        alert("rating submitted!");
+                    }, 10);
+                    document.querySelector('.bg-modal').style.display = 'none';
+                } else {
+                    setTimeout(function () {
+                        alert(res);
+                    }, 10);
+                }
             },
             // failed callback
             function() {
