@@ -425,35 +425,34 @@ public class MysqlConnection {
     ResultSet rs = null;
     try {
       //check if the group exists or full
-      String sql = "SELECT group_name FROM groups WHERE group_name = ?";
+      String sql = "SELECT * FROM groups WHERE group_name = ?";
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, groupName);
       rs = stmt.executeQuery();
       rs.next();
       String name = rs.getString("group_name");
       int currentSize = rs.getInt("current_size");
-      if (name == null || name != groupName) {
+      if (name == null || !name.equals(groupName)) {
         return 1;
       }
-      if (currentSize > 4) {
+      if (currentSize == 4) {
         return 2;
       }
-      stmt.close();
       
       //find which member is empty
       int i = 1;
       String member = "member_1";
-      while (rs.getString(member) != "NULL") {
+      
+      while (rs.getString(member) != null && i <= 4) {
         i++;
         member = String.format("member_%s", Integer.toString(i));
       }
-      sql = "UPDATE groups SET ?=?, ?=?";
+      stmt.close();
+      
+      String message = String.format("message_%s", Integer.toString(i));
+      sql = String.format("UPDATE groups SET %s = '%s', %s = '%s', %s = %d WHERE group_name = '%s'",
+          member, userId, message, joinMessage, "current_size", currentSize + 1, groupName);
       stmt = conn.prepareStatement(sql);
-      String message = String.format("message_%s", joinMessage);
-      stmt.setString(1, member);
-      stmt.setString(2, userId);
-      stmt.setString(3, message);
-      stmt.setString(4, joinMessage);
       stmt.execute();
       stmt.close();
     } catch (SQLException e) {
@@ -488,7 +487,6 @@ public class MysqlConnection {
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, userId);
       rs = stmt.executeQuery();
-      stmt.close();
       while (rs.next()) {
         String bookName = rs.getString("book_name");
         sql = "SELECT cover_url FROM items WHERE title = ?";
@@ -622,7 +620,6 @@ public class MysqlConnection {
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, userId);
       rs = stmt.executeQuery();
-      
       while (rs.next()) {
         List<String> messages = new ArrayList<>();
         messages.add(rs.getString("message_1"));
@@ -762,4 +759,44 @@ public class MysqlConnection {
     return true;
   }
   
+  /**
+   * This is to insert book rating into table ratings. 
+   */
+  public List<List<String>> getRatingsAndComments(String itemId) {
+    if (conn == null) {
+      return null;
+    }
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    List<List<String>> result = new ArrayList<>();
+    try {
+      String sql = String.format("SELECT * FROM ratings WHERE item_id = %s", itemId);
+      stmt = conn.prepareStatement(sql);
+      rs = stmt.executeQuery();
+      while (rs.next()) {
+        List<String> row = new ArrayList<>();
+        row.add(Float.toString(rs.getFloat("rating")));
+        row.add(rs.getString("comment"));
+        result.add(row);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return result;
+  }
 }

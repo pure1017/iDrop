@@ -152,7 +152,9 @@ class Start {
     });
     
     //Host Group
-    app.post("/hostGroup", ctx -> {
+    app.post("/hostgroup", ctx -> {
+      //http://localhost:8080/hostgroup?userId=33333&bookName=book3&groupName=group3&
+      //beginDate=2020&groupSize=5&groupDescription=description4
       String hostId = ctx.queryParam("userId");
       String bookName = ctx.queryParam("bookName");
       String groupName = ctx.queryParam("groupName");
@@ -170,7 +172,8 @@ class Start {
     });
     
     //Join Group
-    app.post("/joinGroup", ctx -> {
+    app.post("/joingroup", ctx -> {
+      //
       String userId = ctx.queryParam("userId");
       String bookName = ctx.queryParam("bookName");
       String groupName = ctx.queryParam("groupName");
@@ -193,7 +196,8 @@ class Start {
     });
     
     //get user group profile
-    app.post("/getusergroup", ctx -> {
+    app.get("/getusergroup", ctx -> {
+      //http://localhost:8080/getusergroup?userId=11111
       String userId = ctx.queryParam("userId");
       MysqlConnection conn = new MysqlConnection();
       List<Map<String, String>> groupsByHost = conn.getGroupsByHost(userId);
@@ -206,7 +210,8 @@ class Start {
     });
     
     //get join message
-    app.post("/getjoinmessage", ctx -> {
+    app.get("/getjoinmessage", ctx -> {
+      //http://localhost:8080/getjoinmessage?userId=11111
       String userId = ctx.queryParam("userId");
       MysqlConnection conn = new MysqlConnection();
       List<Map<String, List<String>>> messages = conn.getJoinMessages(userId);
@@ -253,6 +258,19 @@ class Start {
       ctx.result("book rated");
     });
     
+    //get ratings
+    app.get("/getrating", ctx -> {
+      String itemId = ctx.queryParam("itemId");
+      if (itemId == null) {
+        ctx.result("input error");
+        return;
+      }
+      MysqlConnection conn = new MysqlConnection();
+      List<List<String>> result = conn.getRatingsAndComments(itemId);
+      conn.close();
+      Gson gson = new Gson();
+      ctx.result(gson.toJson(result));
+    }); 
   }
   
   /** Send message to all players.
