@@ -51,6 +51,9 @@ public class GoogleApiLogin {
         // specify an empty string.
         .execute();
     
+    Long expiresAt = System.currentTimeMillis() + (tokenResponse.getExpiresInSeconds() * 1000);
+    tokenResponse.setExpiresInSeconds(expiresAt);
+    
     System.out.println(3);
     //String accessToken = tokenResponse.getAccessToken();
 

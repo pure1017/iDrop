@@ -12,22 +12,8 @@ test('click favorite_button', () => {
   expect(mockFn).toBeCalled();
 });
 
-test('click reader_submit_btn', () => {
-  const mockFn = jest.fn();
-
-  document.body.innerHTML =
-    '<div class="text-center"><button id="reader_submit_btn" type="submit">Submit</button></div>';
-
-  const $ = require('jquery');
-
-  $('#reader_submit_btn').on("click", mockFn);
-  $('#reader_submit_btn').click();
-
-  expect(mockFn).toBeCalled();
-});
-
 test('ajax function', () => {
-  const ajax_func = require('../js/book_page');
+  const ajax_func = require('../js/favorite_list');
   var result = ajax_func('POST', '/', {}, function(res) {
                 console.log(res);
             }, function() {

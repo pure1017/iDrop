@@ -6,6 +6,8 @@ const retrievedData3 = sessionStorage.getItem("cover_favorite_tmp");
 cover_favorite_tmp = JSON.parse(retrievedData3);
 const retrievedData4 = sessionStorage.getItem("itemId_favorite_tmp");
 itemId_favorite_tmp = JSON.parse(retrievedData4);
+let userId = sessionStorage.getItem("userId");
+userId = 11111;
 
 document.addEventListener('DOMContentLoaded', function () {
     var p_element = document.getElementById("favorite_container");
@@ -24,15 +26,86 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // document.addEventListener('DOMContentLoaded', function () {
     for (i = 0; i < bookName_favorite_tmp.length; i++) {
-        document.getElementById('id'+itemId_favorite_tmp[i]).addEventListener('click', function () {
-            var selector = '#id'+itemId_favorite_tmp[i] + ' i';
-            if (document.querySelector(selector).classList.contains('active')) {
-                document.querySelector(selector).classList.remove('active');
-                document.querySelector(selector).style.color = '#fff';
-            } else {
-                document.querySelector(selector).classList.add('active');
-                document.querySelector(selector).style.color = '#ffc700';
-            }
-        });
+        (function () {
+            var id_tmp = itemId_favorite_tmp[i];
+            let req = JSON.stringify({});
+            document.getElementById('id' + itemId_favorite_tmp[i]).addEventListener('click', function () {
+                const selector = '#id' + id_tmp.toString() + ' i';
+                if (document.querySelector(selector.toString()).classList.contains('active')) { // still favorite, click to remove from favorite
+                    document.querySelector(selector.toString()).classList.remove('active');
+                    document.querySelector(selector.toString()).style.color = '#fff';
+                    param = '?userId='+userId+'&itemId='+id_tmp;
+                    ajax('DELETE', '/unsetfavorite'+param, req,
+                        // successful callback
+                    function(res) {
+                        console.log(res);
+                    },
+                    // failed callback
+                    function() {
+                        showErrorMessage('Cannot unsetfavorite items.');
+                    });
+
+                } else { // regret remove from favorite, add back to favorite
+                    document.querySelector(selector.toString()).classList.add('active');
+                    document.querySelector(selector.toString()).style.color = '#ffc700';
+                    param = '?userId='+userId+'&itemId='+id_tmp;
+                    ajax('POST', '/setfavorite'+param, req,
+                        // successful callback
+                    function(res) {
+                        console.log(res);
+                    },
+                    // failed callback
+                    function() {
+                        showErrorMessage('Cannot setfavorite items.');
+                    });
+                }
+            })
+        }());
     }
 });
+
+/**
+ * AJAX helper
+ *
+ * @param method -
+ *            GET|POST|PUT|DELETE
+ * @param url -
+ *            API end point
+ * @param callback -
+ *            This the successful callback
+ * @param errorHandler -
+ *            This is the failed callback
+ */
+function ajax(method, url, data, callback, errorHandler) {
+    var xhr = new XMLHttpRequest();
+    var result = "";
+
+    xhr.open(method, url, true);
+
+    xhr.onload = function() {
+        result = "sent";
+        if (xhr.status === 200) {
+            callback(xhr.responseText);
+        } else {
+            errorHandler();
+        }
+    };
+
+    xhr.onerror = function() {
+        result = "error";
+        console.error("The request couldn't be completed.");
+        errorHandler();
+    };
+
+    if (data === null) {
+        xhr.send();
+    } else {
+        xhr.setRequestHeader("Content-Type",
+            "application/json;charset=utf-8");
+        xhr.send(data);
+    }
+
+    return result;
+}
+
+module.exports = ajax;

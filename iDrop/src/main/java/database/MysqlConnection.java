@@ -494,6 +494,11 @@ public class MysqlConnection {
           builder.setAuthor(rs.getString("author"));
           builder.setImageUrl(rs.getString("cover_url"));
           builder.setUrl(rs.getString("url"));
+          if (rs.getString("description").length() < 250) {
+            builder.setDescribe(rs.getString("description"));
+          } else {
+            builder.setDescribe(rs.getString("description").substring(0, 250) + "...");
+          }
           builder.setCategories(getCategories(itemId));
           recomdItems.add(builder.build());
         }
