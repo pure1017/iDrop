@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
     let userId = sessionStorage.getItem("userId");
     console.log("userId:"+userId);
+
+    if (userId !== null) {
+        document.querySelector("#signinButton").style.display = 'none';
+    }
+    
     const signin = document.getElementById("signinButton");
     signin.addEventListener('click', function () {
      // const googleUser = gapi.auth2.getAuthInstance().currentUser.get();
