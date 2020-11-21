@@ -364,6 +364,105 @@ public class MysqlConnection {
     return itemList;
   }
   
+  /**
+   * This is to create a group.
+   * @param hostId .
+   * @param bookName .
+   * @param groupName .
+   * @param beginDate .
+   * @param groupSize .
+   * @param groupDescription .
+   * @return
+   */
+  public boolean createGroup(String hostId, String bookName, String groupName,
+      String beginDate, String groupSize, String groupDescription) {
+    if (conn == null) {
+      return false;
+    }
+    PreparedStatement stmt = null;
+    try {
+      String sql = "INSERT INTO history (group_name, book_name, host,"
+          + "begin_date, group_size, group_description, current_size)"
+          + " VALUES (?, ?, ?, ?, ?, ?, ?)";
+      stmt = conn.prepareStatement(sql);
+      stmt.setString(1, groupName);
+      stmt.setString(2, bookName);
+      stmt.setString(3, hostId);
+      stmt.setString(4, beginDate);
+      stmt.setString(5, groupSize);
+      stmt.setString(6, groupDescription);
+      stmt.setInt(7, 0);
+      stmt.execute();
+      stmt.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return true;
+  }
+  
+  /**
+   * This is to join a group.
+   * @param userId .
+   * @param groupName .
+   * @return
+   */
+  public int joinGroup(String userId, String groupName) {
+    if (conn == null) {
+      return 3;
+    }
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    try {
+      //check if the group exists or full
+      String sql = "SELECT group_name FROM groups WHERE group_name = ?";
+      stmt = conn.prepareStatement(sql);
+      stmt.setString(1, groupName);
+      stmt.close();
+      rs = stmt.executeQuery();
+      rs.next();
+      String name = rs.getString("group_name");
+      int currentSize = rs.getInt("current_size");
+      if (name == null || name != groupName) {
+        return 1;
+      }
+      if (currentSize > 4) {
+        return 2;
+      }
+      
+      //find which member is empty
+      int i = 1;
+      String member = "member_1";
+      while (rs.getString(member) != "NULL") {
+        i++;
+        member = String.format("member_%s", Integer.toString(i));
+      }
+      sql = "UPDATE groups SET ?=?";
+      stmt = conn.prepareStatement(sql);
+      stmt.setString(1, member);
+      stmt.setString(2, userId);
+      stmt.execute();
+      stmt.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return 0;
+  }
   
   /**
    * This is to get items based on item ids. 

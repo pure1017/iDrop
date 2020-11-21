@@ -152,14 +152,43 @@ class Start {
     
     //Host Group
     app.post("/hostGroup", ctx -> {
-      System.out.println(ctx.queryParam("bookName"));
-      ctx.result("sent");
+      String hostId = ctx.queryParam("user_id");
+      String bookName = ctx.queryParam("bookName");
+      String groupName = ctx.queryParam("groupName");
+      String beginDate = ctx.queryParam("beginDate");
+      String groupSize = ctx.queryParam("groupSize");
+      String groupDescription = ctx.queryParam("groupDescription");
+      if (hostId == null || bookName == null || groupName == null
+          || beginDate == null || groupSize == null || groupDescription == null) {
+        ctx.result("input error");
+        return;
+      }
+      MysqlConnection conn = new MysqlConnection();
+      conn.createGroup(hostId, bookName, groupName, beginDate, groupSize, groupDescription);
+      ctx.result("group created");
     });
     
     //Join Group
     app.post("/joinGroup", ctx -> {
-      System.out.println(ctx.queryParam("bookName"));
-      ctx.result("sent");
+      String userId = ctx.queryParam("userId");
+      String bookName = ctx.queryParam("bookName");
+      String groupName = ctx.queryParam("groupName");
+      String joinMessage = ctx.queryParam("joinMessage");
+      if (userId == null || bookName == null || groupName == null || joinMessage == null) {
+        ctx.result("input error");
+        return;
+      }
+      MysqlConnection conn = new MysqlConnection();
+      int flag = conn.joinGroup(userId, groupName);
+      if (flag == 1) {
+        ctx.result("Group does not exist");
+        return;
+      }
+      if (flag == 2) {
+        ctx.result("The group is full");
+        return;
+      }
+      ctx.result("join successfully");
     });
     
     //Search Book

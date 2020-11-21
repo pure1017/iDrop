@@ -50,6 +50,9 @@ public class MysqlTableCreation {
       
       sql = "DROP TABLE IF EXISTS users";
       stmt.executeUpdate(sql);
+      
+      sql = "DROP TABLE IF EXISTS groups";
+      stmt.executeUpdate(sql);
 
       // Step 3 Create new tables
       sql = "CREATE TABLE items ("
@@ -85,6 +88,27 @@ public class MysqlTableCreation {
         + "PRIMARY KEY (user_id, item_id),"
         + "FOREIGN KEY (item_id) REFERENCES items(item_id),"
         + "FOREIGN KEY (user_id) REFERENCES users(user_id))";
+      stmt.executeUpdate(sql);
+      
+      sql = "CREATE TABLE groups ("
+        + "group_id INT AUTO_INCREMENT,"
+        + "group_name VARCHAR(255) NOT NULL,"
+        + "book_name VARCHAR(255) NOT NULL,"
+        + "host VARCHAR(255) NOT NULL,"
+        + "begin_date VARCHAR(255) NOT NULL,"
+        + "group_size VARCHAR(255) NOT NULL,"
+        + "group_description VARCHAR(255) NOT NULL,"
+        + "member_1 VARCHAR(255),"
+        + "member_2 VARCHAR(255),"
+        + "member_3 VARCHAR(255),"
+        + "member_4 VARCHAR(255),"
+        + "current_size INT NOT NULL,"
+        + "PRIMARY KEY (group_id),"
+        + "FOREIGN KEY (host) REFERENCES users(user_id),"
+        + "FOREIGN KEY (member_1) REFERENCES users(user_id),"
+        + "FOREIGN KEY (member_2) REFERENCES users(user_id),"
+        + "FOREIGN KEY (member_3) REFERENCES users(user_id),"
+        + "FOREIGN KEY (member_4) REFERENCES users(user_id))";
       stmt.executeUpdate(sql);
 
       // Step 4: insert test data
