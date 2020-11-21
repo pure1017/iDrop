@@ -730,16 +730,24 @@ public class MysqlConnection {
       return false;
     }
     PreparedStatement stmt = null;
+    PreparedStatement ps = null;
     try {
-      String sql = "INSERT INTO ratings (user_id, item_id, rating, comment)"
+      String sqlInsert = "INSERT INTO ratings (user_id, item_id, rating, comment)"
           + " VALUES (?, ?, ?, ?)";
-      stmt = conn.prepareStatement(sql);
+      stmt = conn.prepareStatement(sqlInsert);
       stmt.setString(1, userId);
       stmt.setString(2, itemId);
       stmt.setFloat(3, rating);
       stmt.setString(4, comment);
+      String sqlUpdate = "UPDATE items SET rating = (SELECT AVG(rating) AS avg_rating "
+          + "FROM ratings GROUP BY item_id HAVING item_id = ?) WHERE item_id = ?";
+      ps = conn.prepareStatement(sqlUpdate);
+      ps.setString(1, itemId);
+      ps.setString(2, itemId);
       stmt.execute();
       stmt.close();
+      ps.execute();
+      ps.close();
     } catch (SQLException e) {
       e.printStackTrace();
     } finally {
