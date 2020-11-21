@@ -488,7 +488,6 @@ public class MysqlConnection {
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, userId);
       rs = stmt.executeQuery();
-      stmt.close();
       while (rs.next()) {
         String bookName = rs.getString("book_name");
         sql = "SELECT cover_url FROM items WHERE title = ?";
@@ -622,7 +621,6 @@ public class MysqlConnection {
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, userId);
       rs = stmt.executeQuery();
-      
       while (rs.next()) {
         List<String> messages = new ArrayList<>();
         messages.add(rs.getString("message_1"));

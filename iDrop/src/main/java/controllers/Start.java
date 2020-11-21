@@ -193,7 +193,8 @@ class Start {
     });
     
     //get user group profile
-    app.post("/getusergroup", ctx -> {
+    app.get("/getusergroup", ctx -> {
+      //http://localhost:8080/getusergroup?userId=11111
       String userId = ctx.queryParam("userId");
       MysqlConnection conn = new MysqlConnection();
       List<Map<String, String>> groupsByHost = conn.getGroupsByHost(userId);
@@ -206,7 +207,8 @@ class Start {
     });
     
     //get join message
-    app.post("/getjoinmessage", ctx -> {
+    app.get("/getjoinmessage", ctx -> {
+      //http://localhost:8080/getjoinmessage?userId=11111
       String userId = ctx.queryParam("userId");
       MysqlConnection conn = new MysqlConnection();
       List<Map<String, List<String>>> messages = conn.getJoinMessages(userId);

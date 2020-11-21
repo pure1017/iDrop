@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (userId !== null) {
         document.querySelector("#signinButton").style.display = 'none';
     }
-    
+
     const signin = document.getElementById("signinButton");
     signin.addEventListener('click', function () {
      // const googleUser = gapi.auth2.getAuthInstance().currentUser.get();

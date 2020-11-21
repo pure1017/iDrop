@@ -126,7 +126,7 @@ public class MysqlTableCreation {
         + "comment VARCHAR(1000),"
         + "PRIMARY KEY (rating_no),"
         + "FOREIGN KEY (user_id) REFERENCES users(user_id),"
-        + "FOREIGN KEY (item_id) REFERENCES items(item_id)";
+        + "FOREIGN KEY (item_id) REFERENCES items(item_id))";
       stmt.executeUpdate(sql);
 
       // Step 4: insert test data
@@ -184,32 +184,53 @@ public class MysqlTableCreation {
       //add 2 fake users
       stmt = conn.createStatement();
       String sql = "INSERT INTO users VALUES ("
-          + "'11111', '1111@columbia.edu', 'Xinpei', 'Ma')";
+          + "'11111', '11111@columbia.edu', 'Hankun', 'Cao')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       
       sql = "INSERT INTO users VALUES ("
-          + "'22222', '2222@columbia.edu', 'Feiqiang', 'Shen')";
+          + "'22222', '22222@columbia.edu', 'Tingyi', 'Wang')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
+      
+      sql = "INSERT INTO users VALUES ("
+              + "'33333', '33333@columbia.edu', 'Feiqiang', 'Shen')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      sql = "INSERT INTO users VALUES ("
+              + "'44444', '44444@columbia.edu', 'Miao', 'Liu')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      sql = "INSERT INTO users VALUES ("
+              + "'55555', '55555@columbia.edu', 'XinPei', 'Ma')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      sql = "INSERT INTO users VALUES ("
+              + "'66666', '66666@columbia.edu', 'Hao', 'Lin')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
 
       //add 4 fake books
-      sql = "INSERT INTO items VALUES ('111', 'wangtingyi', 'tingyi', 1.0, "
+      sql = "INSERT INTO items VALUES ('111', 'book1', 'tingyi', 1.0, "
           + "'some description', 'image url', 'url')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       
-      sql = "INSERT INTO items VALUES ('222', 'liumiao', 'miao', 2.0, "
+      sql = "INSERT INTO items VALUES ('222', 'book2', 'miao', 2.0, "
               + "'some description', 'image url', 'url')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
           
-      sql = "INSERT INTO items VALUES ('333', 'maxinpei', 'xinpei', 3.0, "
+      sql = "INSERT INTO items VALUES ('333', 'book3', 'xinpei', 3.0, "
               + "'some description', 'image url', 'url')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       
-      sql = "INSERT INTO items VALUES ('444', 'linhao', 'hao', 4.0, "
+      sql = "INSERT INTO items VALUES ('444', 'book4', 'hao', 4.0, "
               + "'some description', 'image url', 'url')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
@@ -247,8 +268,29 @@ public class MysqlTableCreation {
       sql = "INSERT INTO history (user_id, item_id) VALUES ('22222', '444')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
+      
+      //add fake group
+      sql = "INSERT INTO groups (group_id, group_name, book_name, host, begin_date,"
+         + "group_size, group_description, member_1, message_1, current_size) "
+         + "VALUES (1, 'group1', 'book1', '11111', '2020', "
+         + "5, 'description1', '22222', 'message1', 1)";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
 
-      sql = "SELECT catefory from categories WHERE item_id = '222'";
+      sql = "INSERT INTO groups (group_id, group_name, book_name, host, begin_date,"
+         + "group_size, group_description, member_1, message_1, member_2, message_2, current_size) "
+         + "VALUES (2, 'group2', 'book2', '11111', '2020', "
+         + "5, 'description1', '33333', 'message1', '44444', 'message2', 2)";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      sql = "INSERT INTO groups (group_id, group_name, book_name, host, begin_date,"
+         + "group_size, group_description, member_1, message_1, member_2, message_2, current_size) "
+         + "VALUES (3, 'group3', 'book3', '22222', '2020', "
+         + "5, 'description1', '11111', 'message1', '33333', 'message2', 2)";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
       stmt.close();
       conn.close();
       System.out.println("added fake data");
