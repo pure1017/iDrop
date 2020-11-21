@@ -8,8 +8,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 //import external.TicketMasterAPI;
@@ -414,7 +417,7 @@ public class MysqlConnection {
    * @param groupName .
    * @return
    */
-  public int joinGroup(String userId, String groupName) {
+  public int joinGroup(String userId, String groupName, String joinMessage) {
     if (conn == null) {
       return 3;
     }
@@ -425,7 +428,6 @@ public class MysqlConnection {
       String sql = "SELECT group_name FROM groups WHERE group_name = ?";
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, groupName);
-      stmt.close();
       rs = stmt.executeQuery();
       rs.next();
       String name = rs.getString("group_name");
@@ -436,6 +438,7 @@ public class MysqlConnection {
       if (currentSize > 4) {
         return 2;
       }
+      stmt.close();
       
       //find which member is empty
       int i = 1;
@@ -444,10 +447,13 @@ public class MysqlConnection {
         i++;
         member = String.format("member_%s", Integer.toString(i));
       }
-      sql = "UPDATE groups SET ?=?";
+      sql = "UPDATE groups SET ?=?, ?=?";
       stmt = conn.prepareStatement(sql);
+      String message = String.format("message_%s", joinMessage);
       stmt.setString(1, member);
       stmt.setString(2, userId);
+      stmt.setString(3, message);
+      stmt.setString(4, joinMessage);
       stmt.execute();
       stmt.close();
     } catch (SQLException e) {
@@ -463,6 +469,197 @@ public class MysqlConnection {
     }
     return 0;
   }
+  
+  /**
+   * This is to get a list of groups which the user is the host.
+   * @param userId .
+   * @return
+   */
+  public List<Map<String, String>> getGroupsByHost(String userId) {
+    if (conn == null) {
+      return null;
+    }
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    ResultSet rs2 = null;
+    List<Map<String, String>> groups = new ArrayList<>();
+    try {
+      String sql = "SELECT * FROM groups WHERE host = ?";
+      stmt = conn.prepareStatement(sql);
+      stmt.setString(1, userId);
+      rs = stmt.executeQuery();
+      stmt.close();
+      while (rs.next()) {
+        String bookName = rs.getString("book_name");
+        sql = "SELECT cover_url FROM items WHERE title = ?";
+        stmt = conn.prepareStatement(sql);
+        stmt.setString(1, bookName);
+        rs2 = stmt.executeQuery();
+        rs2.next();
+        String coverUrl = rs2.getString("cover_url");
+        rs2.close();
+        
+        Map<String, String> map = new HashMap<>();
+        map.put("cover_url", coverUrl);
+        map.put("Group Name", rs.getString("group_name"));
+        map.put("Begin Date", rs.getString("begin_date"));
+        map.put("Group Description", rs.getString("group_description"));
+        groups.add(map);
+      }
+      stmt.close();
+      rs.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          rs.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs2 != null) {
+        try {
+          rs.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return groups;
+  }
+  
+  /**
+   * This is to get a list of groups which the user is the member.
+   * @param userId .
+   * @return
+   */
+  public List<Map<String, String>> getGroupsByMember(String userId) {
+    if (conn == null) {
+      return null;
+    }
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    ResultSet rs2 = null;
+    List<Map<String, String>> groups = new ArrayList<>();
+    try {
+      String sql = "SELECT * FROM groups WHERE member_1 = ?"
+          + "OR member_2 = ? OR member_3 = ? OR member_4 = ?";
+      stmt = conn.prepareStatement(sql);
+      stmt.setString(1, userId);
+      stmt.setString(2, userId);
+      stmt.setString(3, userId);
+      stmt.setString(4, userId);
+      rs = stmt.executeQuery();
+      while (rs.next()) {
+        String bookName = rs.getString("book_name");
+        sql = "SELECT cover_url FROM items WHERE title = ?";
+        stmt = conn.prepareStatement(sql);
+        stmt.setString(1, bookName);
+        rs2 = stmt.executeQuery();
+        rs2.next();
+        String coverUrl = rs2.getString("cover_url");
+        rs2.close();
+          
+        Map<String, String> map = new HashMap<>();
+        map.put("cover_url", coverUrl);
+        map.put("Group Name", rs.getString("group_name"));
+        map.put("Begin Date", rs.getString("begin_date"));
+        map.put("Group Description", rs.getString("group_description"));
+        groups.add(map);
+      }
+      stmt.close();
+      rs.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          rs.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs2 != null) {
+        try {
+          rs2.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return groups;
+  }
+  
+  /**
+   * This is to get a join messages.
+   * @param userId .
+   * @return
+   */
+  public List<Map<String, List<String>>> getJoinMessages(String userId) {
+    if (conn == null) {
+      return null;
+    }
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    List<Map<String, List<String>>> result = new ArrayList<>();
+    try {
+      String sql = "SELECT * FROM groups WHERE host = ?";
+      stmt = conn.prepareStatement(sql);
+      stmt.setString(1, userId);
+      rs = stmt.executeQuery();
+      
+      while (rs.next()) {
+        List<String> messages = new ArrayList<>();
+        messages.add(rs.getString("message_1"));
+        messages.add(rs.getString("message_2"));
+        messages.add(rs.getString("message_3"));
+        messages.add(rs.getString("message_4"));
+        
+        String group = rs.getString("group_name");
+        Map<String, List<String>> map = new HashMap<>();
+        map.put(group, messages);
+        result.add(map);
+      }
+      stmt.close();
+      rs.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          rs.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return result;
+  }
+  
+  
+  
   
   /**
    * This is to get items based on item ids. 
