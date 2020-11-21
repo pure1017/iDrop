@@ -258,7 +258,19 @@ class Start {
       ctx.result("book rated");
     });
     
-    
+    //get ratings
+    app.get("/getrating", ctx -> {
+      String itemId = ctx.queryParam("itemId");
+      if (itemId == null) {
+        ctx.result("input error");
+        return;
+      }
+      MysqlConnection conn = new MysqlConnection();
+      List<List<String>> result = conn.getRatingsAndComments(itemId);
+      conn.close();
+      Gson gson = new Gson();
+      ctx.result(gson.toJson(result));
+    }); 
   }
   
   /** Send message to all players.

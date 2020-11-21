@@ -751,4 +751,44 @@ public class MysqlConnection {
     return true;
   }
   
+  /**
+   * This is to insert book rating into table ratings. 
+   */
+  public List<List<String>> getRatingsAndComments(String itemId) {
+    if (conn == null) {
+      return null;
+    }
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    List<List<String>> result = new ArrayList<>();
+    try {
+      String sql = String.format("SELECT * FROM ratings WHERE item_id = %s", itemId);
+      stmt = conn.prepareStatement(sql);
+      rs = stmt.executeQuery();
+      while (rs.next()) {
+        List<String> row = new ArrayList<>();
+        row.add(Float.toString(rs.getFloat("rating")));
+        row.add(rs.getString("comment"));
+        result.add(row);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return result;
+  }
 }
