@@ -258,6 +258,7 @@ class Start {
       ctx.result("book rated");
     });
     
+    
   }
   
   /** Send message to all players.

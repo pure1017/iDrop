@@ -291,6 +291,17 @@ public class MysqlTableCreation {
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       
+      //add fake rating
+      sql = "INSERT INTO ratings (user_id, item_id, rating, comment) "
+         + "VALUES ('44444', '333', 4.5, 'comment1')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      sql = "INSERT INTO ratings (user_id, item_id, rating, comment) "
+         + "VALUES ('55555', '444', 4.5, 'comment2')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
       stmt.close();
       conn.close();
       System.out.println("added fake data");
