@@ -53,6 +53,9 @@ public class MysqlTableCreation {
       
       sql = "DROP TABLE IF EXISTS groups";
       stmt.executeUpdate(sql);
+      
+      sql = "DROP TABLE IF EXISTS ratings";
+      stmt.executeUpdate(sql);
 
       // Step 3 Create new tables
       sql = "CREATE TABLE items ("
@@ -109,6 +112,17 @@ public class MysqlTableCreation {
         + "FOREIGN KEY (member_2) REFERENCES users(user_id),"
         + "FOREIGN KEY (member_3) REFERENCES users(user_id),"
         + "FOREIGN KEY (member_4) REFERENCES users(user_id))";
+      stmt.executeUpdate(sql);
+      
+      sql = "CREATE TABLE ratings ("
+        + "rating_no INT AUTO_INCREMENT,"
+        + "user_id VARCHAR(225) NOT NULL,"
+        + "item_id VARCHAR(225) NOT NULL,"
+        + "rating FLOAT NOT NULL,"
+        + "comment VARCHAR(1000),"
+        + "PRIMARY KEY (rating_no),"
+        + "FOREIGN KEY (user_id) REFERENCES users(user_id),"
+        + "FOREIGN KEY (item_id) REFERENCES items(item_id)";
       stmt.executeUpdate(sql);
 
       // Step 4: insert test data

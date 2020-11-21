@@ -214,6 +214,22 @@ class Start {
       ctx.result(gson.toJson(obj));
     });
     
+    // Rating book
+    app.post("/rating", ctx -> {
+      String userId = ctx.queryParam("userId");
+      String itemId = ctx.queryParam("itemId");
+      float rating = Float.parseFloat(ctx.queryParam("rating"));
+      String comment = ctx.queryParam("comment");
+      if (userId == null || itemId == null || rating == 0.0) {
+        ctx.result("input error");
+        return;
+      }
+      MysqlConnection conn = new MysqlConnection();
+      conn.ratingBook(userId, itemId, rating, comment);
+      conn.close();
+      ctx.result("book rated");
+    });
+    
   }
   
   /** Send message to all players.

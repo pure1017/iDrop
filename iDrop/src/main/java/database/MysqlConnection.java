@@ -381,7 +381,7 @@ public class MysqlConnection {
     }
     PreparedStatement stmt = null;
     try {
-      String sql = "INSERT INTO history (group_name, book_name, host,"
+      String sql = "INSERT INTO groups (group_name, book_name, host,"
           + "begin_date, group_size, group_description, current_size)"
           + " VALUES (?, ?, ?, ?, ?, ?, ?)";
       stmt = conn.prepareStatement(sql);
@@ -523,6 +523,38 @@ public class MysqlConnection {
       }
     }
     return recomdItems;
+  }
+  
+  /**
+   * This is to insert book rating into table ratings. 
+   */
+  public boolean ratingBook(String userId, String itemId, float rating, String comment) {
+    if (conn == null) {
+      return false;
+    }
+    PreparedStatement stmt = null;
+    try {
+      String sql = "INSERT INTO ratings (user_id, item_id, rating, comment)"
+          + " VALUES (?, ?, ?, ?)";
+      stmt = conn.prepareStatement(sql);
+      stmt.setString(1, userId);
+      stmt.setString(2, itemId);
+      stmt.setFloat(3, rating);
+      stmt.setString(4, comment);
+      stmt.execute();
+      stmt.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return true;
   }
   
 }
