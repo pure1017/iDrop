@@ -10,6 +10,7 @@ import io.javalin.http.Context;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
@@ -179,7 +180,7 @@ class Start {
         return;
       }
       MysqlConnection conn = new MysqlConnection();
-      int flag = conn.joinGroup(userId, groupName);
+      int flag = conn.joinGroup(userId, groupName, joinMessage);
       if (flag == 1) {
         ctx.result("Group does not exist");
         return;
@@ -189,6 +190,28 @@ class Start {
         return;
       }
       ctx.result("join successfully");
+    });
+    
+    //get user group profile
+    app.post("/getusergroup", ctx -> {
+      String userId = ctx.queryParam("userId");
+      MysqlConnection conn = new MysqlConnection();
+      List<Map<String, String>> groupsByHost = conn.getGroupsByHost(userId);
+      List<Map<String, String>> groupsByMember = conn.getGroupsByMember(userId);
+      List<List<Map<String, String>>> result = new ArrayList<>();
+      result.add(groupsByHost);
+      result.add(groupsByMember);
+      Gson gson = new Gson();
+      ctx.result(gson.toJson(result));
+    });
+    
+    //get join message
+    app.post("/getjoinmessage", ctx -> {
+      String userId = ctx.queryParam("userId");
+      MysqlConnection conn = new MysqlConnection();
+      List<Map<String, List<String>>> messages = conn.getJoinMessages(userId);
+      Gson gson = new Gson();
+      ctx.result(gson.toJson(messages));
     });
     
     //Search Book
