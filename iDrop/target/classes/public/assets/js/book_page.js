@@ -81,33 +81,20 @@ document.addEventListener('DOMContentLoaded', function () {
         let reader_comment = form.reader_comment.value
 
         let param = '?userId='+userId+'&itemId='+itemId+'&rating='+reader_rate+'&comment='+reader_comment;
-        setTimeout(function(){ alert("rating submitted!"); }, 10);
-        document.querySelector('.bg-modal').style.display = 'none';
-        // ajax('POST', '/rating'+param, req,
-        //         // successful callback
-        //     function(res) {
-        //         console.log(res);
-        //         tempAlert("rating submitted", 2000);
-        //         document.querySelector('.bg-modal').style.display = 'none';
-        //     },
-        //     // failed callback
-        //     function() {
-        //         showErrorMessage('Cannot rate items.');
-        //     });
+        ajax('POST', '/rating'+param, req,
+                // successful callback
+            function(res) {
+                console.log(res);
+                setTimeout(function(){ alert("rating submitted!"); }, 10);
+                document.querySelector('.bg-modal').style.display = 'none';
+            },
+            // failed callback
+            function() {
+                showErrorMessage('Cannot rate items.');
+            });
     });
 });
 
-function tempAlert(msg,duration)
-{
-    console.log("pop");
-    var el = document.createElement("div");
-    el.setAttribute("style","position:absolute;top:40%;left:20%;background-color:white;");
-    el.innerHTML = msg;
-    document.body.appendChild(el);
-    setTimeout(function(){
-    el.parentNode.removeChild(el);
-    },duration);
-}
 /**
  * AJAX helper
  *

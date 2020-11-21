@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     form.submit.addEventListener('click', function () {
         let req = JSON.stringify({});
-        let param = '?userId='+userId+'bookName='+form.bookName.value+'&groupName='+form.groupName.value+
+        let param = '?userId='+11111+'&bookName='+form.bookName.value+'&groupName='+form.groupName.value+
         '&beginDate='+form.beginDate.value+'&groupSize='+form.beginDate.value+'&groupDescription='+
         form.groupDescription.value;
 
@@ -23,8 +23,10 @@ document.addEventListener('DOMContentLoaded', function () {
             // successful callback
             function(res) {
                 // var items = JSON.parse(res);
-                if(res === "sent"){
+                if(res === "group created"){
                     location.href='success.html';
+                } else {
+                    setTimeout(function(){ alert(res); }, 10);
                 }
             },
             // failed callback

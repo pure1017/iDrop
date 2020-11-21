@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     form.submit.addEventListener('click', function () {
         let req = JSON.stringify({});
-        let param = '?userId='+userId+'bookName='+form.bookName.value+'&groupName='+form.groupName.value+
+        let param = '?userId='+userId+'&bookName='+form.bookName.value+'&groupName='+form.groupName.value+
         '&joinMessage='+form.joinMessage.value;
         console.log(param);
         ajax('POST',
@@ -20,8 +20,10 @@ document.addEventListener('DOMContentLoaded', function () {
             // successful callback
             function(res) {
                 // var items = JSON.parse(res);
-                if(res === "sent"){
+                if(res === "join successfully"){
                     location.href='success.html';
+                } else {
+                    setTimeout(function(){ alert(res); }, 10);
                 }
             },
             // failed callback

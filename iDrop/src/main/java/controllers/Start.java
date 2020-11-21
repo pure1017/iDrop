@@ -152,7 +152,7 @@ class Start {
     
     //Host Group
     app.post("/hostGroup", ctx -> {
-      String hostId = ctx.queryParam("user_id");
+      String hostId = ctx.queryParam("userId");
       String bookName = ctx.queryParam("bookName");
       String groupName = ctx.queryParam("groupName");
       String beginDate = ctx.queryParam("beginDate");
