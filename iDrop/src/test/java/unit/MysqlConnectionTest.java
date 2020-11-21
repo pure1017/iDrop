@@ -89,14 +89,13 @@ public class MysqlConnectionTest {
    */
   @Test
   public void testSearchItems() {
-    
     MysqlConnection mc = new MysqlConnection();
     String title = "book1";  
     List<Item> items = mc.searchItems(title, "title");
     Item item = items.get(0);
     assertEquals("111", item.getItemId());
     assertEquals("book1", item.getTitle());
-    assertEquals("tianyi", item.getAuthor());
+    assertEquals("tingyi", item.getAuthor());
     
   }
   
@@ -106,6 +105,7 @@ public class MysqlConnectionTest {
   @Test
   public void testGetItemsOnCat() {
     String category = "female";
+    
     MysqlConnection mc = new MysqlConnection();
     Set<String> check = mc.getItemsOnCat(category);
     Set<String> sample = new HashSet<>();
@@ -142,7 +142,7 @@ public class MysqlConnectionTest {
     builder.setTitle("title");
     builder.setUrl("url");
     Item item = builder.build();
-    MysqlTableCreation.createTables();
+    
     MysqlConnection mc = new MysqlConnection();
     boolean check = mc.saveItem(item);
     assertEquals(true, check);

@@ -59,7 +59,7 @@ public class MysqlConnection {
     }
     PreparedStatement stmt = null;
     try {
-      String sql = "INSERT INTO history (user_id, item_id) VALUES (?, ?)";
+      String sql = "INSERT OR IGNORE INTO history (user_id, item_id) VALUES (?, ?)";
       //ignore checks primary key
       stmt = conn.prepareStatement(sql);
       for (String itemId : itemIds) {
@@ -280,8 +280,8 @@ public class MysqlConnection {
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, keyword);
       rs = stmt.executeQuery();
-      if (rs.wasNull()) {
-        rs.next();
+      if (rs.next()) {
+        System.out.println("Searching in DB");
         ItemBuilder builder = new ItemBuilder();
         String itemId = rs.getString("item_id");
         builder.setItemId(itemId);
@@ -299,7 +299,7 @@ public class MysqlConnection {
         rs.close();
         stmt.close();
       } else {
-        
+        System.out.println("Searching in OL");
         OpenLibraryApi ol = new OpenLibraryApi();
         items = ol.search(keyword, typeKey);
         for (Item item : items) {
@@ -325,8 +325,7 @@ public class MysqlConnection {
           e.printStackTrace();
         }
       }
-    }
-	
+    }	
     return items;
   }
 
@@ -342,7 +341,7 @@ public class MysqlConnection {
     PreparedStatement stmt = null;
 
     try {
-      String sql = "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?)";
+      String sql = "INSERT OR IGNORE INTO items VALUES (?, ?, ?, ?, ?, ?, ?)";
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, item.getItemId());
       stmt.setString(2, item.getTitle());
@@ -354,7 +353,7 @@ public class MysqlConnection {
       stmt.execute();
       stmt.close();
       
-      sql = "INSERT INTO categories VALUES (?, ?)";
+      sql = "INSERT OR IGNORE INTO categories VALUES (?, ?)";
       stmt = conn.prepareStatement(sql);
       for (String category : item.getCategories()) {
         stmt.setString(1, item.getItemId());
