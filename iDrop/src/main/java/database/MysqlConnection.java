@@ -268,11 +268,65 @@ public class MysqlConnection {
    */
   public List<Item> searchItems(String keyword, String typeKey) {
     // TODO Auto-generated method stub
-    OpenLibraryApi ol = new OpenLibraryApi();
-    List<Item> items = ol.search(keyword, typeKey);
-    for (Item item : items) {
-      saveItem(item);
+    if (conn == null) {
+      return null;
     }
+    List<Item> items = new ArrayList<>();
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    try {
+
+      String sql = "SELECT * FROM items WHERE title = ?";
+      stmt = conn.prepareStatement(sql);
+      stmt.setString(1, keyword);
+      rs = stmt.executeQuery();
+      if (rs.wasNull()) {
+        rs.next();
+        ItemBuilder builder = new ItemBuilder();
+        String itemId = rs.getString("item_id");
+        builder.setItemId(itemId);
+        builder.setTitle(rs.getString("title"));
+        builder.setAuthor(rs.getString("author"));
+        builder.setImageUrl(rs.getString("cover_url"));
+        builder.setUrl(rs.getString("url"));
+        if (rs.getString("description").length() < 250) {
+          builder.setDescribe(rs.getString("description"));
+        } else {
+          builder.setDescribe(rs.getString("description").substring(0, 250) + "...");
+        }
+        builder.setCategories(getCategories(itemId));
+        items.add(builder.build());
+        rs.close();
+        stmt.close();
+      } else {
+        
+        OpenLibraryApi ol = new OpenLibraryApi();
+        items = ol.search(keyword, typeKey);
+        for (Item item : items) {
+          saveItem(item);
+        }
+      }
+        
+
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          rs.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+	
     return items;
   }
 
@@ -286,6 +340,7 @@ public class MysqlConnection {
       return false;
     }
     PreparedStatement stmt = null;
+
     try {
       String sql = "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?)";
       stmt = conn.prepareStatement(sql);

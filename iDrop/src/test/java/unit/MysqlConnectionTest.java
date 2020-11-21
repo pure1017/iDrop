@@ -91,12 +91,12 @@ public class MysqlConnectionTest {
   public void testSearchItems() {
     
     MysqlConnection mc = new MysqlConnection();
-    String title = "the lord of rings";  
+    String title = "book1";  
     List<Item> items = mc.searchItems(title, "title");
     Item item = items.get(0);
-    assertEquals("/works/OL27448W", item.getItemId());
-    assertEquals("The Lord of the Rings", item.getTitle());
-    assertEquals("J.R.R. Tolkien", item.getAuthor());
+    assertEquals("111", item.getItemId());
+    assertEquals("book1", item.getTitle());
+    assertEquals("tianyi", item.getAuthor());
     
   }
   

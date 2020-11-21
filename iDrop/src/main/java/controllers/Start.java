@@ -223,8 +223,8 @@ class Start {
     app.post("/search", ctx -> {
       String bookName = ctx.queryParam("bookName");
       System.out.println(bookName);
-      OpenLibraryApi olApi = new OpenLibraryApi();
-      List<Item> items = olApi.search(bookName, "title");
+      MysqlConnection conn = new MysqlConnection();
+      List<Item> items = conn.searchItems(bookName, "title");
       // to get JSON version of items
       JSONObject obj = new JSONObject();
       try {
