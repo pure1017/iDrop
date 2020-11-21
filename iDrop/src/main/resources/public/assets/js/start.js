@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 for (let i = 0; i < bookName_recommend_tmp.length; i++) {
                     var div_recommend = document.getElementById("recommend"+(1+i));
+                    div_recommend.innerHTML = "";
                     div_recommend.innerHTML = '<img src='+ cover_recommend_tmp[i] +' class="testimonial-img" alt="">\n' +
                         '              <h3>'+ bookName_recommend_tmp[i] +'</h3>\n' +
                         '              <h4>'+ author_recommend_tmp[i] +'</h4>\n' +
