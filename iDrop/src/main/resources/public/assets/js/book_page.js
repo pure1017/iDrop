@@ -80,12 +80,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         let reader_comment = form.reader_comment.value
 
-        let param = '?userId='+userId+'&itemId='+itemId+'&rating='+reader_rate+'&comment='+reader_comment;
+        let param = '?userId='+userId+'&itemId='+itemId+'&rating='+reader_rate+'&comment='+reader_comment+'&time='+Date.now();
         ajax('POST', '/rating'+param, req,
-                // successful callback
+            // successful callback
             function(res) {
                 if (res === "book rated") {
-                    console.log(res);
                     setTimeout(function () {
                         alert("rating submitted!");
                     }, 10);
@@ -101,6 +100,38 @@ document.addEventListener('DOMContentLoaded', function () {
                 showErrorMessage('Cannot rate items.');
             });
     });
+
+    //get user rating and comments
+    let req = JSON.stringify({});
+    let param = "?itemId="+itemId;
+    ajax('GET', '/getrating'+param, req,
+        // successful callback
+        function(res) {
+            let comment_HTML = ''
+            const div_comment = document.getElementById("comment_list");
+            div_comment.innerHTML = '';
+            if (res !== "input error") {
+                var items = JSON.parse(res);
+                for (let item in items) {
+                    var rating = items[item][1];
+                    var comment = items[item][2];
+                    var time = items[item][3];
+                    comment_HTML += '<hr style="filter: alpha(opacity=80,finishOpacity=30,style=1)" width="80%" color=lightgray size=3>\n' +
+                        '          <div style="clear: left;">\n' +
+                        '            <p style="float: left;"><img src="assets/img/user_icon.jpg" height="100px" width="100px" border="1px" style="margin-right: 20px"></p>\n' +
+                        '            <p>Rating: '+ time +'</p>\n' +
+                        '            <p>Rating: '+ rating +'</p>\n' +
+                        '            <p>Comment: '+ comment +'</p>\n' +
+                        '          </div>'
+                }
+            }
+            div_comment.innerHTML = comment_HTML;
+        },
+        // failed callback
+        function() {
+            showErrorMessage('Cannot rate items.');
+        });
+
 });
 
 /**
