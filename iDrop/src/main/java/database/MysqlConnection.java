@@ -662,29 +662,45 @@ public class MysqlConnection {
    * @param userId .
    * @return
    */
-  public List<Map<String, List<String>>> getJoinMessages(String userId) {
+  public List<Map<String, Map<String, Map<String, String>>>> getJoinMessages(String userId) {
     if (conn == null) {
       return null;
     }
     PreparedStatement stmt = null;
     ResultSet rs = null;
-    List<Map<String, List<String>>> result = new ArrayList<>();
+    List<Map<String, Map<String, Map<String, String>>>> result = new ArrayList<>();
     try {
       String sql = "SELECT * FROM groups WHERE host = ?";
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, userId);
       rs = stmt.executeQuery();
       while (rs.next()) {
-        List<String> messages = new ArrayList<>();
-        messages.add(rs.getString("message_1"));
-        messages.add(rs.getString("message_2"));
-        messages.add(rs.getString("message_3"));
-        messages.add(rs.getString("message_4"));
+        List<Map<String, String>> mapList = new ArrayList<>();
         
-        String group = rs.getString("group_name");
-        Map<String, List<String>> map = new HashMap<>();
-        map.put(group, messages);
-        result.add(map);
+        Map<String, Map<String, String>> mapmap = new HashMap<>();
+        Map<String, String> map1 = new HashMap<>();
+        map1.put("userId", rs.getString("member_1"));
+        map1.put("message", rs.getString("message_1"));
+        mapmap.put("joinmessage1", map1);
+        
+        Map<String, String> map2 = new HashMap<>();
+        map2.put("userId", rs.getString("member_2"));
+        map2.put("message", rs.getString("message_2"));
+        mapmap.put("joinmessage2", map2);
+        
+        Map<String, String> map3 = new HashMap<>();
+        map3.put("userId", rs.getString("member_3"));
+        map3.put("message", rs.getString("message_3"));
+        mapmap.put("joinmessage3", map3);
+        
+        Map<String, String> map4 = new HashMap<>();
+        map4.put("userId", rs.getString("member_4"));
+        map4.put("message", rs.getString("message_4"));
+        mapmap.put("joinmessage4", map4);
+        
+        Map<String, Map<String, Map<String, String>>> mapmapmap = new HashMap<>();
+        mapmapmap.put(rs.getString("group_name"), mapmap);
+        result.add(mapmapmap);
       }
       stmt.close();
       rs.close();

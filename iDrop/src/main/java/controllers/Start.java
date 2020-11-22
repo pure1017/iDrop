@@ -214,7 +214,7 @@ class Start {
       //http://localhost:8080/getjoinmessage?userId=11111
       String userId = ctx.queryParam("userId");
       MysqlConnection conn = new MysqlConnection();
-      List<Map<String, List<String>>> messages = conn.getJoinMessages(userId);
+      List<Map<String, Map<String, Map<String, String>>>> messages = conn.getJoinMessages(userId);
       Gson gson = new Gson();
       ctx.result(gson.toJson(messages));
     });
