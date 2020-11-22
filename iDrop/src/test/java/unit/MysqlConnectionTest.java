@@ -138,10 +138,18 @@ public class MysqlConnectionTest {
   @Order(9)
   public void testGetItemsOnIds() {
     Set<String> itemIds = new HashSet<String>();
-    itemIds.add("1111");
+    itemIds.add("222");
     MysqlConnection mc = new MysqlConnection();
     Set<Item> check = mc.getItemsOnIds(itemIds);
-    assertEquals(HashSet.class, check.getClass());
+    for (Item ck : check) {
+      assertEquals("miao", ck.getAuthor());
+      assertEquals("222", ck.getItemId());
+      assertEquals("book2", ck.getTitle());
+      assertEquals("some description", ck.getDescribe());
+      assertEquals("image url", ck.getImageUrl());
+      assertEquals("url", ck.getUrl());
+    }
+    
   }
   
   /**
@@ -171,7 +179,7 @@ public class MysqlConnectionTest {
   @Order(11)
   public void testRatingBook() {
     MysqlConnection mc = new MysqlConnection();
-    float rating = (float) 1.5;
+    float rating = (float) 4.5;
     boolean check = mc.ratingBook("44444", "333", "2020-11-12", rating, "Good");
     assertEquals(true, check);
     Connection conn = null;
@@ -191,7 +199,7 @@ public class MysqlConnectionTest {
       String sql = "SELECT * FROM items where item_id = '333'";
       ResultSet rs = stmt.executeQuery(sql);
       if (rs.next()) {
-        assertEquals(3.0, rs.getFloat("rating"));
+        assertEquals(4.5, rs.getFloat("rating"));
       }
       rs.close();
 
@@ -225,6 +233,21 @@ public class MysqlConnectionTest {
     assertEquals(rc.get(0).get(0), "44444");
     assertEquals(rc.get(0).get(1), "4.5");
     assertEquals(rc.get(0).get(2), "comment1");
+  }
+  
+  // This is to test handleJoinRequests
+  @Test
+  @Order(13)
+  public void testHandleJoinRequests() {
+    MysqlConnection mc = new MysqlConnection();
+    String userId1 = "miao";
+    String userId2 = "liu";
+    String groupName1 = "'group2'";
+    String groupName2 = "'group3'";
+    boolean check1 = mc.handleJoinRequests(userId1, groupName1);
+    boolean check2 = mc.handleJoinRequests(userId2, groupName2);
+    assertEquals(false, check1);
+    assertEquals(true, check2);
   }
 }
 

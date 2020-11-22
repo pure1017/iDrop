@@ -221,7 +221,7 @@ public class MysqlTableCreation {
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       
-      sql = "INSERT INTO items VALUES ('222', 'book2', 'miao', 2.0, "
+      sql = "INSERT INTO items VALUES ('222', 'book2', 'miao', 0.0, "
               + "'some description', 'image url', 'url')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
