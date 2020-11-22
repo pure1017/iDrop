@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         let reader_comment = form.reader_comment.value
 
-        let param = '?userId='+userId+'&itemId='+itemId+'&rating='+reader_rate+'&comment='+reader_comment+'&time='+Date.now();
+        let param = '?userId='+userId+'&itemId='+itemId+'&rating='+reader_rate+'&comment='+reader_comment+'&time='+formatDateTime(Date.now());
         ajax('POST', '/rating'+param, req,
             // successful callback
             function(res) {
@@ -179,3 +179,20 @@ function ajax(method, url, data, callback, errorHandler) {
 }
 
 module.exports = ajax;
+
+function formatDateTime(timeStamp) {
+    var date = new Date();
+    date.setTime(timeStamp);
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    m = m < 10 ? ('0' + m) : m;
+    var d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    var h = date.getHours();
+    h = h < 10 ? ('0' + h) : h;
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10 ? ('0' + minute) : minute;
+    second = second < 10 ? ('0' + second) : second;
+    return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+}

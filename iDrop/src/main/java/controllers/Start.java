@@ -246,6 +246,7 @@ class Start {
     app.post("/rating", ctx -> {
       String userId = ctx.queryParam("userId");
       String itemId = ctx.queryParam("itemId");
+      String time = ctx.queryParam("time");
       float rating = Float.parseFloat(ctx.queryParam("rating"));
       String comment = ctx.queryParam("comment");
       if (userId == null || itemId == null || rating == 0.0) {
@@ -253,13 +254,14 @@ class Start {
         return;
       }
       MysqlConnection conn = new MysqlConnection();
-      conn.ratingBook(userId, itemId, rating, comment);
+      conn.ratingBook(userId, itemId, time, rating, comment);
       conn.close();
       ctx.result("book rated");
     });
     
     //get ratings
     app.get("/getrating", ctx -> {
+      //http://localhost:8080/getrating?itemId=333
       String itemId = ctx.queryParam("itemId");
       if (itemId == null) {
         ctx.result("input error");

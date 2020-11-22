@@ -789,20 +789,22 @@ public class MysqlConnection {
   /**
    * This is to insert book rating into table ratings. 
    */
-  public boolean ratingBook(String userId, String itemId, float rating, String comment) {
+  public boolean ratingBook(String userId, String itemId, 
+      String time, float rating, String comment) {
     if (conn == null) {
       return false;
     }
     PreparedStatement stmt = null;
     PreparedStatement ps = null;
     try {
-      String sqlInsert = "INSERT INTO ratings (user_id, item_id, rating, comment)"
-          + " VALUES (?, ?, ?, ?)";
+      String sqlInsert = "INSERT INTO ratings (user_id, item_id, time, rating, comment)"
+          + " VALUES (?, ?, ?, ?, ?)";
       stmt = conn.prepareStatement(sqlInsert);
       stmt.setString(1, userId);
       stmt.setString(2, itemId);
-      stmt.setFloat(3, rating);
-      stmt.setString(4, comment);
+      stmt.setString(3, time);
+      stmt.setFloat(4, rating);
+      stmt.setString(5, comment);
       String sqlUpdate = "UPDATE items SET rating = (SELECT AVG(rating) AS avg_rating "
           + "FROM ratings GROUP BY item_id HAVING item_id = ?) WHERE item_id = ?";
       ps = conn.prepareStatement(sqlUpdate);
@@ -845,6 +847,7 @@ public class MysqlConnection {
         row.add(rs.getString("user_id"));
         row.add(Float.toString(rs.getFloat("rating")));
         row.add(rs.getString("comment"));
+        row.add(rs.getString("time"));
         result.add(row);
       }
     } catch (SQLException e) {
