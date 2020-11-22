@@ -51,6 +51,7 @@ public class BookRecommend {
     // distance
     Set<String> visitedItems = new HashSet<>();
     Entry<String, Integer> category = categoryList.get(0);
+    System.out.println(category.getKey());
     Set<String> itemList = conn.getItemsOnCat(category.getKey());
     List<String> filteredItemids = new ArrayList<>();
       

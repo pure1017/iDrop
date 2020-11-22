@@ -388,7 +388,7 @@ public class MysqlConnection {
     try {
       String sql = "SELECT items.item_id from items inner join categories "
           + "ON categories.item_id = items.item_id"
-          + " WHERE categories.category = ? ORDER BY items.rating DESC LIMIT 5";
+          + " WHERE categories.category = ? ORDER BY items.rating DESC LIMIT 10";
       statement = conn.prepareStatement(sql);
       statement.setString(1, category);
       rs = statement.executeQuery();

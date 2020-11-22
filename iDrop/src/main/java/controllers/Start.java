@@ -143,9 +143,13 @@ class Start {
       String userId = ctx.queryParam("userId");
       Set<Item> items = BookRecommend.recommendItems(userId);
       JSONArray arr = new JSONArray();
-      
+      int count = 0;
       for (Item item : items) {
         JSONObject obj = item.toJsonObject();
+        if (count >= 5) {
+          break;
+        }
+        count = count + 1;
         arr.put(obj);
       }
       Gson gson = new Gson();
