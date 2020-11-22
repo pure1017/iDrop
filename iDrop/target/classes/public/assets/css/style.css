@@ -1557,7 +1557,7 @@ section {
 .application_list_content {
   display: flex;
   padding: 10px;
-  width: 30%;
+  width: 40px;
 }
 
 .application_list_btn{

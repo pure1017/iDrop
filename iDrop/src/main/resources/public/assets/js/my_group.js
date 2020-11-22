@@ -47,30 +47,110 @@ document.addEventListener('DOMContentLoaded', function () {
         req,
         function (res) {
             var items = JSON.parse(res);
-            var application_HTML = '';
-            const div_application_container = document.getElementById("application_container");
-            div_application_container.innerHTML = '';
+
+            var group_list = [];
+            var user_list = [];
+            var message_list = [];
             for (let item in items) {
                 var group_name = Object.keys(items[item])[0];
-                for (let m in items[item][group_name]) {
-                    if (items[item][group_name][m] !== null) {
-                        application_HTML += '<div style="clear: left;">\n' +
-                            '              <p style="float: left;"><img src="assets/img/application_form.jpg" height="200px" width="180px" border="1px" style="margin-right: 20px"></p>\n' +
-                            '              <p>Group Name: '+ group_name +'</p>\n' +
-                            '              <p>Apply Message: '+ items[item][group_name][m] +'</p>\n' +
-                            '              <div class="application_list_content"><button class="application_list_btn" id="pass" type="submit"><i class="fa fa-check"></i></button></div>\n' +
-                            '              <div class="application_list_content"><button class="application_list_btn" id="fail" type="submit"><i class="fa fa-times"></i></button></div>\n' +
-                            '            </div>'
+                for (let m in Object.keys(items[item][group_name])) {
+                    var message_name = Object.keys(items[item][group_name])[m]
+                    if (items[item][group_name][message_name]["message"]) {
+                        var message = items[item][group_name][message_name]["message"];
+                        var user = items[item][group_name][message_name]["userId"];
+                        group_list.push(group_name);
+                        user_list.push(user);
+                        message_list.push(message);
                     }
                 }
             }
-            div_application_container.innerHTML = application_HTML;
+            sessionStorage.setItem("group_list", JSON.stringify(group_list));
+            sessionStorage.setItem("user_list", JSON.stringify(user_list));
+            sessionStorage.setItem("message_list", JSON.stringify(message_list));
         },
         // failed callback
         function() {
             showErrorMessage('Cannot submit items.');
         });
+    var retrievedData1 = sessionStorage.getItem("group_list");
+    var group_list = JSON.parse(retrievedData1);
+    var retrievedData2 = sessionStorage.getItem("user_list");
+    var user_list = JSON.parse(retrievedData2);
+    var retrievedData3 = sessionStorage.getItem("message_list");
+    var message_list = JSON.parse(retrievedData3);
 
+    var application_HTML = '';
+    const div_application_container = document.getElementById("application_container");
+    div_application_container.innerHTML = '';
+    for (let i = 0; i < group_list.length; i++) {
+        application_HTML += '<div style="clear: left;">\n' +
+            '              <p style="float: left;"><img src="assets/img/application_form.jpg" height="200px" width="180px" border="1px" style="margin-right: 20px"></p>\n' +
+            '              <p>Group Name: '+ group_list[i] +'</p>\n' +
+            '              <p>Apply Message: '+ message_list[i] +'</p>\n' +
+            '              <div class="application_list_content"><button class="application_list_btn" id="p'+ user_list[i] + group_list[i] +'" type="submit"><i class="fa fa-check"></i></button></div>\n' +
+            '              <div class="application_list_content"><button class="application_list_btn" id="f'+ user_list[i] + group_list[i] +'" type="submit"><i class="fa fa-times"></i></button></div>\n' +
+            '            </div>'
+    }
+    div_application_container.innerHTML = application_HTML;
+
+    for (let i = 0; i < group_list.length; i++) {
+        (function (){
+            var group_name = group_list[i];
+            var user_id = user_list[i];
+            var click_flag = false;
+            document.getElementById('p'+user_id+group_name).addEventListener('click', function (){
+                if (click_flag === false) {
+                    click_flag = true;
+                    console.log("pass click");
+                    document.querySelector('#p' + user_id + group_name + ' i').style.color = '#ffc700';
+                    document.getElementById("p" + user_id + group_name).style.cursor = 'auto';
+                    document.getElementById("f" + user_id + group_name).style.cursor = 'auto';
+                    let param = '?hostId='+userId+'&applicantId='+user_id+'&groupName='+group_name+'&add=true';
+                    let req = JSON.stringify({});
+                    ajax('POST', '/handleapplication'+param, req,
+                        function (res){
+                            if (res === "add success") {
+                                setTimeout(function () {
+                                    alert("add member successfully!");
+                                }, 10);
+                            } else {
+                                setTimeout(function () {
+                                    alert(res);
+                                }, 10);
+                            }
+                        },
+                        // failed callback
+                        function() {
+                            showErrorMessage('Cannot submit items.');
+                        });
+                }
+            });
+
+            document.getElementById('f'+user_id+group_name).addEventListener('click', function (){
+                if (click_flag === false) {
+                    click_flag = true;
+                    console.log("fail click");
+                    document.querySelector('#f' + user_id + group_name + ' i').style.color = '#ffc700';
+                    document.getElementById("f" + user_id + group_name).style.cursor = 'auto';
+                    document.getElementById("p" + user_id + group_name).style.cursor = 'auto';
+                    let param = '?hostId='+userId+'&applicantId='+user_id+'&groupName='+group_name+'&add=false';
+                    let req = JSON.stringify({});
+                    ajax('POST', '/handleapplication'+param, req,
+                        function (res){
+                            if (res === "reject success") {
+                                setTimeout(function () {
+                                    alert("reject member successfully!");
+                                }, 10);
+                            }
+                        },
+                        // failed callback
+                        function() {
+                            showErrorMessage('Cannot submit items.');
+                        });
+                }
+            });
+        })();
+    }
 });
 
 /**
