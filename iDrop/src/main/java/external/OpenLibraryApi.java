@@ -188,7 +188,7 @@ public class OpenLibraryApi {
       ItemBuilder builder = new ItemBuilder();
       
       if (!doc.isNull("key")) {
-        builder.setItemId(doc.getString("key"));
+        builder.setItemId(doc.getString("key").replaceAll("/", ""));
         String url = String.format("https://openlibrary.org%s.json", doc.getString("key"));
         builder.setUrl(url);
       }

@@ -322,7 +322,7 @@ public class MysqlConnection {
           e.printStackTrace();
         }
       }
-    }	
+    }
     return items;
   }
 
@@ -839,8 +839,9 @@ public class MysqlConnection {
     ResultSet rs = null;
     List<List<String>> result = new ArrayList<>();
     try {
-      String sql = String.format("SELECT * FROM ratings WHERE item_id = %s", itemId);
+      String sql = "SELECT * FROM ratings WHERE item_id = ?";
       stmt = conn.prepareStatement(sql);
+      stmt.setString(1, itemId);
       rs = stmt.executeQuery();
       while (rs.next()) {
         List<String> row = new ArrayList<>();
