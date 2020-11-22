@@ -178,7 +178,7 @@ function ajax(method, url, data, callback, errorHandler) {
     return result;
 }
 
-module.exports = ajax;
+exports.method = ajax;
 
 function formatDateTime(timeStamp) {
     var date = new Date();
@@ -196,3 +196,5 @@ function formatDateTime(timeStamp) {
     second = second < 10 ? ('0' + second) : second;
     return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
 }
+
+exports.otherMethod = formatDateTime;

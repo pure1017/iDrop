@@ -26,12 +26,17 @@ test('click reader_submit_btn', () => {
   expect(mockFn).toBeCalled();
 });
 
+const myModule = require('../js/book_page');
 test('ajax function', () => {
-  const ajax_func = require('../js/book_page');
-  var result = ajax_func('POST', '/', {}, function(res) {
+  var result = myModule.method('POST', '/', {}, function(res) {
                 console.log(res);
             }, function() {
                 showErrorMessage('error occurs.');
             });
   expect(result).toBe("");
+});
+
+test('ajax function', () => {
+  var result = myModule.otherMethod(1606039684483);
+  expect(result).toBe("2020-11-22 18:08:04");
 });
