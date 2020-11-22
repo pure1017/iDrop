@@ -63,50 +63,14 @@ public class GoogleApiLogin {
     GoogleIdToken.Payload payload = idToken.getPayload();
     String userId = payload.getSubject();  // Use this value as a key to identify a user.
     String email = payload.getEmail();
-    //boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-    //String name = (String) payload.get("name");
-    //String pictureUrl = (String) payload.get("picture");
-    //String locale = (String) payload.get("locale");
     String familyName = (String) payload.get("family_name");
     String givenName = (String) payload.get("given_name");
-
-    //make some preparation for google api
-    //HttpTransport transport = new NetHttpTransport();
-    //JsonFactory jsonFactory = new GsonFactory();
-    //String clientId = "some id";
-    //GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-    //     Specify the CLIENT_ID of the app that accesses the backend:
-    //    .setAudience(Collections.singletonList(clientId))
-    //    .build();
-
-    // (Receive idTokenString by HTTPS POST)
-    //GoogleIdToken idToken = null;
-    //try {
-    //  idToken = verifier.verify(idTokenString);
-    //} catch (GeneralSecurityException | IOException e) {
-    //  // TODO Auto-generated catch block
-    //  e.printStackTrace();
-    //}
-    
-    //take useful data from token
-    //if (idToken == null) {
-    //  System.out.println("Invalid ID token.");
-    //  return;
-    //}
-    //Payload payload = idToken.getPayload();
-    
-    // Print user identifier
-    //String userId = payload.getSubject();
-    //System.out.println("User ID: " + userId);
-
     
     //set data to database
     Connection conn = null;
     Statement stmt = null;
     ResultSet rs = null;
     try {
-      // This is java.sql.Connection. Not com.mysql.jdbc.Connection.
-
       // Step 1 Connect to MySQL.
       try {
         System.out.println("Connecting to jdbc:sqlite:ase.db");
@@ -124,6 +88,9 @@ public class GoogleApiLogin {
       String sql = String.format("SELECT user_id from users where user_id = %s", userId);
       rs = stmt.executeQuery(sql);
       //if the user do not exits, rs.next() return false.
+      if (rs.next() == true) {
+        return userId;
+      }
       if (!rs.next()) {
         sql = String.format("INSERT INTO users (user_id,email,first_name,last_name)"
           + "VALUES ('%s', '%s', '%s', '%s')", userId, email, givenName, familyName);
