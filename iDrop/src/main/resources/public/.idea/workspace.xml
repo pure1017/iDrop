@@ -4,13 +4,10 @@
     <list default="true" id="08a6b24c-2a41-4dfb-bdc2-af3a0a53f87e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../../../../ase.db" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../ase.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/book_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/book_page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/start.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/start.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start.html" beforeDir="false" afterPath="$PROJECT_DIR$/start.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/book_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/book_page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/googleSignin.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/googleSignin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/hostGroup_submit.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/hostGroup_submit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/joinGroup_submit.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/joinGroup_submit.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/start.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/start.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
