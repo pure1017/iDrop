@@ -521,7 +521,7 @@ public class MysqlConnection {
   }
   
   /**
-   * This is to get a list of groups which the user is the host.
+   * This is to get a list of groups where the user is the host.
    * @param userId .
    * @return
    */
@@ -867,4 +867,61 @@ public class MysqlConnection {
     }
     return result;
   }
+  
+  /**
+   * This is to handle joining group requests.
+   */
+  public boolean handleJoinRequests(String applicantId, String groupName) {
+    if (conn == null) {
+      return false;
+    }
+    boolean add = true;
+    PreparedStatement stmt = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    try {
+      String sql = String.format("SELECT current_size, group_size FROM groups "
+          + "WHERE group_name = %s", groupName);
+      stmt = conn.prepareStatement(sql);
+      rs = stmt.executeQuery();
+      int currentSize = Integer.parseInt(rs.getString("current_size"));
+      int groupSize = Integer.parseInt(rs.getString("group_size"));
+      if (currentSize < groupSize) {
+        String s = Integer.toString(currentSize);
+        currentSize = currentSize + 1;
+        String sqlUpdate = "UPDATE groups SET member_" + s 
+            + " = ?, currentSize = ?  WHERE group_name = ?";
+        ps = conn.prepareStatement(sqlUpdate);
+        ps.setString(1, applicantId);
+        ps.setInt(2, currentSize);
+        ps.setString(3, groupName);
+        ps.execute();
+        ps.close();
+        add = true;
+      } else {
+        add = false;
+      }
+      
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return add;
+  }
+  
+  
 }

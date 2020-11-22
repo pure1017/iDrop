@@ -271,6 +271,26 @@ class Start {
       Gson gson = new Gson();
       ctx.result(gson.toJson(result));
     }); 
+    
+    // handle join group requests
+    app.post("/handleapplication", ctx -> {
+      // String hostId = ctx.queryParam("hostId");
+      
+      String applicantId = ctx.queryParam("applicantId");
+      String groupName = ctx.queryParam("groupName");
+      if (applicantId == null || groupName == null) {
+        ctx.result("input error");
+      }
+      MysqlConnection conn = new MysqlConnection();
+      boolean add = conn.handleJoinRequests(applicantId, groupName);
+      conn.close();
+      if (add) {
+        ctx.result("add success");
+      } else {
+        ctx.result("reject success");
+      }
+      
+    });
   }
   
   /** Send message to all players.

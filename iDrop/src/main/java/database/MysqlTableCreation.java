@@ -109,7 +109,7 @@ public class MysqlTableCreation {
         + "message_3 VARCHAR(255),"
         + "member_4 VARCHAR(255),"
         + "message_4 VARCHAR(255),"
-        + "current_size INT NOT NULL,"
+        + "current_size INT NOT NULL DEFAULT 1,"
         + "PRIMARY KEY (group_id),"
         + "FOREIGN KEY (host) REFERENCES users(user_id),"
         + "FOREIGN KEY (member_1) REFERENCES users(user_id),"
@@ -273,21 +273,21 @@ public class MysqlTableCreation {
       sql = "INSERT INTO groups (group_id, group_name, book_name, host, begin_date,"
          + "group_size, group_description, member_1, message_1, current_size) "
          + "VALUES (1, 'group1', 'book1', '11111', '2020', "
-         + "5, 'description1', '22222', 'message1', 1)";
+         + "5, 'description1', '22222', 'message1', 2)";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
 
       sql = "INSERT INTO groups (group_id, group_name, book_name, host, begin_date,"
          + "group_size, group_description, member_1, message_1, member_2, message_2, current_size) "
          + "VALUES (2, 'group2', 'book2', '11111', '2020', "
-         + "5, 'description1', '33333', 'message1', '44444', 'message2', 2)";
+         + "5, 'description1', '33333', 'message1', '44444', 'message2', 3)";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       
       sql = "INSERT INTO groups (group_id, group_name, book_name, host, begin_date,"
          + "group_size, group_description, member_1, message_1, member_2, message_2, current_size) "
          + "VALUES (3, 'group3', 'book3', '22222', '2020', "
-         + "5, 'description1', '11111', 'message1', '33333', 'message2', 2)";
+         + "5, 'description1', '11111', 'message1', '33333', 'message2', 3)";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       
