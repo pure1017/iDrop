@@ -418,6 +418,69 @@ public class MysqlConnection {
     return itemList;
   }
   
+  
+  
+  /**
+   * This is to get items based on item ids. 
+   * @param itemIds the item ids
+   * @return the items
+   */
+  public Set<Item> getItemsOnIds(Set<String> itemIds) {
+    // TODO Auto-generated method stub
+    if (conn == null) {
+      return new HashSet<>();
+    }
+
+    Set<Item> recomdItems = new HashSet<>();
+    //Set<String> itemIds = getFavoriteItemIds(userId);
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    try {
+      String sql = "SELECT * FROM items WHERE item_id = ?";
+      stmt = conn.prepareStatement(sql);
+      for (String itemId : itemIds) {
+        stmt.setString(1, itemId);
+        rs = stmt.executeQuery();
+
+        ItemBuilder builder = new ItemBuilder();
+
+        while (rs.next()) {
+          builder.setItemId(rs.getString("item_id"));
+          builder.setTitle(rs.getString("title"));
+          builder.setAuthor(rs.getString("author"));
+          builder.setImageUrl(rs.getString("cover_url"));
+          builder.setUrl(rs.getString("url"));
+          if (rs.getString("description").length() < 250) {
+            builder.setDescribe(rs.getString("description"));
+          } else {
+            builder.setDescribe(rs.getString("description").substring(0, 250) + "...");
+          }
+          builder.setCategories(getCategories(itemId));
+          recomdItems.add(builder.build());
+        }
+      }
+      stmt.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          rs.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return recomdItems;
+  }
+  
   /**
    * This is to create a group.
    * @param hostId .
@@ -480,12 +543,10 @@ public class MysqlConnection {
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, groupName);
       rs = stmt.executeQuery();
-      rs.next();
-      String name = rs.getString("group_name");
-      int currentSize = rs.getInt("current_size");
-      if (name == null || !name.equals(groupName)) {
+      if (rs.next() == false) {
         return 1;
       }
+      int currentSize = rs.getInt("current_size");
       if (currentSize == 4) {
         return 2;
       }
@@ -723,68 +784,7 @@ public class MysqlConnection {
   }
   
   
-  
-  
-  /**
-   * This is to get items based on item ids. 
-   * @param itemIds the item ids
-   * @return the items
-   */
-  public Set<Item> getItemsOnIds(Set<String> itemIds) {
-    // TODO Auto-generated method stub
-    if (conn == null) {
-      return new HashSet<>();
-    }
 
-    Set<Item> recomdItems = new HashSet<>();
-    //Set<String> itemIds = getFavoriteItemIds(userId);
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-    try {
-      String sql = "SELECT * FROM items WHERE item_id = ?";
-      stmt = conn.prepareStatement(sql);
-      for (String itemId : itemIds) {
-        stmt.setString(1, itemId);
-        rs = stmt.executeQuery();
-
-        ItemBuilder builder = new ItemBuilder();
-
-        while (rs.next()) {
-          builder.setItemId(rs.getString("item_id"));
-          builder.setTitle(rs.getString("title"));
-          builder.setAuthor(rs.getString("author"));
-          builder.setImageUrl(rs.getString("cover_url"));
-          builder.setUrl(rs.getString("url"));
-          if (rs.getString("description").length() < 250) {
-            builder.setDescribe(rs.getString("description"));
-          } else {
-            builder.setDescribe(rs.getString("description").substring(0, 250) + "...");
-          }
-          builder.setCategories(getCategories(itemId));
-          recomdItems.add(builder.build());
-        }
-      }
-      stmt.close();
-    } catch (SQLException e) {
-      e.printStackTrace();
-    } finally {
-      if (stmt != null) {
-        try {
-          stmt.close();
-        } catch (SQLException e) {
-          e.printStackTrace();
-        }
-      }
-      if (rs != null) {
-        try {
-          rs.close();
-        } catch (SQLException e) {
-          e.printStackTrace();
-        }
-      }
-    }
-    return recomdItems;
-  }
   
   /**
    * This is to insert book rating into table ratings. 
