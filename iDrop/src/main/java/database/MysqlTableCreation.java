@@ -281,7 +281,8 @@ public class MysqlTableCreation {
       sql = "INSERT INTO groups (group_id, group_name, book_name, host, begin_date,"
          + "group_size, group_description, member_1, message_1, member_2, message_2, current_size) "
          + "VALUES (2, 'group2', 'book2', '11111', '2020', "
-         + "5, 'description1', '33333', 'message1', '44444', 'message2', 3)";
+         + "5, 'description1', '33333', 'message1', '44444', 'message2', 10)"; 
+      // when current size is large
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       

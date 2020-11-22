@@ -277,16 +277,21 @@ class Start {
     // handle join group requests
     app.post("/handleapplication", ctx -> {
       // String hostId = ctx.queryParam("hostId");
-      
       String applicantId = ctx.queryParam("applicantId");
       String groupName = ctx.queryParam("groupName");
+      boolean add = Boolean.parseBoolean(ctx.queryParam("add"));
       if (applicantId == null || groupName == null) {
         ctx.result("input error");
+        return;
+      }
+      if (add == false) {
+        ctx.result("reject success");
+        return;
       }
       MysqlConnection conn = new MysqlConnection();
-      boolean add = conn.handleJoinRequests(applicantId, groupName);
+      boolean isAvailable = conn.handleJoinRequests(applicantId, groupName);
       conn.close();
-      if (add) {
+      if (isAvailable) {
         ctx.result("add success");
       } else {
         ctx.result("reject success");

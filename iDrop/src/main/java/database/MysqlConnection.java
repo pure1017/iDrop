@@ -878,7 +878,7 @@ public class MysqlConnection {
     if (conn == null) {
       return false;
     }
-    boolean add = true;
+    boolean add = false;
     PreparedStatement stmt = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
@@ -893,7 +893,7 @@ public class MysqlConnection {
         String s = Integer.toString(currentSize);
         currentSize = currentSize + 1;
         String sqlUpdate = "UPDATE groups SET member_" + s 
-            + " = ?, currentSize = ?  WHERE group_name = ?";
+            + " = ?, current_size = ?  WHERE group_name = ?";
         ps = conn.prepareStatement(sqlUpdate);
         ps.setString(1, applicantId);
         ps.setInt(2, currentSize);
