@@ -302,9 +302,6 @@ public class MysqlConnection {
         System.out.println("Searching in OL");
         OpenLibraryApi ol = new OpenLibraryApi();
         items = ol.search(keyword, typeKey);
-        for (Item item : items) {
-          saveItem(item);
-        }
       }
         
 
