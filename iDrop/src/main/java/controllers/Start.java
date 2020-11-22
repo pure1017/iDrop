@@ -134,6 +134,7 @@ class Start {
       MysqlConnection conn = new MysqlConnection();
       conn.unsetFavoriteItems(userId, itemIds);
       conn.close();
+      
       ctx.result("unset favorite item successfully");
     });
     

@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById("book_cover").src = '';
+
     var bookName = sessionStorage.getItem("bookName");
     var bookCover = sessionStorage.getItem("bookCover");
     var rate = sessionStorage.getItem("rate");

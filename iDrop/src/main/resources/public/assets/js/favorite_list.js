@@ -7,7 +7,6 @@ cover_favorite_tmp = JSON.parse(retrievedData3);
 const retrievedData4 = sessionStorage.getItem("itemId_favorite_tmp");
 itemId_favorite_tmp = JSON.parse(retrievedData4);
 let userId = sessionStorage.getItem("userId");
-userId = 11111;
 
 document.addEventListener('DOMContentLoaded', function () {
     var p_element = document.getElementById("favorite_container");
