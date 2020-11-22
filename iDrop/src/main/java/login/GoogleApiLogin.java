@@ -88,11 +88,8 @@ public class GoogleApiLogin {
       String sql = String.format("SELECT user_id from users where user_id = %s", userId);
       rs = stmt.executeQuery(sql);
       //if the user do not exits, rs.next() return false.
-      if (rs.next() == true) {
-        return userId;
-      }
       if (!rs.next()) {
-        sql = String.format("INSERT INTO users (user_id,email,first_name,last_name)"
+        sql = String.format("INSERT OR IGNORE INTO users (user_id,email,first_name,last_name)"
           + "VALUES ('%s', '%s', '%s', '%s')", userId, email, givenName, familyName);
         stmt.executeUpdate(sql);  
       }
