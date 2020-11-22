@@ -2,7 +2,7 @@ const userId = sessionStorage.getItem("userId");
 
 document.addEventListener('DOMContentLoaded', function () {
     let req = JSON.stringify({});
-    let param = '?userId='+userId;
+    let param = '?userId='+11111;
     ajax('GET',
         '/getusergroup'+param,
         req,
