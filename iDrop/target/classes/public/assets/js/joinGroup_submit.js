@@ -47,10 +47,12 @@ document.addEventListener('DOMContentLoaded', function () {
  */
 function ajax(method, url, data, callback, errorHandler) {
     var xhr = new XMLHttpRequest();
+    var result = "";
 
     xhr.open(method, url, true);
 
     xhr.onload = function() {
+        result = "sent";
         if (xhr.status === 200) {
             callback(xhr.responseText);
         } else {
@@ -59,6 +61,7 @@ function ajax(method, url, data, callback, errorHandler) {
     };
 
     xhr.onerror = function() {
+        result = "error";
         console.error("The request couldn't be completed.");
         errorHandler();
     };
@@ -70,5 +73,7 @@ function ajax(method, url, data, callback, errorHandler) {
             "application/json;charset=utf-8");
         xhr.send(data);
     }
+
+    return result;
 }
 module.exports = ajax;
