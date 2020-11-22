@@ -122,6 +122,7 @@ public class MysqlTableCreation {
         + "rating_no INT AUTO_INCREMENT,"
         + "user_id VARCHAR(225) NOT NULL,"
         + "item_id VARCHAR(225) NOT NULL,"
+        + "time VARCHAR(225) NOT NULL,"
         + "rating FLOAT NOT NULL,"
         + "comment VARCHAR(1000),"
         + "PRIMARY KEY (rating_no),"
@@ -292,13 +293,13 @@ public class MysqlTableCreation {
       stmt.executeUpdate(sql);
       
       //add fake rating
-      sql = "INSERT INTO ratings (user_id, item_id, rating, comment) "
-         + "VALUES ('44444', '333', 4.5, 'comment1')";
+      sql = "INSERT INTO ratings (user_id, item_id, time, rating, comment) "
+         + "VALUES ('44444', '333', '2020-11-22', 4.5, 'comment1')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       
-      sql = "INSERT INTO ratings (user_id, item_id, rating, comment) "
-         + "VALUES ('55555', '444', 4.5, 'comment2')";
+      sql = "INSERT INTO ratings (user_id, item_id, time, rating, comment) "
+         + "VALUES ('55555', '444', '2020-11-23', 4.5, 'comment2')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       

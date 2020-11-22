@@ -172,7 +172,7 @@ public class MysqlConnectionTest {
   public void testRatingBook() {
     MysqlConnection mc = new MysqlConnection();
     float rating = (float) 1.5;
-    boolean check = mc.ratingBook("44444", "333", rating, "Good");
+    boolean check = mc.ratingBook("44444", "333", "2020-11-12", rating, "Good");
     assertEquals(true, check);
     Connection conn = null;
     Statement stmt = null;
