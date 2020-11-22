@@ -6,10 +6,18 @@ import database.MysqlConnection;
 import database.MysqlTableCreation;
 import entity.Item;
 import entity.Item.ItemBuilder;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 
@@ -18,7 +26,9 @@ public class MysqlConnectionTest {
   /**
    * This is to test method close().
    */
+  
   @Test
+  @Order(1)
   public void testClose() {
     MysqlConnection mc = new MysqlConnection();
     boolean check = mc.close();
@@ -29,6 +39,7 @@ public class MysqlConnectionTest {
    * This is to test method setFavoriteItems().
    */
   @Test
+  @Order(2)
   public void testSetFavoriteItems() {
     String userId = "11111";
     List<String> itemIds = new ArrayList<>();
@@ -42,6 +53,7 @@ public class MysqlConnectionTest {
    * This is to test method unsetFavoriteItems().
    */
   @Test
+  @Order(3)
   public void testunsetFavoriteItems() {
     String userId = "11111";
     List<String> itemIds = new ArrayList<>();
@@ -55,6 +67,7 @@ public class MysqlConnectionTest {
    * This is to test method getFavoriteItemIds().
    */
   @Test
+  @Order(4)
   public void testGetFavoriteItemIds() {
     String userId = "11111";
     MysqlConnection mc = new MysqlConnection();
@@ -66,6 +79,7 @@ public class MysqlConnectionTest {
    * This is to test method getFavoriteItems().
    */
   @Test
+  @Order(5)
   public void testGetFavoriteItems() {
     String userId = "11111";
     MysqlConnection mc = new MysqlConnection();
@@ -77,6 +91,7 @@ public class MysqlConnectionTest {
    * This is to test method getCategories().
    */
   @Test
+  @Order(6)
   public void testGetCategories() {
     String itemId = "222";
     MysqlConnection mc = new MysqlConnection();
@@ -88,6 +103,7 @@ public class MysqlConnectionTest {
    * This is to test method searchItems().
    */
   @Test
+  @Order(7)
   public void testSearchItems() {
     MysqlConnection mc = new MysqlConnection();
     String title = "book1";  
@@ -103,6 +119,7 @@ public class MysqlConnectionTest {
    * This is to test method getItemsOnCat().
    */
   @Test
+  @Order(8)
   public void testGetItemsOnCat() {
     String category = "female";
     
@@ -118,6 +135,7 @@ public class MysqlConnectionTest {
    * This is to test method getItemsOnIds().
    */
   @Test
+  @Order(9)
   public void testGetItemsOnIds() {
     Set<String> itemIds = new HashSet<String>();
     itemIds.add("1111");
@@ -130,6 +148,7 @@ public class MysqlConnectionTest {
    * This is to test method saveItem().
    */
   @Test
+  @Order(10)
   public void testSaveItem() {
     ItemBuilder builder = new ItemBuilder();
     builder.setAuthor("author");
@@ -138,7 +157,7 @@ public class MysqlConnectionTest {
     builder.setDescribe("describe");
     builder.setImageUrl("imageUrl");
     builder.setItemId("itemId");
-    builder.setRating(5.0);
+    builder.setRating(0.0);
     builder.setTitle("title");
     builder.setUrl("url");
     Item item = builder.build();
@@ -146,6 +165,66 @@ public class MysqlConnectionTest {
     MysqlConnection mc = new MysqlConnection();
     boolean check = mc.saveItem(item);
     assertEquals(true, check);
+  }
+  
+  @Test
+  @Order(11)
+  public void testRatingBook() {
+    MysqlConnection mc = new MysqlConnection();
+    float rating = (float) 1.5;
+    boolean check = mc.ratingBook("44444", "333", rating, "Good");
+    assertEquals(true, check);
+    Connection conn = null;
+    Statement stmt = null;
+    try {
+
+      try {
+        Class.forName("org.sqlite.JDBC");
+        conn = DriverManager.getConnection("jdbc:sqlite:ase.db");
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      if (conn == null) {
+        return;
+      }
+      stmt = conn.createStatement();
+      String sql = "SELECT * FROM items where item_id = '333'";
+      ResultSet rs = stmt.executeQuery(sql);
+      if (rs.next()) {
+        assertEquals(3.0, rs.getFloat("rating"));
+      }
+      rs.close();
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        if (stmt != null) {
+          stmt.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      try {
+        if (conn != null) {
+          conn.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+  
+  @Test
+  @Order(12)
+  public void testgetRatingAndComments() {
+    String itemId = "333";
+    MysqlConnection mc = new MysqlConnection();
+    List<List<String>> rc = mc.getRatingsAndComments(itemId);
+    System.out.println(rc.size());
+    assertEquals(rc.get(0).get(0), "44444");
+    assertEquals(rc.get(0).get(1), "4.5");
+    assertEquals(rc.get(0).get(2), "comment1");
   }
 }
 

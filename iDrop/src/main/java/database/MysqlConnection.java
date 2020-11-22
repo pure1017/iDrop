@@ -829,6 +829,7 @@ public class MysqlConnection {
       rs = stmt.executeQuery();
       while (rs.next()) {
         List<String> row = new ArrayList<>();
+        row.add(rs.getString("user_id"));
         row.add(Float.toString(rs.getFloat("rating")));
         row.add(rs.getString("comment"));
         result.add(row);
