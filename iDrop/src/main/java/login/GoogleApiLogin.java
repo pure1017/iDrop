@@ -21,6 +21,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class GoogleApiLogin {
@@ -29,10 +31,8 @@ public class GoogleApiLogin {
  * @throws IOException .
  * @throws FileNotFoundException .
    */
-  public static String login(String authCode) throws FileNotFoundException, IOException {
-
-    System.out.println("2");
-    
+  public static Map<String, String> login(String authCode) 
+      throws FileNotFoundException, IOException {
     String clientId = "236055320521-rsf99kh834fv176d1u5sm9a3oinskia7.apps.googleusercontent.com";
     String clientSecret = "AWMEtkmHgmHSHArhhBqVo3_c";
     String redirectUri = "http://localhost:8080";
@@ -54,10 +54,6 @@ public class GoogleApiLogin {
     Long expiresAt = System.currentTimeMillis() + (tokenResponse.getExpiresInSeconds() * 1000);
     tokenResponse.setExpiresInSeconds(expiresAt);
     
-    System.out.println(3);
-    //String accessToken = tokenResponse.getAccessToken();
-
-
     // Get profile info from ID token
     GoogleIdToken idToken = tokenResponse.parseIdToken();
     GoogleIdToken.Payload payload = idToken.getPayload();
@@ -65,6 +61,9 @@ public class GoogleApiLogin {
     String email = payload.getEmail();
     String familyName = (String) payload.get("family_name");
     String givenName = (String) payload.get("given_name");
+    Map<String, String> map = new HashMap<>();
+    map.put("name", givenName);
+    map.put("userId", userId);
     
     //set data to database
     Connection conn = null;
@@ -121,6 +120,6 @@ public class GoogleApiLogin {
         }
       }
     }  
-    return userId;
+    return map;
   }
 }

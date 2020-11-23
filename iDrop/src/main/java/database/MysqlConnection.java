@@ -803,9 +803,12 @@ public class MysqlConnection {
       stmt.setString(2, itemId);
       rs = stmt.executeQuery();
       boolean exist = rs.next();
+      stmt.close();
       if (exist) {
         sql = String.format("UPDATE ratings SET time = %s, rating = %s, comment = %s"
             + "WHERE user_id = %s and item_id = %s", time, rating, comment, userId, itemId);
+        stmt = conn.prepareStatement(sql);
+        stmt.execute();
       } else {
         String sqlInsert = "INSERT INTO ratings (user_id, item_id, time, rating, comment)"
             + " VALUES (?, ?, ?, ?, ?)";

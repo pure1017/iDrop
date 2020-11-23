@@ -52,9 +52,9 @@ class Start {
       //System.out.println(ctx.queryParam("code"));
       String authCode = ctx.queryParam("code");
       System.out.println(authCode);
-      String userId = GoogleApiLogin.login(authCode);
-      System.out.println(userId);
-      ctx.result(userId);
+      Map<String, String> map = GoogleApiLogin.login(authCode);
+      Gson gson = new Gson();
+      ctx.result(gson.toJson(map));
     });
     
     //Get favorite item

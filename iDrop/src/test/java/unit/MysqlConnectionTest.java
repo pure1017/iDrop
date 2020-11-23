@@ -267,6 +267,7 @@ public class MysqlConnectionTest {
       String sql = "SELECT * FROM items where item_id = '333'";
       ResultSet rs = stmt.executeQuery(sql);
       if (rs.next()) {
+        System.out.println(rs.getFloat("rating"));
         assertEquals(4.5, rs.getFloat("rating"));
       }
       rs.close();
