@@ -275,7 +275,6 @@ public class MysqlConnection {
     PreparedStatement stmt = null;
     ResultSet rs = null;
     try {
-
       String sql = "SELECT * FROM items WHERE title = ?";
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, keyword);
@@ -927,5 +926,50 @@ public class MysqlConnection {
     return add;
   }
   
-  
+  /**
+   * This is to check if the user has rated the book.
+   * @param userId .
+   * @return
+   */
+  public boolean ifRerating(String userId, String bookName) {
+    if (conn == null) {
+      return false;
+    }
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    try {
+      String sql = "SELECT * FROM ratings JOIN items ON (ratings.item_id = items.item_id)"
+          + "WHERE user_id = ? and title = ?";
+      stmt = conn.prepareStatement(sql);
+      stmt.setString(1, userId);
+      stmt.setString(2, bookName);
+      rs = stmt.executeQuery();
+      return rs.next();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return false;
+  }
 }
+
+
+
+
+
+
+

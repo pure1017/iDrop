@@ -226,10 +226,12 @@ class Start {
     
     //Search Book
     app.post("/search", ctx -> {
+      String userId = ctx.queryParam("userId");
       String bookName = ctx.queryParam("bookName");
       System.out.println(bookName);
       MysqlConnection conn = new MysqlConnection();
       List<Item> items = conn.searchItems(bookName, "title");
+      boolean rerating = conn.ifRerating(userId, bookName);
       // to get JSON version of items
       JSONObject obj = new JSONObject();
       try {
@@ -244,7 +246,14 @@ class Start {
       }
       //JSONArray array = new JSONArray(list);
       Gson gson = new Gson();
-      ctx.result(gson.toJson(obj));
+      String json = gson.toJson(obj);
+      String result;
+      if (rerating) {
+        result = String.format("{{\"rerating\":\"true\"}%s}", json);
+      } else {
+        result = String.format("{{\"rerating\":\"false\"}%s}", json);
+      }
+      ctx.result(result);
     });
     
     // Rating book
