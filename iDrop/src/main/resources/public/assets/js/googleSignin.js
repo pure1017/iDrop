@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (userId !== null) {
         document.querySelector("#signinButton").style.display = 'none';
+        document.getElementById("greeting").innerText = 'Hi, ' + userName;
+        document.querySelector("#greeting").style.display = 'inline';
+    } else {
+        document.querySelector("#greeting").style.display = 'none';
     }
 
     const signin = document.getElementById("signinButton");
@@ -30,6 +34,8 @@ document.addEventListener('DOMContentLoaded', function () {
                   userName = items["name"];
                   sessionStorage.setItem("userId", userId);
                   sessionStorage.setItem("userName", userName);
+                  document.getElementById("greeting").innerText = 'Hi, ' + userName;
+                  document.querySelector("#greeting").style.display = 'inline';
                   console.log("userId:"+userId);
               },
               // failed callback
