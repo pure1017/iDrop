@@ -319,6 +319,21 @@ public class MysqlConnectionTest {
     assertEquals(true, check2);
     mc.close();
   }
+  
+  // This is to test method ifRerating()
+  @Test
+  @Order(18)
+  public void testIfRerating() {
+    MysqlConnection mc = new MysqlConnection();
+    String userId = "44444";
+    String bookName = "book3";
+    String bookName2 = "book4";
+    boolean check1 = mc.ifRerating(userId, bookName);
+    boolean check2 = mc.ifRerating(userId, bookName2);
+    assertEquals(true, check1);
+    assertEquals(false, check2);
+    mc.close();
+  }
 }
 
 
