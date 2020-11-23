@@ -857,13 +857,27 @@ public class MysqlConnection {
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, itemId);
       rs = stmt.executeQuery();
+      ResultSet rs2 = null;
       while (rs.next()) {
         List<String> row = new ArrayList<>();
         row.add(rs.getString("user_id"));
         row.add(Float.toString(rs.getFloat("rating")));
         row.add(rs.getString("comment"));
         row.add(rs.getString("time"));
+        sql = "SELECT * FROM users WHERE user_id = ?";
+        stmt = conn.prepareStatement(sql);
+        stmt.setString(1, rs.getString("user_id"));
+        rs2 = stmt.executeQuery();
+        String firstname = "";
+        String lastname = "";
+        if (rs2.next()) {
+          firstname = rs2.getString("first_name");
+          lastname = rs2.getString("last_name");
+        }
+        row.add(firstname);
+        row.add(lastname);
         result.add(row);
+        rs2.close();
       }
     } catch (SQLException e) {
       e.printStackTrace();

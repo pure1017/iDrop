@@ -300,6 +300,8 @@ public class MysqlConnectionTest {
     assertEquals(rc.get(0).get(0), "44444");
     assertEquals(rc.get(0).get(1), "4.5");
     assertEquals(rc.get(0).get(2), "comment1");
+    assertEquals(rc.get(0).get(4), "Miao");
+    assertEquals(rc.get(0).get(5), "Liu");
     mc.close();
   }
   
