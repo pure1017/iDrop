@@ -950,6 +950,9 @@ public class MysqlConnection {
     if (conn == null) {
       return false;
     }
+    if (bookName == "") {
+      return false;
+    }
     PreparedStatement stmt = null;
     ResultSet rs = null;
     try {

@@ -231,7 +231,11 @@ class Start {
       System.out.println(bookName);
       MysqlConnection conn = new MysqlConnection();
       List<Item> items = conn.searchItems(bookName, "title");
-      boolean rerating = conn.ifRerating(userId, bookName);
+      String realbookName = "";
+      for (Item item : items) {
+        realbookName = item.getTitle();
+      }
+      boolean rerating = conn.ifRerating(userId, realbookName);
       // to get JSON version of items
       JSONObject obj = new JSONObject();
       try {

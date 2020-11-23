@@ -244,7 +244,7 @@ public class OpenLibraryApi {
       System.out.println("item_id : " + itemid);
       String sql = "INSERT OR IGNORE INTO items VALUES (?, ?, ?, ?, ?, ?, ?)";
       stmt = conn.prepareStatement(sql);
-      String title = item.getTitle().toLowerCase();
+      String title = item.getTitle(); //.toLowerCase();
       stmt.setString(1, itemid);
       stmt.setString(2, title);
       String author = item.getAuthor();
