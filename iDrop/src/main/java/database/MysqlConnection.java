@@ -805,8 +805,8 @@ public class MysqlConnection {
       boolean exist = rs.next();
       stmt.close();
       if (exist) {
-        sql = String.format("UPDATE ratings SET time = %s, rating = %s, comment = %s"
-            + "WHERE user_id = %s and item_id = %s", time, rating, comment, userId, itemId);
+        sql = String.format("UPDATE ratings SET time = '%s', rating = %f, comment = '%s'"
+            + "WHERE user_id = '%s' and item_id = '%s'", time, rating, comment, userId, itemId);
         stmt = conn.prepareStatement(sql);
         stmt.execute();
       } else {

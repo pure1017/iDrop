@@ -253,7 +253,6 @@ public class MysqlConnectionTest {
     Connection conn = null;
     Statement stmt = null;
     try {
-
       try {
         Class.forName("org.sqlite.JDBC");
         conn = DriverManager.getConnection("jdbc:sqlite:ase.db");
@@ -267,7 +266,6 @@ public class MysqlConnectionTest {
       String sql = "SELECT * FROM items where item_id = '333'";
       ResultSet rs = stmt.executeQuery(sql);
       if (rs.next()) {
-        System.out.println(rs.getFloat("rating"));
         assertEquals(4.5, rs.getFloat("rating"));
       }
       rs.close();
