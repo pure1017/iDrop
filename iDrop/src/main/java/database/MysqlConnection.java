@@ -795,15 +795,27 @@ public class MysqlConnection {
     }
     PreparedStatement stmt = null;
     PreparedStatement ps = null;
+    ResultSet rs = null;
     try {
-      String sqlInsert = "INSERT INTO ratings (user_id, item_id, time, rating, comment)"
-          + " VALUES (?, ?, ?, ?, ?)";
-      stmt = conn.prepareStatement(sqlInsert);
+      String sql = "SELECT * FROM ratings WHERE user_Id = ? and item_id = ?";
+      stmt = conn.prepareStatement(sql);
       stmt.setString(1, userId);
       stmt.setString(2, itemId);
-      stmt.setString(3, time);
-      stmt.setFloat(4, rating);
-      stmt.setString(5, comment);
+      rs = stmt.executeQuery();
+      boolean exist = rs.next();
+      if (exist) {
+        sql = String.format("UPDATE ratings SET time = %s, rating = %s, comment = %s"
+            + "WHERE user_id = %s and item_id = %s", time, rating, comment, userId, itemId);
+      } else {
+        String sqlInsert = "INSERT INTO ratings (user_id, item_id, time, rating, comment)"
+            + " VALUES (?, ?, ?, ?, ?)";
+        stmt = conn.prepareStatement(sqlInsert);
+        stmt.setString(1, userId);
+        stmt.setString(2, itemId);
+        stmt.setString(3, time);
+        stmt.setFloat(4, rating);
+        stmt.setString(5, comment);
+      }
       String sqlUpdate = "UPDATE items SET rating = (SELECT AVG(rating) AS avg_rating "
           + "FROM ratings GROUP BY item_id HAVING item_id = ?) WHERE item_id = ?";
       ps = conn.prepareStatement(sqlUpdate);
