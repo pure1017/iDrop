@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     form.submit.addEventListener('click', function () {
         let req = JSON.stringify({});
-        let param = '?userId='+11111+'&bookName='+form.bookName.value+'&groupName='+form.groupName.value+
-        '&beginDate='+form.beginDate.value+'&groupSize='+form.beginDate.value+'&groupDescription='+
+        let param = '?userId='+userId+'&bookName='+form.bookName.value+'&groupName='+form.groupName.value+
+        '&beginDate='+form.beginDate.value+'&groupSize='+form.groupSize.value+'&groupDescription='+
         form.groupDescription.value;
 
         ajax('POST',

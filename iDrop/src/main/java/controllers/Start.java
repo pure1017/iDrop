@@ -157,7 +157,7 @@ class Start {
     });
     
     //Host Group
-    app.post("/hostgroup", ctx -> {
+    app.post("/hostGroup", ctx -> {
       //http://localhost:8080/hostgroup?userId=33333&bookName=book3&groupName=group3&
       //beginDate=2020&groupSize=5&groupDescription=description4
       String hostId = ctx.queryParam("userId");
@@ -177,7 +177,7 @@ class Start {
     });
     
     //Join Group
-    app.post("/joingroup", ctx -> {
+    app.post("/joinGroup", ctx -> {
       //
       String userId = ctx.queryParam("userId");
       String bookName = ctx.queryParam("bookName");
