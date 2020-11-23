@@ -3,11 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="08a6b24c-2a41-4dfb-bdc2-af3a0a53f87e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../../../../ase.db" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../ase.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/controllers/Start.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/controllers/Start.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/start.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/start.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start.html" beforeDir="false" afterPath="$PROJECT_DIR$/start.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/book_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/book_page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/book_rating.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/book_rating.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/googleSignin.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/googleSignin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/searchBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/searchBox.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/controllers/Start.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/controllers/Start.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/start.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/start.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/book_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/book_page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/book_rating.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/book_rating.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/searchBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/searchBox.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +51,7 @@
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -111,6 +118,7 @@
       <workItem from="1605858736277" duration="8799000" />
       <workItem from="1605880594027" duration="17136000" />
       <workItem from="1606012925468" duration="17015000" />
+      <workItem from="1606117602175" duration="5399000" />
     </task>
     <servers />
   </component>

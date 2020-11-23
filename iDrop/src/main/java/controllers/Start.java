@@ -249,9 +249,9 @@ class Start {
       String json = gson.toJson(obj);
       String result;
       if (rerating) {
-        result = String.format("{{\"rerating\":\"true\"},%s}", json);
+        result = String.format("{\"rerating\":\"true\",\"map\":%s}", json);
       } else {
-        result = String.format("{{\"rerating\":\"false\"},%s}", json);
+        result = String.format("{\"rerating\":\"false\",\"map\":%s}", json);
       }
       ctx.result(gson.toJson(result));
     });

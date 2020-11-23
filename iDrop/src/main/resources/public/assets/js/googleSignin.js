@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     let userId = sessionStorage.getItem("userId");
+    let userName = sessionStorage.getItem("userName");
     console.log("userId:"+userId);
 
     if (userId !== null) {
@@ -24,8 +25,11 @@ document.addEventListener('DOMContentLoaded', function () {
           // Send the code to the server
           ajax('POST', "/storeauthcode?code="+authResult['code'], req,
               function (res) {
-                  userId = res;
+                  var items = JSON.parse(res);
+                  userId = items["userId"];
+                  userName = items["name"];
                   sessionStorage.setItem("userId", userId);
+                  sessionStorage.setItem("userName", userName);
                   console.log("userId:"+userId);
               },
               // failed callback

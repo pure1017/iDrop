@@ -1,16 +1,22 @@
+let userId = sessionStorage.getItem("userId");
+if (userId === null) {
+    userId = 11111;
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   const form = {
         submit: document.getElementById("search-submit"),
         input: document.getElementById("search-input")
     };
 
-  var bookName = "bookName"
+  var bookName = "bookName";
   var rate = 3;
   var author = "author";
   var category = "category";
   var summary = "summary";
-  var itemId = "1"
-  var bookCover = ""
+  var itemId = "1";
+  var bookCover = "";
+  var isRated = "";
   // sessionStorage.setItem("bookName", bookName);
   // sessionStorage.setItem("rate", rate);
   // sessionStorage.setItem("author", author);
@@ -21,27 +27,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
   form.submit.addEventListener('click', function () {
      let req = JSON.stringify({});
-     let param = "?bookName="+form.input.value;
+     let param = "?bookName="+form.input.value+"&userId="+userId;
+     console.log(param);
      ajax('POST',
             '/search'+param,
             req,
             // successful callback
             function(res) {
                 var items = JSON.parse(res);
-                console.log(items);
+                items = JSON.parse(items);
                 if(res){
-                    bookCover = items["map"]["cover_url"];
-                    console.log(bookCover);
+                    bookCover = items["map"]["map"]["cover_url"];
                     if (bookCover[bookCover.length-8] === '.' && bookCover[bookCover.length-7] === '0') {
                         bookCover = bookCover.substring(0, bookCover.length-8) + bookCover.substring(bookCover.length-6, bookCover.length);
                     }
-                    console.log(bookCover);
-                    bookName = items["map"]["title"];
-                    rate = items["map"]["rating"];
-                    author = items["map"]["author"];
-                    category = items["map"]["subject"]["myArrayList"];
-                    summary = items["map"]["description"];
-                    itemId = items["map"]["item_id"];
+                    bookName = items["map"]["map"]["title"];
+                    rate = items["map"]["map"]["rating"];
+                    author = items["map"]["map"]["author"];
+                    category = items["map"]["map"]["subject"]["myArrayList"];
+                    summary = items["map"]["map"]["description"];
+                    itemId = items["map"]["map"]["item_id"];
+                    isRated = items["rerating"];
+                    console.log(isRated);
                     sessionStorage.setItem("bookName", bookName);
                     sessionStorage.setItem("rate", rate);
                     sessionStorage.setItem("author", author);
@@ -49,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     sessionStorage.setItem("summary", summary);
                     sessionStorage.setItem("itemId", itemId);
                     sessionStorage.setItem("bookCover", bookCover);
+                    sessionStorage.setItem("isRated", isRated);
                     location.href='book_page.html';
                 }
             },

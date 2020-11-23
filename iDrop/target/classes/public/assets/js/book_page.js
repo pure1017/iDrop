@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var summary = sessionStorage.getItem("summary");
     var userId = sessionStorage.getItem("userId");
     var itemId = sessionStorage.getItem("itemId");
+    var isRated = sessionStorage.getItem("isRated");
 
     rate = Math.round(rate);
     if (rate === 0) {
@@ -28,32 +29,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     document.getElementById("favorite-button").addEventListener("click", function() {
-        let req = JSON.stringify({});
-        let param = "";
-        if (document.querySelector('#favorite-button i').classList.contains('active')) {
-            document.querySelector('#favorite-button i').classList.remove('active');
-            param = '?userId='+userId+'&itemId='+itemId;
-            ajax('DELETE', '/unsetfavorite'+param, req,
-                // successful callback
-            function(res) {
-                console.log(res);
-            },
-            // failed callback
-            function() {
-                showErrorMessage('Cannot unsetfavorite items.');
-            });
+        if (userId) {
+            let req = JSON.stringify({});
+            let param = "";
+            if (document.querySelector('#favorite-button i').classList.contains('active')) {
+                document.querySelector('#favorite-button i').classList.remove('active');
+                param = '?userId=' + userId + '&itemId=' + itemId;
+                ajax('DELETE', '/unsetfavorite' + param, req,
+                    // successful callback
+                    function (res) {
+                        console.log(res);
+                    },
+                    // failed callback
+                    function () {
+                        showErrorMessage('Cannot unsetfavorite items.');
+                    });
+            } else {
+                document.querySelector('#favorite-button i').classList.add('active');
+                param = '?userId=' + userId + '&itemId=' + itemId;
+                ajax('POST', '/setfavorite' + param, req,
+                    // successful callback
+                    function (res) {
+                        console.log(res);
+                    },
+                    // failed callback
+                    function () {
+                        showErrorMessage('Cannot setfavorite items.');
+                    });
+            }
         } else {
-            document.querySelector('#favorite-button i').classList.add('active');
-            param = '?userId='+userId+'&itemId='+itemId;
-            ajax('POST', '/setfavorite'+param, req,
-                // successful callback
-            function(res) {
-                console.log(res);
-            },
-            // failed callback
-            function() {
-                showErrorMessage('Cannot setfavorite items.');
-            });
+            setTimeout(function () {
+                alert("Please login to favorite!");
+                }, 10);
         }
     });
 
