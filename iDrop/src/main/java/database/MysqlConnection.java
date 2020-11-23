@@ -944,7 +944,10 @@ public class MysqlConnection {
       stmt.setString(1, userId);
       stmt.setString(2, bookName);
       rs = stmt.executeQuery();
-      return rs.next();
+      boolean result = rs.next();
+      stmt.close();
+      rs.close();
+      return result;
     } catch (SQLException e) {
       e.printStackTrace();
     } finally {

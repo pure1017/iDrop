@@ -253,7 +253,7 @@ class Start {
       } else {
         result = String.format("{{\"rerating\":\"false\"}%s}", json);
       }
-      ctx.result(result);
+      ctx.result(gson.toJson(result));
     });
     
     // Rating book
