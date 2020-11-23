@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08a6b24c-2a41-4dfb-bdc2-af3a0a53f87e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../../../ase.db" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../ase.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/public.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/public.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/book_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/book_page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/book_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/book_page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/book_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/book_page.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +114,7 @@
       <workItem from="1605858736277" duration="8799000" />
       <workItem from="1605880594027" duration="17136000" />
       <workItem from="1606012925468" duration="17015000" />
-      <workItem from="1606117602175" duration="7723000" />
+      <workItem from="1606117602175" duration="9712000" />
     </task>
     <servers />
   </component>

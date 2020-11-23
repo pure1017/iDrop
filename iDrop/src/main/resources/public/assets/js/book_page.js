@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var category = sessionStorage.getItem("category");
     var summary = sessionStorage.getItem("summary");
     var userId = sessionStorage.getItem("userId");
+    var userName = sessionStorage.getItem("userName");
     var itemId = sessionStorage.getItem("itemId");
     var isRated = sessionStorage.getItem("isRated");
 
@@ -89,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         let reader_comment = form.reader_comment.value
 
-        let param = '?userId='+userId+'&itemId='+itemId+'&rating='+reader_rate+'&comment='+reader_comment+'&time='+Date.now();
+        let param = '?userId='+userId+'&itemId='+itemId+'&rating='+reader_rate+'&comment='+reader_comment+'&time='+moment.utc().format();
         ajax('POST', '/rating'+param, req,
             // successful callback
             function(res) {
@@ -125,12 +126,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     var rating = items[item][1];
                     var comment = items[item][2];
                     var time = items[item][3];
-                    var localtime = new Date(time);
+                    var localtime = moment.utc(time).local().format('YYYY-MM-DD HH:mm:ss');
                     console.log("localtime: " + localtime);
                     comment_HTML += '<hr style="filter: alpha(opacity=80,finishOpacity=30,style=1)" width="80%" color=lightgray size=3>\n' +
                         '          <div style="clear: left;">\n' +
                         '            <p style="float: left;"><img src="assets/img/user_icon.jpg" height="100px" width="100px" border="1px" style="margin-right: 20px"></p>\n' +
-                        '            <p>Rating: '+ localtime +'</p>\n' +
+                        '            <p style="font-size: small; color: lightgray">Time: '+ localtime +'</p>\n' +
+                        '            <p>User: '+ userName +'</p>\n' +
                         '            <p>Rating: '+ rating +'</p>\n' +
                         '            <p>Comment: '+ comment +'</p>\n' +
                         '          </div>'
@@ -209,3 +211,18 @@ function formatDateTime(timeStamp) {
 }
 
 exports.otherMethod = formatDateTime;
+
+function changeStamp(timeStamp,countryTimeZone){
+
+ 　　//获取当前时区
+　　 let nowTimeZone = new Date(timeStamp).getTimezoneOffset() / 60;
+
+　　 //获取当前所在时区 与 需要转换时区 相差的时间戳
+
+　　 let changTimeZone = (nowTimeZone + countryTimeZone) * 60 * 60 * 1000;
+
+　　 timeStamp -= changeTimeZone;
+
+　　 return timeStamp;
+
+ }
