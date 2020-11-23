@@ -5853,3 +5853,21 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY org.eclipse.m2e.logback.appender 2 0 2020-11-22 20:23:36.550
 !MESSAGE Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2020-11-22 20:34:46.830
+!MESSAGE Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2020-11-22 20:34:46.834
+!MESSAGE Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2020-11-22 20:42:29.581
+!MESSAGE Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2020-11-22 20:42:29.586
+!MESSAGE Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2020-11-22 20:49:10.648
+!MESSAGE Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2020-11-22 20:49:10.653
+!MESSAGE Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
