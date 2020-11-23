@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         let reader_comment = form.reader_comment.value
 
-        let param = '?userId='+userId+'&userName='+userName+'&itemId='+itemId+'&rating='+reader_rate+'&comment='+reader_comment+'&time='+moment.utc().format();
+        let param = '?userId='+userId+'&itemId='+itemId+'&rating='+reader_rate+'&comment='+reader_comment+'&time='+moment.utc().format();
         ajax('POST', '/rating'+param, req,
             // successful callback
             function(res) {
@@ -123,11 +123,12 @@ document.addEventListener('DOMContentLoaded', function () {
             if (res !== "input error") {
                 var items = JSON.parse(res);
                 for (let item in items) {
+                    console.log(items[item]);
                     var rating = items[item][1];
                     var comment = items[item][2];
                     var time = items[item][3];
                     var localtime = moment.utc(time).local().format('YYYY-MM-DD HH:mm:ss');
-                    var user = items[item][4]
+                    var user = items[item][4];
                     console.log("localtime: " + localtime);
                     comment_HTML += '<hr style="filter: alpha(opacity=80,finishOpacity=30,style=1)" width="80%" color=lightgray size=3>\n' +
                         '          <div style="clear: left;">\n' +
@@ -194,36 +195,3 @@ function ajax(method, url, data, callback, errorHandler) {
 
 exports.method = ajax;
 
-function formatDateTime(timeStamp) {
-    var date = new Date();
-    date.setTime(timeStamp);
-    var y = date.getFullYear();
-    var m = date.getMonth() + 1;
-    m = m < 10 ? ('0' + m) : m;
-    var d = date.getDate();
-    d = d < 10 ? ('0' + d) : d;
-    var h = date.getHours();
-    h = h < 10 ? ('0' + h) : h;
-    var minute = date.getMinutes();
-    var second = date.getSeconds();
-    minute = minute < 10 ? ('0' + minute) : minute;
-    second = second < 10 ? ('0' + second) : second;
-    return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
-}
-
-exports.otherMethod = formatDateTime;
-
-function changeStamp(timeStamp,countryTimeZone){
-
- 　　//获取当前时区
-　　 let nowTimeZone = new Date(timeStamp).getTimezoneOffset() / 60;
-
-　　 //获取当前所在时区 与 需要转换时区 相差的时间戳
-
-　　 let changTimeZone = (nowTimeZone + countryTimeZone) * 60 * 60 * 1000;
-
-　　 timeStamp -= changeTimeZone;
-
-　　 return timeStamp;
-
- }

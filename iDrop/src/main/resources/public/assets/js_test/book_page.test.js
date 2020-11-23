@@ -35,8 +35,3 @@ test('ajax function', () => {
             });
   expect(result).toBe("");
 });
-
-test('ajax function', () => {
-  var result = myModule.otherMethod(1606039684483);
-  expect(result).toBe("2020-11-22 18:08:04");
-});
