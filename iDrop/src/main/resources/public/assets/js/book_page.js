@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         '          <div style="clear: left;">\n' +
                         '            <p style="float: left;"><img src="assets/img/user_icon.jpg" height="100px" width="100px" border="1px" style="margin-right: 20px"></p>\n' +
                         '            <p style="font-size: small; color: lightgray">Time: '+ localtime +'</p>\n' +
-                        '            <p>User: '+ userName +'</p>\n' +
+                        // '            <p>User: '+ userName +'</p>\n' +
                         '            <p>Rating: '+ rating +'</p>\n' +
                         '            <p>Comment: '+ comment +'</p>\n' +
                         '          </div>'
