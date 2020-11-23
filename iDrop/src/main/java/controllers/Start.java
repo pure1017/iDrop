@@ -161,7 +161,7 @@ class Start {
       //http://localhost:8080/hostgroup?userId=33333&bookName=book3&groupName=group3&
       //beginDate=2020&groupSize=5&groupDescription=description4
       String hostId = ctx.queryParam("userId");
-      String bookName = ctx.queryParam("bookName");
+      String bookName = ctx.queryParam("bookName").toLowerCase();
       String groupName = ctx.queryParam("groupName");
       String beginDate = ctx.queryParam("beginDate");
       String groupSize = ctx.queryParam("groupSize");
@@ -180,7 +180,7 @@ class Start {
     app.post("/joinGroup", ctx -> {
       //
       String userId = ctx.queryParam("userId");
-      String bookName = ctx.queryParam("bookName");
+      String bookName = ctx.queryParam("bookName").toLowerCase();
       String groupName = ctx.queryParam("groupName");
       String joinMessage = ctx.queryParam("joinMessage");
       if (userId == null || bookName == null || groupName == null || joinMessage == null) {
@@ -227,7 +227,7 @@ class Start {
     //Search Book
     app.post("/search", ctx -> {
       String userId = ctx.queryParam("userId");
-      String bookName = ctx.queryParam("bookName");
+      String bookName = ctx.queryParam("bookName").toLowerCase();
       System.out.println(bookName);
       MysqlConnection conn = new MysqlConnection();
       List<Item> items = conn.searchItems(bookName, "title");
