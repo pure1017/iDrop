@@ -7,6 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
    document.getElementById("group_name_2").innerText = currentGroup;
    document.getElementById("group_img").src = currentGroupCover;
    document.getElementById("group_name").innerText = "Group Name: " + currentGroup;
-   document.getElementById("group_date").innerText = "Begin Date: " + currentGroupBeginDate;
+   document.getElementById("begin_date").innerText = "Begin Date: " + currentGroupBeginDate;
    document.getElementById("group_desc").innerText = "Group Description: " + currentGroupDesc;
 });

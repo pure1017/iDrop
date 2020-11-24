@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 desc_group_list.push(items[0][item]["Group Description"]);
                 book_cover_list.push(items[0][item]["cover_url"]);
                 host_HTML += '<div style="clear: left;">\n' +
-                    '              <p style="float: left;"><img id="'+ items[0][item]["Group Name"] +'" src='+ items[0][item]["cover_url"] +' height="230px" width="180px" border="1px" style="margin-right: 20px"></p>\n' +
+                    '              <p style="float: left;"><img id="'+ items[0][item]["Group Name"] +'" src='+ items[0][item]["cover_url"] +' height="230px" width="180px" border="1px" style="margin-right: 20px; cursor: pointer"></p>\n' +
                     '              <p>Group Name: '+ items[0][item]["Group Name"] +'</p>\n' +
                     '              <p>Begin Date: '+ items[0][item]["Begin Date"] +'</p>\n' +
                     '              <p>Group Description: '+ items[0][item]["Group Description"] +'</p>\n' +
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 desc_group_list.push(items[1][item]["Group Description"]);
                 book_cover_list.push(items[1][item]["cover_url"]);
                 member_HTML += '<div id="'+ items[1][item]["Group Name"] +'" style="clear: left;">\n' +
-                    '              <p style="float: left;"><img id="'+ items[1][item]["Group Name"] +'" src='+ items[1][item]["cover_url"] +' height="230px" width="180px" border="1px" style="margin-right: 20px"></p>\n' +
+                    '              <p style="float: left;"><img id="'+ items[1][item]["Group Name"] +'" src='+ items[1][item]["cover_url"] +' height="230px" width="180px" border="1px" style="margin-right: 20px; cursor: pointer"></p>\n' +
                     '              <p>Group Name: '+ items[1][item]["Group Name"] +'</p>\n' +
                     '              <p>Begin Date: '+ items[1][item]["Begin Date"] +'</p>\n' +
                     '              <p>Group Description: '+ items[1][item]["Group Description"] +'</p>\n' +
