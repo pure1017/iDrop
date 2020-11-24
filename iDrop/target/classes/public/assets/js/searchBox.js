@@ -1,35 +1,35 @@
-let userId = sessionStorage.getItem("userId");
-if (userId === null) {
-    userId = 11111;
-}
-
 document.addEventListener('DOMContentLoaded', function () {
-  const form = {
+    let userId = sessionStorage.getItem("userId");
+    console.log("searchBox userId:" + userId);
+    if (userId === null) {
+        userId = 11111;
+    }
+    const form = {
         submit: document.getElementById("search-submit"),
         input: document.getElementById("search-input")
     };
 
-  var bookName = "bookName";
-  var rate = 3;
-  var author = "author";
-  var category = "category";
-  var summary = "summary";
-  var itemId = "1";
-  var bookCover = "";
-  var isRated = "";
-  // sessionStorage.setItem("bookName", bookName);
-  // sessionStorage.setItem("rate", rate);
-  // sessionStorage.setItem("author", author);
-  // sessionStorage.setItem("category", category);
-  // sessionStorage.setItem("summary", summary);
-  // sessionStorage.setItem("itemId", itemId);
-  // sessionStorage.setItem("bookCover", bookCover);
+    var bookName = "bookName";
+    var rate = 3;
+    var author = "author";
+    var category = "category";
+    var summary = "summary";
+    var itemId = "1";
+    var bookCover = "";
+    var isRated = "";
+    // sessionStorage.setItem("bookName", bookName);
+    // sessionStorage.setItem("rate", rate);
+    // sessionStorage.setItem("author", author);
+    // sessionStorage.setItem("category", category);
+    // sessionStorage.setItem("summary", summary);
+    // sessionStorage.setItem("itemId", itemId);
+    // sessionStorage.setItem("bookCover", bookCover);
 
-  form.submit.addEventListener('click', function () {
-     let req = JSON.stringify({});
-     let param = "?bookName="+form.input.value+"&userId="+userId;
-     console.log(param);
-     ajax('POST',
+    form.submit.addEventListener('click', function () {
+        let req = JSON.stringify({});
+        let param = "?bookName="+form.input.value+"&userId="+userId;
+        console.log(param);
+        ajax('POST',
             '/search'+param,
             req,
             // successful callback
@@ -66,14 +66,14 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 
-  form.input.addEventListener("keyup", function (event) {
-      if(event.keyCode === 13) {
-          // Cancel the default action, if needed
-          event.preventDefault();
-          // Trigger the button element with a click
-          form.submit.click();
-      }
-  });
+    form.input.addEventListener("keyup", function (event) {
+        if(event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            form.submit.click();
+        }
+    });
 });
 
 /**

@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("rating-button").innerText = "Rerating";
     }
     document.getElementById('rating-button').addEventListener('click', function () {
+        console.log("rating userId:"+userId);
         if (userId) {
             document.querySelector('.bg-modal').style.display = 'flex';
         } else {

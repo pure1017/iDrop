@@ -1,3 +1,6 @@
+var userId = sessionStorage.getItem("userId");
+var userName = sessionStorage.getItem("userName");
+
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("book_cover").src = '';
 
@@ -7,8 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var author = sessionStorage.getItem("author");
     var category = sessionStorage.getItem("category");
     var summary = sessionStorage.getItem("summary");
-    var userId = sessionStorage.getItem("userId");
-    var userName = sessionStorage.getItem("userName");
     var itemId = sessionStorage.getItem("itemId");
     var isRated = sessionStorage.getItem("isRated");
 
@@ -95,14 +96,18 @@ document.addEventListener('DOMContentLoaded', function () {
             // successful callback
             function(res) {
                 if (res === "book rated") {
-                    setTimeout(function () {
-                        alert("rating submitted!");
-                    }, 10);
+                    // setTimeout(function () {
+                    //     alert("rating submitted!");
+                    // }, 10);
+                    document.getElementById("modal_content").innerText = "rating submitted!";
+                    $('#myModal').modal('show');
                     document.querySelector('.bg-modal').style.display = 'none';
                 } else {
-                    setTimeout(function () {
-                        alert(res);
-                    }, 10);
+                    // setTimeout(function () {
+                    //     alert(res);
+                    // }, 10);
+                    document.getElementById("modal_content").innerText = res;
+                    $('#myModal').modal('show');
                 }
             },
             // failed callback
