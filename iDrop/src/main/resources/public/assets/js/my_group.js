@@ -3,18 +3,20 @@ const userId = sessionStorage.getItem("userId");
 document.addEventListener('DOMContentLoaded', function () {
     let req = JSON.stringify({});
     let param = '?userId='+userId;
+    var joined_group_list = [];
     ajax('GET',
         '/getusergroup'+param,
         req,
         function (res) {
             var items = JSON.parse(res);
             // me as the host
-            var host_HTML = ''
+            var host_HTML = '';
             const div_host_container = document.getElementById("host_container");
             div_host_container.innerHTML = '';
             for (let item in items[0]) {
+                joined_group_list.push(items[0][item]["Group Name"]);
                 host_HTML += '<div style="clear: left;">\n' +
-                    '              <p style="float: left;"><a href="innerGroup_page.html"><img src='+ items[0][item]["cover_url"] +' height="230px" width="180px" border="1px" style="margin-right: 20px"></a></p>\n' +
+                    '              <p style="float: left;"><img id="'+ items[0][item]["Group Name"] +'" src="assets/img/user1.JPG" height="230px" width="180px" border="1px" style="margin-right: 20px"></p>\n' +
                     '              <p>Group Name: '+ items[0][item]["Group Name"] +'</p>\n' +
                     '              <p>Begin Date: '+ items[0][item]["Begin Date"] +'</p>\n' +
                     '              <p>Group Description: '+ items[0][item]["Group Description"] +'</p>\n' +
@@ -27,14 +29,36 @@ document.addEventListener('DOMContentLoaded', function () {
             const div_member_container = document.getElementById("member_container");
             div_member_container.innerHTML = '';
             for (let item in items[1]) {
-                member_HTML += '<div style="clear: left;">\n' +
-                    '              <p style="float: left;"><a href="innerGroup_page.html"><img src='+ items[1][item]["cover_url"] +' height="230px" width="180px" border="1px" style="margin-right: 20px"></a></p>\n' +
+                joined_group_list.push(items[1][item]["Group Name"]);
+                member_HTML += '<div id="'+ items[1][item]["Group Name"] +'" style="clear: left;">\n' +
+                    '              <p style="float: left;"><img id="'+ items[1][item]["Group Name"] +'" src='+ items[1][item]["cover_url"] +' height="230px" width="180px" border="1px" style="margin-right: 20px"></p>\n' +
                     '              <p>Group Name: '+ items[1][item]["Group Name"] +'</p>\n' +
                     '              <p>Begin Date: '+ items[1][item]["Begin Date"] +'</p>\n' +
                     '              <p>Group Description: '+ items[1][item]["Group Description"] +'</p>\n' +
                     '            </div>';
             }
             div_member_container.innerHTML = member_HTML;
+
+
+            if (joined_group_list) {
+                for (let i in joined_group_list) {
+                    (function () {
+                        document.getElementById(joined_group_list[i]).addEventListener('click', function () {
+                            let req = JSON.stringify({});
+                            let param = '?userId='+userId+"&groupName"+joined_group_list[i];
+                            console.log("enter group");
+                            // ajax('POST', '/entergroup'+param, req,
+                            //     function (res){
+                            //         location.href='innerGroup_page.html';
+                            //     },
+                            //     // failed callback
+                            // function() {
+                            //         showErrorMessage('Cannot submit items.');
+                            //     });
+                        });
+                    })();
+                }
+            }
         },
         // failed callback
         function() {

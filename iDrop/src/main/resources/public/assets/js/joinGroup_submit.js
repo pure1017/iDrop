@@ -10,27 +10,32 @@ document.addEventListener('DOMContentLoaded', function () {
     var userId = sessionStorage.getItem("userId");
 
     form.submit.addEventListener('click', function () {
-        let req = JSON.stringify({});
-        let param = '?userId='+userId+'&bookName='+form.bookName.value+'&groupName='+form.groupName.value+
-        '&joinMessage='+form.joinMessage.value;
-        console.log(param);
-        ajax('POST',
-            '/joinGroup'+param,
-            req,
-            // successful callback
-            function(res) {
-                // var items = JSON.parse(res);
-                if(res === "join successfully"){
-                    location.href='success.html';
-                } else {
-                    document.getElementById("modal_content").innerText = res;
-                    $('#myModal').modal('show');
-                }
-            },
-            // failed callback
-            function() {
-                showErrorMessage('Cannot submit items.');
-            });
+        if (userId !== null) {
+            let req = JSON.stringify({});
+            let param = '?userId=' + userId + '&bookName=' + form.bookName.value + '&groupName=' + form.groupName.value +
+                '&joinMessage=' + form.joinMessage.value;
+            console.log(param);
+            ajax('POST',
+                '/joinGroup' + param,
+                req,
+                // successful callback
+                function (res) {
+                    // var items = JSON.parse(res);
+                    if (res === "join successfully") {
+                        location.href = 'success.html';
+                    } else {
+                        document.getElementById("modal_content").innerText = res;
+                        $('#myModal').modal('show');
+                    }
+                },
+                // failed callback
+                function () {
+                    showErrorMessage('Cannot submit items.');
+                });
+        } else {
+            document.getElementById("modal_content").innerText = "Please login to join a group!";
+            $('#myModal').modal('show');
+        }
     });
 });
 

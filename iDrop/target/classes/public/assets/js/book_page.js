@@ -60,9 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
             }
         } else {
-            // setTimeout(function () {
-            //     alert("Please login to favorite!");
-            //     }, 10);
             document.getElementById("modal_content").innerText = "Please login to favorite!";
             $('#myModal').modal('show');
         }
@@ -98,16 +95,10 @@ document.addEventListener('DOMContentLoaded', function () {
             // successful callback
             function(res) {
                 if (res === "book rated") {
-                    // setTimeout(function () {
-                    //     alert("rating submitted!");
-                    // }, 10);
                     document.getElementById("modal_content").innerText = "Rating submitted!";
                     $('#myModal').modal('show');
                     document.querySelector('.bg-modal').style.display = 'none';
                 } else {
-                    // setTimeout(function () {
-                    //     alert(res);
-                    // }, 10);
                     document.getElementById("modal_content").innerText = res;
                     $('#myModal').modal('show');
                 }
