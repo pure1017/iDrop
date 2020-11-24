@@ -11,9 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (userId) {
             document.querySelector('.bg-modal').style.display = 'flex';
         } else {
-            // setTimeout(function () {
-            //     alert("Please login to rate!");
-            //     }, 10);
             document.getElementById("modal_content").innerText = "Please login to rate!";
             $('#myModal').modal('show');
         }

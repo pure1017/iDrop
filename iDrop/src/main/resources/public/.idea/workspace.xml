@@ -4,23 +4,17 @@
     <list default="true" id="08a6b24c-2a41-4dfb-bdc2-af3a0a53f87e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../../../../ase.db" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../ase.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/book_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/book_page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/book_rating.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/book_rating.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/hostGroup_submit.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/hostGroup_submit.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/joinGroup_submit.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/joinGroup_submit.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/my_group.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/my_group.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/searchBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/searchBox.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/book_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/book_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/host_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/host_group.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/join_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/join_group.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/my_group.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/book_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/book_page.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/book_rating.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/book_rating.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/searchBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/searchBox.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/book_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/book_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/hostGroup_submit.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/hostGroup_submit.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/joinGroup_submit.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/assets/js/joinGroup_submit.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/host_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/host_group.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/join_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/join_group.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/my_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/my_group.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +120,7 @@
       <workItem from="1605880594027" duration="17136000" />
       <workItem from="1606012925468" duration="17015000" />
       <workItem from="1606117602175" duration="12340000" />
-      <workItem from="1606185384186" duration="5465000" />
+      <workItem from="1606185384186" duration="6938000" />
     </task>
     <servers />
   </component>

@@ -12,27 +12,33 @@ document.addEventListener('DOMContentLoaded', function () {
     var userId = sessionStorage.getItem("userId");
 
     form.submit.addEventListener('click', function () {
-        let req = JSON.stringify({});
-        let param = '?userId='+userId+'&bookName='+form.bookName.value+'&groupName='+form.groupName.value+
-        '&beginDate='+form.beginDate.value+'&groupSize='+form.groupSize.value+'&groupDescription='+
-        form.groupDescription.value;
+        if (userId !== null) {
+            let req = JSON.stringify({});
+            let param = '?userId=' + userId + '&bookName=' + form.bookName.value + '&groupName=' + form.groupName.value +
+                '&beginDate=' + form.beginDate.value + '&groupSize=' + form.groupSize.value + '&groupDescription=' +
+                form.groupDescription.value;
 
-        ajax('POST',
-            '/hostGroup'+param,
-            req,
-            // successful callback
-            function(res) {
-                // var items = JSON.parse(res);
-                if(res === "group created"){
-                    location.href='success.html';
-                } else {
-                    setTimeout(function(){ alert(res); }, 10);
-                }
-            },
-            // failed callback
-            function() {
-                showErrorMessage('Cannot submit items.');
-            });
+            ajax('POST',
+                '/hostGroup' + param,
+                req,
+                // successful callback
+                function (res) {
+                    // var items = JSON.parse(res);
+                    if (res === "group created") {
+                        location.href = 'success.html';
+                    } else {
+                        document.getElementById("modal_content").innerText = res;
+                        $('#myModal').modal('show');
+                    }
+                },
+                // failed callback
+                function () {
+                    showErrorMessage('Cannot submit items.');
+                });
+        } else {
+            document.getElementById("modal_content").innerText = "Please login to host a group!";
+            $('#myModal').modal('show');
+        }
     });
 
 });
