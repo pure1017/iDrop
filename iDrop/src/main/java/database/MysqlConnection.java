@@ -500,7 +500,7 @@ public class MysqlConnection {
           + " VALUES (?, ?, ?, ?, ?, ?, ?)";
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, groupName);
-      stmt.setString(2, bookName);
+      stmt.setString(2, bookName.toLowerCase());
       stmt.setString(3, hostId);
       stmt.setString(4, beginDate);
       stmt.setString(5, groupSize);
@@ -597,7 +597,7 @@ public class MysqlConnection {
       stmt.setString(1, userId);
       rs = stmt.executeQuery();
       while (rs.next()) {
-        String bookName = rs.getString("book_name");
+        String bookName = rs.getString("book_name").toLowerCase();
         sql = "SELECT cover_url FROM items WHERE title = ?";
         stmt = conn.prepareStatement(sql);
         stmt.setString(1, bookName);
