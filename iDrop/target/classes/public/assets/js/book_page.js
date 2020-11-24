@@ -60,9 +60,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
             }
         } else {
-            setTimeout(function () {
-                alert("Please login to favorite!");
-                }, 10);
+            // setTimeout(function () {
+            //     alert("Please login to favorite!");
+            //     }, 10);
+            document.getElementById("modal_content").innerText = "Please login to favorite!";
+            $('#myModal').modal('show');
         }
     });
 
@@ -99,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     // setTimeout(function () {
                     //     alert("rating submitted!");
                     // }, 10);
-                    document.getElementById("modal_content").innerText = "rating submitted!";
+                    document.getElementById("modal_content").innerText = "Rating submitted!";
                     $('#myModal').modal('show');
                     document.querySelector('.bg-modal').style.display = 'none';
                 } else {
@@ -128,13 +130,11 @@ document.addEventListener('DOMContentLoaded', function () {
             if (res !== "input error") {
                 var items = JSON.parse(res);
                 for (let item in items) {
-                    console.log(items[item]);
                     var rating = items[item][1];
                     var comment = items[item][2];
                     var time = items[item][3];
                     var localtime = moment.utc(time).local().format('YYYY-MM-DD HH:mm:ss');
                     var user = items[item][4];
-                    console.log("localtime: " + localtime);
                     comment_HTML += '<hr style="filter: alpha(opacity=80,finishOpacity=30,style=1)" width="80%" color=lightgray size=3>\n' +
                         '          <div style="clear: left;">\n' +
                         '            <p style="float: left;"><img src="assets/img/user_icon.jpg" height="100px" width="100px" border="1px" style="margin-right: 20px"></p>\n' +

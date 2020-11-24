@@ -1,9 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    let userId = sessionStorage.getItem("userId");
-    console.log("searchBox userId:" + userId);
-    if (userId === null) {
-        userId = 11111;
-    }
+
     const form = {
         submit: document.getElementById("search-submit"),
         input: document.getElementById("search-input")
@@ -27,6 +23,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     form.submit.addEventListener('click', function () {
         let req = JSON.stringify({});
+        let userId = sessionStorage.getItem("userId");
+        console.log("searchBox userId:" + userId);
+        if (userId === null) {
+            userId = 11111;
+        }
         let param = "?bookName="+form.input.value+"&userId="+userId;
         console.log(param);
         ajax('POST',
@@ -48,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     summary = items["map"]["map"]["description"];
                     itemId = items["map"]["map"]["item_id"];
                     isRated = items["rerating"];
-                    console.log(isRated);
                     sessionStorage.setItem("bookName", bookName);
                     sessionStorage.setItem("rate", rate);
                     sessionStorage.setItem("author", author);

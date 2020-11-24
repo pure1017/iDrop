@@ -23,7 +23,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 if(res === "join successfully"){
                     location.href='success.html';
                 } else {
-                    setTimeout(function(){ alert(res); }, 10);
+                    document.getElementById("modal_content").innerText = res;
+                    $('#myModal').modal('show');
                 }
             },
             // failed callback

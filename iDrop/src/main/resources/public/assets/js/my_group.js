@@ -113,13 +113,11 @@ document.addEventListener('DOMContentLoaded', function () {
                         ajax('POST', '/handleapplication'+param, req,
                             function (res){
                                 if (res === "add success") {
-                                    setTimeout(function () {
-                                        alert("add member successfully!");
-                                    }, 10);
+                                    document.getElementById("modal_content").innerText = "add member successfully!";
+                                    $('#myModal').modal('show');
                                 } else {
-                                    setTimeout(function () {
-                                        alert(res);
-                                    }, 10);
+                                    document.getElementById("modal_content").innerText = res;
+                                    $('#myModal').modal('show');
                                 }
                             },
                             // failed callback
