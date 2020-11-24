@@ -207,7 +207,6 @@ public class OpenLibraryApi {
       builder.setDescribe(getDescribe(doc));
       
       Item unit = builder.build();
-      saveItem(unit);
       itemList.add(unit);
     }
     

@@ -301,6 +301,9 @@ public class MysqlConnection {
         System.out.println("Searching in OL");
         OpenLibraryApi ol = new OpenLibraryApi();
         items = ol.search(keyword.toLowerCase(), typeKey);
+        for (Item item : items) {
+          ol.saveItem(item);
+        }
       }
     } catch (Exception e) {
       System.out.println(e.getMessage());

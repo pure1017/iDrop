@@ -32,8 +32,8 @@ public class OpenLibraryTest {
     OpenLibraryApi olApi = new OpenLibraryApi();
     List<Item> items = olApi.search(title, "title");
     Item item = items.get(0);
-    assertEquals("/works/OL27448W", item.getItemId());
-    assertEquals("The Lord of the Rings", item.getTitle());
+    assertEquals("worksOL27448W", item.getItemId());
+    assertEquals("the lord of the rings", item.getTitle());
     assertEquals("J.R.R. Tolkien", item.getAuthor());
   }
   
