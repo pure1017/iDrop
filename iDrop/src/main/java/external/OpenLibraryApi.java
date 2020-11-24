@@ -36,7 +36,7 @@ public class OpenLibraryApi {
       keyword = "";
     }
     try {
-      keyword = java.net.URLEncoder.encode(keyword, "UTF-8");
+      keyword = java.net.URLEncoder.encode(keyword, "UTF-8").toLowerCase();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -194,7 +194,7 @@ public class OpenLibraryApi {
       }
       
       if (!doc.isNull("title")) {
-        builder.setTitle(doc.getString("title"));
+        builder.setTitle(doc.getString("title").toLowerCase());
       }
       
       if (!doc.isNull("cover_i")) {
@@ -244,7 +244,7 @@ public class OpenLibraryApi {
       System.out.println("item_id : " + itemid);
       String sql = "INSERT OR IGNORE INTO items VALUES (?, ?, ?, ?, ?, ?, ?)";
       stmt = conn.prepareStatement(sql);
-      String title = item.getTitle(); //.toLowerCase();
+      String title = item.getTitle().toLowerCase();
       stmt.setString(1, itemid);
       stmt.setString(2, title);
       String author = item.getAuthor();

@@ -188,7 +188,7 @@ public class MysqlConnection {
 
         while (rs.next()) {
           builder.setItemId(rs.getString("item_id"));
-          builder.setTitle(rs.getString("title"));
+          builder.setTitle(rs.getString("title").toLowerCase());
           builder.setAuthor(rs.getString("author"));
           builder.setImageUrl(rs.getString("cover_url"));
           builder.setUrl(rs.getString("url"));
@@ -277,14 +277,14 @@ public class MysqlConnection {
     try {
       String sql = "SELECT * FROM items WHERE title = ?";
       stmt = conn.prepareStatement(sql);
-      stmt.setString(1, keyword);
+      stmt.setString(1, keyword.toLowerCase());
       rs = stmt.executeQuery();
       if (rs.next()) {
         System.out.println("Searching in DB");
         ItemBuilder builder = new ItemBuilder();
         String itemId = rs.getString("item_id");
         builder.setItemId(itemId);
-        builder.setTitle(rs.getString("title"));
+        builder.setTitle(rs.getString("title").toLowerCase());
         builder.setAuthor(rs.getString("author"));
         builder.setImageUrl(rs.getString("cover_url"));
         builder.setUrl(rs.getString("url"));
@@ -300,10 +300,8 @@ public class MysqlConnection {
       } else {
         System.out.println("Searching in OL");
         OpenLibraryApi ol = new OpenLibraryApi();
-        items = ol.search(keyword, typeKey);
+        items = ol.search(keyword.toLowerCase(), typeKey);
       }
-        
-
     } catch (Exception e) {
       System.out.println(e.getMessage());
     } finally {
@@ -1001,10 +999,4 @@ public class MysqlConnection {
     return false;
   }
 }
-
-
-
-
-
-
 
