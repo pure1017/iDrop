@@ -52,6 +52,7 @@
   </script>
   <script src="assets/js/googleSignin.js"></script>
   <script type="module" src="assets/js/searchBox.js"></script>
+  <script src="assets/js/innerGroup_page.js"></script>
 </head>
 
 <body>
@@ -95,12 +96,12 @@
       <div class="container">
 
         <div class="d-flex justify-content-between align-items-center">
-          <h2>My Group/Group Name</h2>
+          <h2 id="group_name_1">My Group/Group Name</h2>
 <!--          add group name here-->
           <ol>
             <li><a href="start.html">Home</a></li>
             <li>My Group</li>
-            <li>Group Name</li>
+            <li id="group_name_2">Group Name</li>
           </ol>
         </div>
 
@@ -109,9 +110,10 @@
 
     <section class="inner-page">
       <div class="container">
-        <p style="float: left;"><a href="innerGroup_page.html"><img src="assets/img/testimonials/little_prince.jpg" height="230px" width="180px" border="1px" style="margin-right: 20px"></a></p>
-        <p>Summary:</p>
-<!--        add brief book plot here-->
+        <p style="float: left;"><img id="group_img" src="" height="230px" width="180px" border="1px" style="margin-right: 20px"></p>
+        <p id="group_name">Group Name:</p>
+        <p id="begin_date">Begin Date:</p>
+        <p id="group_desc">Group Description:</p>
       </div>
     </section>
 

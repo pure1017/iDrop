@@ -120,6 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
             div_comment.innerHTML = '';
             if (res !== "input error") {
                 var items = JSON.parse(res);
+                console.log(items);
                 for (let item in items) {
                     var rating = items[item][1];
                     var comment = items[item][2];
