@@ -31,6 +31,8 @@ import static j2html.TagCreator.attrs;
 import static j2html.TagCreator.b;
 import static j2html.TagCreator.p;
 import static j2html.TagCreator.span;
+import static j2html.TagCreator.div;
+import static j2html.TagCreator.img;
 
 class Start {
 
@@ -39,7 +41,9 @@ class Start {
   private static Javalin app;
 
   private static Map<WsContext, String> userUsernameMap = new ConcurrentHashMap<>();
-  private static int nextUserNumber = 1; // Assign to username for next connecting user
+  
+  private static String currentUserName = "";
+
   /** Main method of the application.
    * @param args Command line arguments
    */
@@ -334,8 +338,8 @@ class Start {
     
     app.ws("/chat", ws -> {
       ws.onConnect(ctx -> {
-        String username = "User" + nextUserNumber++;
-        System.out.println(username);
+        String username = ctx.queryParam("userName");
+        currentUserName = username;
         userUsernameMap.put(ctx, username);
         broadcastMessage("Server", (username + " joined the chat"));
       });
@@ -363,11 +367,31 @@ class Start {
 
   // Builds a HTML element with a sender-name, a message, and a timestamp
   private static String createHtmlMessageFromSender(String sender, String message) {
+    if (sender == currentUserName) {
+      return article(
+        div(attrs(".outgoing-chats"),
+          div(attrs(".outgoing-chats-msg"),
+            p(message),
+            span(attrs(".time"), new SimpleDateFormat("HH:mm:ss").format(new Date()))),
+          div(attrs(".outgoing-chats-img"), img().withSrc("assets/img/user2.JPG")))
+        ).render();
+    } else if (sender == "Server") {
+      return article(
+        div(attrs(".server_msg_box"),
+          p(attrs("#server_msg"), message))
+        ).render();
+    }
     return article(
-          b(sender + " says:"),
-          span(attrs(".timestamp"), new SimpleDateFormat("HH:mm:ss").format(new Date())),
-          p(message)
-      ).render();
+      div(attrs(".received-chats"),
+        div(attrs(".received-chats-img"), img().withSrc("assets/img/user1.JPG")),
+        div(attrs(".received-msg"),
+          div(attrs(".received-msg-inbox"),
+          p(message),
+          span(attrs(".time"), new SimpleDateFormat("HH:mm:ss").format(new Date()))
+          )
+        )
+      )
+    ).render();
   }
   
   /** Send message to all players.

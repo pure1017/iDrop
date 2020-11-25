@@ -1983,6 +1983,18 @@ section {
   width: 57%;
 }
 
+.chat_box .server_msg_box
+{
+  margin:0 auto;
+  width: 50%;
+  color: lightgray;
+}
+
+.chat_box .server_msg_box p
+{
+  text-align:center;
+}
+
 .chat_box .received-msg-inbox p
 {
   background: #efefef none repeat scroll 0 0;
@@ -2093,14 +2105,11 @@ section {
 }
 
 #userlist {
-    position: relative;
-    left: 50%;
     list-style: none;
     margin: 0 0 0 250px;
     background: #eee;
     padding: 5px 10px;
     width: 150px;
-    top: 30px;
 }
 
 /*--------------------------------------------------------------
