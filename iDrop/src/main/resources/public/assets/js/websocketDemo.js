@@ -1,9 +1,10 @@
 // small helper function for selecting element by id
 let id = id => document.getElementById(id);
 const userName = sessionStorage.getItem("userName");
+const userPicture = sessionStorage.getItem("userPicture");
 
 //Establish the WebSocket connection and set up event handlers
-let ws = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat?userName="+userName);
+let ws = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat?userName="+userName+"&picture="+userPicture);
 
 ws.onmessage = msg => updateChat(msg);
 ws.onclose = () => alert("WebSocket connection closed");

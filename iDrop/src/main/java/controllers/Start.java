@@ -41,8 +41,10 @@ class Start {
   private static Javalin app;
 
   private static Map<WsContext, String> userUsernameMap = new ConcurrentHashMap<>();
+  private static Map<String, String> userUserPicMap = new ConcurrentHashMap<>();
   
   private static String currentUserName = "";
+  private static String currentUserPicture = "";
 
   /** Main method of the application.
    * @param args Command line arguments
@@ -71,6 +73,7 @@ class Start {
       System.out.println(authCode);
       Map<String, String> map = GoogleApiLogin.login(authCode);
       Gson gson = new Gson();
+      System.out.println(gson.toJson(map));
       ctx.result(gson.toJson(map));
     });
     
@@ -339,8 +342,11 @@ class Start {
     app.ws("/chat", ws -> {
       ws.onConnect(ctx -> {
         String username = ctx.queryParam("userName");
+        String picture = ctx.queryParam("picture");
         currentUserName = username;
+        currentUserPicture = picture;
         userUsernameMap.put(ctx, username);
+        userUserPicMap.put(username, picture);
         broadcastMessage("Server", (username + " joined the chat"));
       });
       ws.onClose(ctx -> {
@@ -368,12 +374,13 @@ class Start {
   // Builds a HTML element with a sender-name, a message, and a timestamp
   private static String createHtmlMessageFromSender(String sender, String message) {
     if (sender == currentUserName) {
+      String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
       return article(
         div(attrs(".outgoing-chats"),
           div(attrs(".outgoing-chats-msg"),
             p(message),
-            span(attrs(".time"), new SimpleDateFormat("HH:mm:ss").format(new Date()))),
-          div(attrs(".outgoing-chats-img"), img().withSrc("assets/img/user2.JPG")))
+            span(attrs(".time"), sender + "  " + time)),
+          div(attrs(".outgoing-chats-img"), img().withSrc(currentUserPicture)))
         ).render();
     } else if (sender == "Server") {
       return article(
@@ -381,13 +388,14 @@ class Start {
           p(attrs("#server_msg"), message))
         ).render();
     }
+    String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
     return article(
       div(attrs(".received-chats"),
-        div(attrs(".received-chats-img"), img().withSrc("assets/img/user1.JPG")),
+        div(attrs(".received-chats-img"), img().withSrc(userUserPicMap.get(sender))),
         div(attrs(".received-msg"),
           div(attrs(".received-msg-inbox"),
           p(message),
-          span(attrs(".time"), new SimpleDateFormat("HH:mm:ss").format(new Date()))
+          span(attrs(".time"), sender + "  " + time)
           )
         )
       )

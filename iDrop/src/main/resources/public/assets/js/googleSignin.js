@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     let userId = sessionStorage.getItem("userId");
     let userName = sessionStorage.getItem("userName");
+    let userPicture = sessionStorage.getItem("userPicture");
     console.log("userId:"+userId);
 
     if (userId !== null) {
@@ -32,8 +33,10 @@ document.addEventListener('DOMContentLoaded', function () {
                   var items = JSON.parse(res);
                   userId = items["userId"];
                   userName = items["name"];
+                  userPicture = items["picture"];
                   sessionStorage.setItem("userId", userId);
                   sessionStorage.setItem("userName", userName);
+                  sessionStorage.setItem("userPicture", userPicture);
                   document.getElementById("greeting").innerText = 'Hi, ' + userName;
                   document.querySelector("#greeting").style.display = 'inline';
                   console.log("userId:"+userId);
