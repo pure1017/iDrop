@@ -59,11 +59,13 @@ public class GoogleApiLogin {
     GoogleIdToken.Payload payload = idToken.getPayload();
     String userId = payload.getSubject();  // Use this value as a key to identify a user.
     String email = payload.getEmail();
+    String pictureUrl = (String) payload.get("picture");
     String familyName = (String) payload.get("family_name");
     String givenName = (String) payload.get("given_name");
     Map<String, String> map = new HashMap<>();
     map.put("name", givenName);
     map.put("userId", userId);
+    map.put("pictureUrl", pictureUrl);
     
     //set data to database
     Connection conn = null;
