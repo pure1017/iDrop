@@ -34,4 +34,13 @@ public class ItemTest {
     JSONObject obj = item.toJsonObject();
     assertEquals(obj.getDouble("rating"), 5.0);
   }
+  
+  @Test
+  public void testToJsonObjectinvalid() {
+    ItemBuilder builder = new ItemBuilder();
+    Item item = builder.build();
+    JSONObject obj = item.toJsonObject();
+    assertEquals(obj.isNull("url"), true);
+    assertEquals(obj.getDouble("rating"), 0.0);
+  }
 }

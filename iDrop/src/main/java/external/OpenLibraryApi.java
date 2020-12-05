@@ -84,10 +84,13 @@ public class OpenLibraryApi {
    */
   
   public String getAuthor(JSONObject doc) throws JSONException {
-    String author = null;
+    String author = "";
     if (!doc.isNull("author_name")) {
       JSONArray nameSub = doc.getJSONArray("author_name");
-      author = nameSub.getString(0);
+      if (!nameSub.isEmpty()) {
+        author = nameSub.getString(0);
+      }
+
       //for (int i = 0; i < nameSub.length(); ++i) {
       //  String name = nameSub.getString(i);
       //  authors.add(name);
@@ -202,9 +205,16 @@ public class OpenLibraryApi {
         builder.setImageUrl(coverUrl);
       }
       
-      builder.setAuthor(getAuthor(doc));
-      builder.setCategories(getCategories(doc));
-      builder.setDescribe(getDescribe(doc));
+      if (!doc.isNull("author_name")) {
+        builder.setAuthor(getAuthor(doc));
+      }
+      if (!doc.isNull("subject")) {
+        builder.setCategories(getCategories(doc));
+      }
+      if (!doc.isNull("key")) {
+        builder.setDescribe(getDescribe(doc));
+      }
+      
       
       Item unit = builder.build();
       itemList.add(unit);
