@@ -149,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         let req = JSON.stringify({});
                         ajax('POST', '/handleapplication'+param, req,
                             function (res){
+                                console.log(res)
                                 if (res === "add success") {
                                     document.getElementById("modal_content").innerText = "add member successfully!";
                                     $('#myModal').modal('show');
@@ -175,10 +176,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         let req = JSON.stringify({});
                         ajax('POST', '/handleapplication'+param, req,
                             function (res){
+                                console.log(res)
                                 if (res === "reject success") {
-                                    setTimeout(function () {
-                                        alert("reject member successfully!");
-                                    }, 10);
+                                    document.getElementById("modal_content").innerText = "reject member successfully!";
+                                    $('#myModal').modal('show');
                                 }
                             },
                             // failed callback

@@ -2,7 +2,6 @@ userId = sessionStorage.getItem("userId");
 isRated = sessionStorage.getItem("isRated");
 
 document.addEventListener('DOMContentLoaded', function () {
-    console.log(isRated);
     if (isRated === "true") {
         document.getElementById("rating-button").innerText = "Rerating";
     }

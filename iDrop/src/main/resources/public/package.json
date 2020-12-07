@@ -5,6 +5,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "emailjs-com": "^2.6.4",
     "jquery": "^3.5.1"
   },
   "devDependencies": {

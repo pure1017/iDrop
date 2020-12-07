@@ -3,6 +3,8 @@ let id = id => document.getElementById(id);
 const userName = sessionStorage.getItem("userName");
 const userPicture = sessionStorage.getItem("userPicture");
 
+console.log("websocket userpic:"+userPicture)
+
 //Establish the WebSocket connection and set up event handlers
 let ws = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat?userName="+userName+"&picture="+userPicture);
 
@@ -12,7 +14,6 @@ ws.onclose = () => alert("WebSocket connection closed");
 // Add event listeners to button and input field
 id("send").addEventListener("click", () => sendAndClear(id("message").value));
 id("message").addEventListener("keypress", function (e) {
-    console.log("keypress");
     if (e.keyCode === 13) { // Send message if enter is pressed in input field
         sendAndClear(e.target.value);
     }

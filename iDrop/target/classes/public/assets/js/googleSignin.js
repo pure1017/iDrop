@@ -33,13 +33,13 @@ document.addEventListener('DOMContentLoaded', function () {
                   var items = JSON.parse(res);
                   userId = items["userId"];
                   userName = items["name"];
-                  userPicture = items["picture"];
+                  userPicture = items["pictureUrl"];
                   sessionStorage.setItem("userId", userId);
                   sessionStorage.setItem("userName", userName);
                   sessionStorage.setItem("userPicture", userPicture);
                   document.getElementById("greeting").innerText = 'Hi, ' + userName;
                   document.querySelector("#greeting").style.display = 'inline';
-                  console.log("userId:"+userId);
+                  console.log("userPicture:"+userPicture);
               },
               // failed callback
             function() {
