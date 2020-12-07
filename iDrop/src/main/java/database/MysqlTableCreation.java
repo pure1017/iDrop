@@ -310,6 +310,11 @@ public class MysqlTableCreation {
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       
+      sql = "INSERT INTO applications (group_id, group_name, member, message, validm) "
+         + "VALUES (1, 'group1', 'userId4', 'joinMessage4', 'undecided')";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
       //add fake rating
       sql = "INSERT INTO ratings (user_id, item_id, time, rating, comment) "
          + "VALUES ('44444', '333', '2020-11-22', 4.5, 'comment1')";

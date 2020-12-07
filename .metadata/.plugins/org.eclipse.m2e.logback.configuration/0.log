@@ -1927,3 +1927,28 @@ org.eclipse.core.runtime.CoreException: Could not resolve artifact com.google.gu
 2020-12-06 20:08:14,039 [Worker-126: Launching MysqlConnectionTest] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 137 resources
 2020-12-06 20:08:14,052 [Worker-126: Launching MysqlConnectionTest] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
 2020-12-06 20:08:14,053 [Worker-126: Launching MysqlConnectionTest] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2020-12-06 22:01:15,263 [Worker-0: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2020-12-06 22:02:35,809 [Worker-16: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2020-12-06 22:02:35,834 [Worker-16: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 137 resources
+2020-12-06 22:02:35,882 [Worker-16: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2020-12-06 22:02:35,885 [Worker-16: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-12-06 22:27:32,790 [Worker-21: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2020-12-06 22:27:32,806 [Worker-21: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 137 resources
+2020-12-06 22:27:32,821 [Worker-21: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2020-12-06 22:27:32,822 [Worker-21: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2020-12-06 22:27:42,754 [Worker-27: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2020-12-06 22:27:42,769 [Worker-27: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 137 resources
+2020-12-06 22:27:42,789 [Worker-27: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2020-12-06 22:27:42,791 [Worker-27: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2020-12-06 22:28:08,165 [Worker-28: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2020-12-06 22:28:08,175 [Worker-28: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 137 resources
+2020-12-06 22:28:08,191 [Worker-28: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2020-12-06 22:28:08,193 [Worker-28: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2020-12-06 22:28:09,340 [Worker-28: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2020-12-06 22:28:09,341 [Worker-28: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2020-12-06 22:28:09,352 [Worker-28: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2020-12-06 22:28:09,353 [Worker-28: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2020-12-06 22:28:14,878 [Worker-25: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2020-12-06 22:28:14,891 [Worker-25: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 137 resources
+2020-12-06 22:28:14,907 [Worker-25: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2020-12-06 22:28:14,908 [Worker-25: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
