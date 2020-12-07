@@ -54,6 +54,10 @@ public class MysqlTableCreation {
       sql = "DROP TABLE IF EXISTS groups";
       stmt.executeUpdate(sql);
       
+      sql = "DROP TABLE IF EXISTS applications";
+      stmt.executeUpdate(sql);
+      
+      
       sql = "DROP TABLE IF EXISTS ratings";
       stmt.executeUpdate(sql);
 
@@ -116,6 +120,19 @@ public class MysqlTableCreation {
         + "FOREIGN KEY (member_2) REFERENCES users(user_id),"
         + "FOREIGN KEY (member_3) REFERENCES users(user_id),"
         + "FOREIGN KEY (member_4) REFERENCES users(user_id))";
+      stmt.executeUpdate(sql);
+      
+      sql = "CREATE TABLE applications ("
+        + "application_id INT AUTO_INCREMENT,"
+        + "group_id INT NOT NULL,"
+        + "group_name VARCHAR(255) NOT NULL,"
+        + "member VARCHAR(255) NOT NULL,"
+        + "message VARCHAR(255) NOT NULL,"
+        + "validm VARCHAR(255) NOT NULL,"
+        + "PRIMARY KEY (group_id, member),"
+        + "FOREIGN KEY (member) REFERENCES users(user_id),"
+        + "FOREIGN KEY (group_id) REFERENCES groups(group_id),"
+        + "FOREIGN KEY (group_name) REFERENCES groups(group_name))";
       stmt.executeUpdate(sql);
       
       sql = "CREATE TABLE ratings ("
@@ -290,6 +307,11 @@ public class MysqlTableCreation {
          + "group_size, group_description, member_1, message_1, member_2, message_2, current_size) "
          + "VALUES (3, 'group3', 'book3', '22222', '2020', "
          + "5, 'description1', '11111', 'message1', '33333', 'message2', 3)";
+      System.out.println("Executing query: " + sql);
+      stmt.executeUpdate(sql);
+      
+      sql = "INSERT INTO applications (group_id, group_name, member, message, validm) "
+         + "VALUES (1, 'group1', 'userId4', 'joinMessage4', 'undecided')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       

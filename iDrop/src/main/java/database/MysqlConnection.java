@@ -537,6 +537,7 @@ public class MysqlConnection {
     }
     PreparedStatement stmt = null;
     ResultSet rs = null;
+    int groupId;
     try {
       //check if the group exists or full
       String sql = "SELECT * FROM groups WHERE group_name = ?";
@@ -547,26 +548,54 @@ public class MysqlConnection {
         return 1;
       }
       int currentSize = rs.getInt("current_size");
-      if (currentSize == 4) {
+      if (currentSize >= 4) {
         return 2;
       }
-      
-      //find which member is empty
-      int i = 1;
-      String member = "member_1";
-      
-      while (rs.getString(member) != null && i <= 4) {
-        i++;
-        member = String.format("member_%s", Integer.toString(i));
+      groupId = rs.getInt("group_id");
+      if (stmt != null) {
+        stmt.close();
       }
-      stmt.close();
-      
-      String message = String.format("message_%s", Integer.toString(i));
-      sql = String.format("UPDATE groups SET %s = '%s', %s = '%s', %s = %d WHERE group_name = '%s'",
-          member, userId, message, joinMessage, "current_size", currentSize + 1, groupName);
+      sql = "INSERT OR IGNORE INTO applications (group_id, group_name, member, message, validm)"
+        + " VALUES (?, ?, ?, ?, ?)";
       stmt = conn.prepareStatement(sql);
+      stmt.setInt(1, groupId);
+      stmt.setString(2, groupName);
+      stmt.setString(3, userId);
+      stmt.setString(4, joinMessage);
+      stmt.setString(5, "undecided");
       stmt.execute();
       stmt.close();
+
+      //check if the group exists or full
+      //String sql = "SELECT * FROM groups WHERE group_name = ?";
+      //stmt = conn.prepareStatement(sql);
+      //stmt.setString(1, groupName);
+      //rs = stmt.executeQuery();
+      //if (rs.next() == false) {
+      //  return 1;
+      //}
+      //int currentSize = rs.getInt("current_size");
+      //if (currentSize == 4) {
+      //  return 2;
+      //}
+      
+      //find which member is empty
+      //int i = 1;
+      //String member = "member_1";
+      
+      //while (rs.getString(member) != null && i <= 4) {
+      //  i++;
+      //  member = String.format("member_%s", Integer.toString(i));
+      //}
+      //stmt.close();
+      
+      //String message = String.format("message_%s", Integer.toString(i));
+      //sql = String.format("UPDATE groups SET %s = '%s', %s = '%s', %s = %d WHERE 
+      //group_name = '%s'",
+      //    member, userId, message, joinMessage, "current_size", currentSize + 1, groupName);
+      //stmt = conn.prepareStatement(sql);
+      //stmt.execute();
+      //stmt.close();
     } catch (SQLException e) {
       e.printStackTrace();
     } finally {
@@ -660,8 +689,9 @@ public class MysqlConnection {
     ResultSet rs2 = null;
     List<Map<String, String>> groups = new ArrayList<>();
     try {
-      String sql = "SELECT * FROM groups WHERE member_1 = ?"
-          + "OR member_2 = ? OR member_3 = ? OR member_4 = ?";
+      String sql = "SELECT * FROM groups WHERE member_1 = ? "
+          + "OR member_2 = ?  OR member_3 = ? "
+          + "OR member_4 = ?";
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, userId);
       stmt.setString(2, userId);
@@ -720,45 +750,89 @@ public class MysqlConnection {
    * @param userId .
    * @return
    */
-  public List<Map<String, Map<String, Map<String, String>>>> getJoinMessages(String userId) {
+  public List<Map<String, List<Map<String, String>>>> getJoinMessages(String userId) {
     if (conn == null) {
       return null;
     }
     PreparedStatement stmt = null;
     ResultSet rs = null;
-    List<Map<String, Map<String, Map<String, String>>>> result = new ArrayList<>();
+    List<Map<String, List<Map<String, String>>>> result = new ArrayList<>();
     try {
       String sql = "SELECT * FROM groups WHERE host = ?";
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, userId);
       rs = stmt.executeQuery();
+      int groupId;
+      String groupName = "";
+      String sql2 = "";
       while (rs.next()) {
-        List<Map<String, String>> mapList = new ArrayList<>();
+        PreparedStatement stmt2 = null;
+        ResultSet rs2 = null;
+        groupId = rs.getInt("group_id");
+        groupName = rs.getString("group_name");
+        try {
+          sql2 = "SELECT * FROM applications WHERE group_id = ?";
+          stmt2 = conn.prepareStatement(sql2);
+          stmt2.setInt(1, groupId);
+          rs2 = stmt2.executeQuery();
+          List<Map<String, String>> applicationForEach = new ArrayList<>();
+          while (rs2.next()) {
+            Map<String, String> map = new HashMap<>();
+            map.put("userId", rs2.getString("member"));
+            map.put("message", rs2.getString("message"));
+            applicationForEach.add(map);
+          }
+          
+          Map<String, List<Map<String, String>>> maplist = new HashMap<>();
+          maplist.put(groupName, applicationForEach);
+          result.add(maplist);
+          stmt2.close();
+          rs2.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        } finally {
+          if (stmt2 != null) {
+            try {
+              stmt2.close();
+            } catch (SQLException e) {
+              e.printStackTrace();
+            }
+          }
+          if (rs2 != null) {
+            try {
+              rs2.close();
+            } catch (SQLException e) {
+              e.printStackTrace();
+            }
+          }
+        }
+    	
+        //List<Map<String, String>> mapList = new ArrayList<>();
+        //Map<String, Map<String, String>> mapmap = new HashMap<>();
+        //Map<String, String> map1 = new HashMap<>();
         
-        Map<String, Map<String, String>> mapmap = new HashMap<>();
-        Map<String, String> map1 = new HashMap<>();
-        map1.put("userId", rs.getString("member_1"));
-        map1.put("message", rs.getString("message_1"));
-        mapmap.put("joinmessage1", map1);
+        //map1.put("userId", rs.getString("member_1"));
+        //map1.put("message", rs.getString("message_1"));
+        //mapmap.put("joinmessage1", map1);
         
-        Map<String, String> map2 = new HashMap<>();
-        map2.put("userId", rs.getString("member_2"));
-        map2.put("message", rs.getString("message_2"));
-        mapmap.put("joinmessage2", map2);
+        //Map<String, String> map2 = new HashMap<>();
+        //map2.put("userId", rs.getString("member_2"));
+        //map2.put("message", rs.getString("message_2"));
+        //mapmap.put("joinmessage2", map2);
         
-        Map<String, String> map3 = new HashMap<>();
-        map3.put("userId", rs.getString("member_3"));
-        map3.put("message", rs.getString("message_3"));
-        mapmap.put("joinmessage3", map3);
+        //Map<String, String> map3 = new HashMap<>();
+        //map3.put("userId", rs.getString("member_3"));
+        //map3.put("message", rs.getString("message_3"));
+        //mapmap.put("joinmessage3", map3);
         
-        Map<String, String> map4 = new HashMap<>();
-        map4.put("userId", rs.getString("member_4"));
-        map4.put("message", rs.getString("message_4"));
-        mapmap.put("joinmessage4", map4);
+        //Map<String, String> map4 = new HashMap<>();
+        //map4.put("userId", rs.getString("member_4"));
+        //map4.put("message", rs.getString("message_4"));
+        //mapmap.put("joinmessage4", map4);
         
-        Map<String, Map<String, Map<String, String>>> mapmapmap = new HashMap<>();
-        mapmapmap.put(rs.getString("group_name"), mapmap);
-        result.add(mapmapmap);
+        //Map<String, Map<String, Map<String, String>>> mapmapmap = new HashMap<>();
+        //mapmapmap.put(rs.getString("group_name"), mapmap);
+        //result.add(mapmapmap);
       }
       stmt.close();
       rs.close();
@@ -913,10 +987,12 @@ public class MysqlConnection {
     PreparedStatement ps = null;
     ResultSet rs = null;
     try {
-      String sql = String.format("SELECT current_size, group_size FROM groups "
-          + "WHERE group_name = %s", groupName);
+      String sql = "SELECT group_id, current_size, group_size FROM groups "
+          + "WHERE group_name = ?"; 
       stmt = conn.prepareStatement(sql);
+      stmt.setString(1, groupName);
       rs = stmt.executeQuery();
+      int groupId = rs.getInt("group_id");
       int currentSize = Integer.parseInt(rs.getString("current_size"));
       int groupSize = Integer.parseInt(rs.getString("group_size"));
       if (currentSize < groupSize) {
@@ -931,6 +1007,27 @@ public class MysqlConnection {
         ps.execute();
         ps.close();
         add = true;
+        PreparedStatement stmt2 = null;
+        try {
+          String sqlUpdate2 = "UPDATE applications SET validm = ? "
+              + "WHERE group_id = ? AND member = ?";
+          stmt2 = conn.prepareStatement(sqlUpdate2);
+          stmt2.setString(1, "proved");
+          stmt2.setInt(2, groupId);
+          stmt2.setString(3, applicantId);
+          stmt2.execute();
+          stmt2.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        } finally {
+          if (stmt2 != null) {
+            try {
+              stmt2.close();
+            } catch (SQLException e) {
+              e.printStackTrace();
+            }
+          }
+        }
       } else {
         add = false;
       }
@@ -954,6 +1051,64 @@ public class MysqlConnection {
       }
     }
     return add;
+  }
+  
+  /**
+   * This is to reject joining group requests.
+   */
+  
+  public boolean rejectJoinRequests(String applicantId, String groupName) {
+    if (conn == null) {
+      return false;
+    }
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    try {
+      String sql = "SELECT group_id, current_size, group_size FROM groups "
+          + "WHERE group_name = ?"; 
+      stmt = conn.prepareStatement(sql);
+      stmt.setString(1, groupName);
+      rs = stmt.executeQuery();
+      int groupId = rs.getInt("group_id");
+      PreparedStatement stmt2 = null;
+      try {
+        String sqlUpdate2 = "UPDATE applications SET validm = ? WHERE group_id = ? AND member = ?";
+        stmt2 = conn.prepareStatement(sqlUpdate2);
+        stmt2.setString(1, "Denied");
+        stmt2.setInt(2, groupId);
+        stmt2.setString(3, applicantId);
+        stmt2.execute();
+        stmt2.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      } finally {
+        if (stmt2 != null) {
+          try {
+            stmt2.close();
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      if (stmt != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          stmt.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return true;
   }
   
   /**

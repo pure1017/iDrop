@@ -208,9 +208,9 @@ public class OpenLibraryApi {
       if (!doc.isNull("author_name")) {
         builder.setAuthor(getAuthor(doc));
       }
-      if (!doc.isNull("subject")) {
-        builder.setCategories(getCategories(doc));
-      }
+      //if (!doc.isNull("subject")) {
+      builder.setCategories(getCategories(doc));
+      //}
       if (!doc.isNull("key")) {
         builder.setDescribe(getDescribe(doc));
       }

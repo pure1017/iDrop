@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var user_list = [];
             var message_list = [];
             for (let item in items) {
-                var group_name = Object.keys(items[item])[0];
+                var group_name = Object.keys(items[item]);
                 for (let m in Object.keys(items[item][group_name])) {
                     var message_name = Object.keys(items[item][group_name])[m]
                     if (items[item][group_name][message_name]["message"]) {
@@ -149,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         let req = JSON.stringify({});
                         ajax('POST', '/handleapplication'+param, req,
                             function (res){
+                                console.log(res)
                                 if (res === "add success") {
                                     document.getElementById("modal_content").innerText = "add member successfully!";
                                     $('#myModal').modal('show');
@@ -175,10 +176,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         let req = JSON.stringify({});
                         ajax('POST', '/handleapplication'+param, req,
                             function (res){
+                                console.log(res)
                                 if (res === "reject success") {
-                                    setTimeout(function () {
-                                        alert("reject member successfully!");
-                                    }, 10);
+                                    document.getElementById("modal_content").innerText = "reject member successfully!";
+                                    $('#myModal').modal('show');
                                 }
                             },
                             // failed callback

@@ -1398,7 +1398,7 @@ section {
   font-size: 14px;
 }
 
-.contact .php-email-form .validate {
+.contact .php_email_form .validate {
   display: none;
   color: red;
   margin: 0 0 15px 0;
@@ -1406,7 +1406,7 @@ section {
   font-size: 13px;
 }
 
-.contact .php-email-form .error-message {
+.contact .php_email_form .error-message {
   display: none;
   color: #fff;
   background: #ed3c0d;
@@ -1415,11 +1415,11 @@ section {
   font-weight: 600;
 }
 
-.contact .php-email-form .error-message br + br {
+.contact .php_email_form .error-message br + br {
   margin-top: 25px;
 }
 
-.contact .php-email-form .sent-message {
+.contact .php_email_form .sent-message {
   display: none;
   color: #fff;
   background: #18d26e;
@@ -1428,14 +1428,14 @@ section {
   font-weight: 600;
 }
 
-.contact .php-email-form .loading {
+.contact .php_email_form .loading {
   display: none;
   background: #fff;
   text-align: center;
   padding: 15px;
 }
 
-.contact .php-email-form .loading:before {
+.contact .php_email_form .loading:before {
   content: "";
   display: inline-block;
   border-radius: 50%;
@@ -1448,13 +1448,13 @@ section {
   animation: animate-loading 1s linear infinite;
 }
 
-.contact .php-email-form input, .contact .php-email-form textarea {
+.contact .php_email_form input, .contact .php_email_form textarea {
   border-radius: 0;
   box-shadow: none;
   font-size: 14px;
 }
 
-.contact .php-email-form button[type="submit"] {
+.contact button[type="submit"] {
   background: #3498db;
   border: 0;
   padding: 10px 24px;
@@ -1463,7 +1463,7 @@ section {
   border-radius: 50px;
 }
 
-.contact .php-email-form button[type="submit"]:hover {
+.contact button[type="submit"]:hover {
   background: #2383c4;
 }
 
@@ -1480,7 +1480,7 @@ section {
   background: #2383c4;
 }
 
-.host_group .php-email-form button[type="submit"] {
+.host_group .php_email_form button[type="submit"] {
   background: #3498db;
   border: 0;
   padding: 10px 24px;
@@ -1489,11 +1489,11 @@ section {
   border-radius: 50px;
 }
 
-.host_group .php-email-form button[type="submit"]:hover {
+.host_group .php_email_form button[type="submit"]:hover {
   background: #2383c4;
 }
 
-.join_group .php-email-form button[type="submit"] {
+.join_group .php_email_form button[type="submit"] {
   background: #3498db;
   border: 0;
   padding: 10px 24px;
@@ -1515,7 +1515,7 @@ section {
   border-radius: 50px;
 }
 
-.join_group .php-email-form button[type="submit"]:hover {
+.join_group .php_email_form button[type="submit"]:hover {
   background: #2383c4;
 }
 

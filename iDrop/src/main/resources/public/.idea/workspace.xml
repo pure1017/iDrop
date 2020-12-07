@@ -2,11 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08a6b24c-2a41-4dfb-bdc2-af3a0a53f87e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../java/controllers/Start.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/controllers/Start.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/googleSignin.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/googleSignin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/websocketDemo.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/websocketDemo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../../target/classes/controllers/Start.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/controllers/Start.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/my_group.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/my_group.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/book_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/book_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/favorite_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/favorite_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/host_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/host_group.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/innerGroup_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/innerGroup_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inner_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/inner_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/join_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/join_group.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my_group.html" beforeDir="false" afterPath="$PROJECT_DIR$/my_group.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start.html" beforeDir="false" afterPath="$PROJECT_DIR$/start.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../../target/classes/public/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../target/classes/public/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +25,8 @@
         <option value="HTML File" />
         <option value="Python Script" />
         <option value="package.json" />
-        <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -115,7 +120,10 @@
       <workItem from="1606117602175" duration="12340000" />
       <workItem from="1606185384186" duration="14147000" />
       <workItem from="1606270471977" duration="5164000" />
-      <workItem from="1606398957558" duration="788000" />
+      <workItem from="1606398957558" duration="809000" />
+      <workItem from="1606720308141" duration="505000" />
+      <workItem from="1607249310109" duration="10507000" />
+      <workItem from="1607309524956" duration="6119000" />
     </task>
     <servers />
   </component>
