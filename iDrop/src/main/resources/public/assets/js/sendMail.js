@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function () {
             message: form.content.value,
         }).then(r  => console.log(r));
 
+        document.getElementById("modal_content").innerText = "email being sent";
+        $('#myModal').modal('show');
+
         console.log("send email");
     })
 })
