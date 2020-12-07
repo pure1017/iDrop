@@ -47,8 +47,7 @@ public class BookRecommend {
         }
     });
     
-    // Step 3, do search based on category, filter out favorited events, sort by
-    // distance
+    // Step 3, do search based on category, filter out favorite items
     Set<String> visitedItems = new HashSet<>();
     Entry<String, Integer> category = categoryList.get(0);
     System.out.println(category.getKey());

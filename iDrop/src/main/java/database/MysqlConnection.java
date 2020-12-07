@@ -450,6 +450,7 @@ public class MysqlConnection {
           builder.setAuthor(rs.getString("author"));
           builder.setImageUrl(rs.getString("cover_url"));
           builder.setUrl(rs.getString("url"));
+          builder.setRating(rs.getDouble("rating"));
           if (rs.getString("description").length() < 250) {
             builder.setDescribe(rs.getString("description"));
           } else {

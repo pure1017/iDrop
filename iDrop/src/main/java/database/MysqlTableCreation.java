@@ -258,7 +258,7 @@ public class MysqlTableCreation {
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       
-      sql = "INSERT INTO categories VALUES ('222', 'female')";
+      sql = "INSERT INTO categories VALUES ('222', 'male')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       

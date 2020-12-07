@@ -37,7 +37,7 @@ public class RecommendTest {
       assertEquals("444", ck.getItemId());
       assertEquals("hao", ck.getAuthor());
       assertEquals("image url", ck.getImageUrl());
-      assertEquals(0.0, ck.getRating());
+      assertEquals(4.0, ck.getRating());
       assertEquals("url", ck.getUrl());
       assertEquals(category, ck.getCategories());
     }
