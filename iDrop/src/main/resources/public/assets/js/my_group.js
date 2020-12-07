@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var user_list = [];
             var message_list = [];
             for (let item in items) {
-                var group_name = Object.keys(items[item])[0];
+                var group_name = Object.keys(items[item]);
                 for (let m in Object.keys(items[item][group_name])) {
                     var message_name = Object.keys(items[item][group_name])[m]
                     if (items[item][group_name][message_name]["message"]) {
