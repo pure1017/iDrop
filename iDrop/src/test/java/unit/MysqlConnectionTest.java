@@ -194,14 +194,19 @@ public class MysqlConnectionTest {
   @Order(12)
   public void testJoinGroup() {
     MysqlConnection conn = new MysqlConnection();
-    int check = conn.joinGroup("userId1", "group1", "joinMessage");
-    
+    int check = conn.joinGroup("userId1", "group1", "joinMessage1");
     assertEquals(0, check);
     check = conn.joinGroup("userId1", "groupgroup", "joinMessage");
     assertEquals(1, check);
     conn.joinGroup("userId2", "group1", "joinMessage");
     conn.joinGroup("userId3", "group1", "joinMessage");
-    check = conn.joinGroup("userId4", "group1", "joinMessage");
+    String userId1 = "miao";
+    String userId2 = "liu";
+    String groupName1 = "group2";
+    String groupName2 = "group3";
+    conn.joinGroup(userId1, groupName1, "testfalse");
+    conn.joinGroup(userId2, groupName2, "testtrue");
+    check = conn.joinGroup("userId4", "group2", "joinMessage");
     assertEquals(2, check);
   }
   
@@ -238,8 +243,9 @@ public class MysqlConnectionTest {
   public void testGetJoinMessages() {
     MysqlTableCreation.main(null);
     MysqlConnection conn = new MysqlConnection();
-    List<Map<String, Map<String, Map<String, String>>>> check = conn.getJoinMessages("11111");
-    assertEquals("message1", check.get(0).get("group1").get("joinmessage1").get("message"));
+    conn.joinGroup("userId1", "group1", "joinMessage1");
+    List<Map<String, List<Map<String, String>>>> check = conn.getJoinMessages("11111");
+    assertEquals("joinMessage1", check.get(0).get("group1").get(0).get("message"));
     conn.close();
   }
   
@@ -312,8 +318,8 @@ public class MysqlConnectionTest {
     MysqlConnection mc = new MysqlConnection();
     String userId1 = "miao";
     String userId2 = "liu";
-    String groupName1 = "'group2'";
-    String groupName2 = "'group3'";
+    String groupName1 = "group2";
+    String groupName2 = "group3";
     boolean check1 = mc.handleJoinRequests(userId1, groupName1);
     boolean check2 = mc.handleJoinRequests(userId2, groupName2);
     assertEquals(false, check1);
@@ -321,9 +327,20 @@ public class MysqlConnectionTest {
     mc.close();
   }
   
+  
+  @Test
+  @Order(19)
+  public void testRejectJoinRequests() {
+    MysqlConnection mc = new MysqlConnection();
+    boolean check1 = mc.rejectJoinRequests("userId1", "group1");
+    assertEquals(true, check1);
+    mc.close();
+  }
+  
+  
   // This is to test method ifRerating()
   @Test
-  @Order(18)
+  @Order(20)
   public void testIfRerating() {
     MysqlConnection mc = new MysqlConnection();
     String userId = "44444";

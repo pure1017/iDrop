@@ -239,7 +239,7 @@ class Start {
       //http://localhost:8080/getjoinmessage?userId=11111
       String userId = ctx.queryParam("userId");
       MysqlConnection conn = new MysqlConnection();
-      List<Map<String, Map<String, Map<String, String>>>> messages = conn.getJoinMessages(userId);
+      List<Map<String, List<Map<String, String>>>> messages = conn.getJoinMessages(userId);
       Gson gson = new Gson();
       ctx.result(gson.toJson(messages));
     });
@@ -322,17 +322,18 @@ class Start {
         ctx.result("input error");
         return;
       }
+      MysqlConnection conn = new MysqlConnection();
       if (add == false) {
+        conn.rejectJoinRequests(applicantId, groupName);
         ctx.result("reject success");
         return;
       }
-      MysqlConnection conn = new MysqlConnection();
       boolean isAvailable = conn.handleJoinRequests(applicantId, groupName);
       conn.close();
       if (isAvailable) {
         ctx.result("add success");
       } else {
-        ctx.result("reject success");
+        ctx.result("Up to volumn limit");
       }
       
     });
