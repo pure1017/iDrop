@@ -237,19 +237,19 @@ public class MysqlTableCreation {
       stmt.executeUpdate(sql);
       
       //add fake categories
-      sql = "INSERT INTO categories VALUES ('111', 'male')";
+      sql = "INSERT INTO categories VALUES ('111', 'fiction')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       
-      sql = "INSERT INTO categories VALUES ('222', 'male')";
+      sql = "INSERT INTO categories VALUES ('222', 'fiction')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       
-      sql = "INSERT INTO categories VALUES ('333', 'female')";
+      sql = "INSERT INTO categories VALUES ('333', 'fiction')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       
-      sql = "INSERT INTO categories VALUES ('444', 'female')";
+      sql = "INSERT INTO categories VALUES ('444', 'fiction')";
       System.out.println("Executing query: " + sql);
       stmt.executeUpdate(sql);
       

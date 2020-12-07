@@ -34,7 +34,7 @@ import static j2html.TagCreator.span;
 import static j2html.TagCreator.div;
 import static j2html.TagCreator.img;
 
-class Start {
+public class Start {
 
   private static final int PORT_NUMBER = 8080;
 
@@ -162,8 +162,10 @@ class Start {
     app.post("/recommend", ctx -> {
       String userId = ctx.queryParam("userId");
       Set<Item> items = BookRecommend.recommendItems(userId);
+      System.out.println("3333333333333");
       JSONArray arr = new JSONArray();
       int count = 0;
+      System.out.println("4444444444444");
       for (Item item : items) {
         JSONObject obj = item.toJsonObject();
         if (count >= 5) {
@@ -172,6 +174,7 @@ class Start {
         count = count + 1;
         arr.put(obj);
       }
+      System.out.println("5555555555");
       Gson gson = new Gson();
       ctx.result(gson.toJson(arr));
     });
@@ -400,21 +403,6 @@ class Start {
         )
       )
     ).render();
-  }
-  
-  /** Send message to all players.
-   * @param gameBoardJson Gameboard JSON
-   * @throws IOException Websocket message send IO Exception
-   */
-  private static void sendGameBoardToAllPlayers(final String gameBoardJson) {
-    Queue<Session> sessions = UiWebSocket.getSessions();
-    for (Session sessionPlayer : sessions) {
-      try {
-        sessionPlayer.getRemote().sendString(gameBoardJson);
-      } catch (IOException e) {
-        // Add logger here
-      }
-    }
   }
 
   public static void stop() {
