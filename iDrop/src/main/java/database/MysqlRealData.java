@@ -13,7 +13,7 @@ public class MysqlRealData {
    */
   public static void main(String[] args) {
 
-    MysqlTableCreation.createTables();
+    //MysqlTableCreation.createTables();
     addRealData();
   }
   

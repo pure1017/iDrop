@@ -5,13 +5,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import entity.Item;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import controllers.Start;
+import database.MysqlRealData;
+import database.MysqlTableCreation;
 import recommendation.BookRecommend;
 
 public class RecommendTest {
   /**
    * This is to test book recommendation function.
    */
+  
+  @BeforeAll
+  public static void init() {
+    // Start Server
+    MysqlTableCreation.main(null);
+    System.out.println("Before All");
+  }
+  
   @Test
   public void testRecommend() {
     

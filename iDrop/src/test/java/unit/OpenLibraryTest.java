@@ -17,10 +17,23 @@ import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import controllers.Start;
+import database.MysqlRealData;
+import database.MysqlTableCreation;
 
 
 public class OpenLibraryTest {
+  
+  @BeforeAll
+  public static void init() {
+    // Start Server
+    MysqlTableCreation.main(null);
+    MysqlRealData.main(null);
+    System.out.println("Before All");
+  }
   
   /**
    * to test method search. 

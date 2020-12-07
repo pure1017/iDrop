@@ -16,13 +16,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 
 public class MysqlConnectionTest {
+  
+  
+  @BeforeAll
+  public static void init() {
+    // Start Server
+    MysqlTableCreation.main(null);
+    System.out.println("Before All");
+  }
   
   /**
    * This is to test method close().
