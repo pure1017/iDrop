@@ -177,6 +177,7 @@ public class MysqlConnectionTest {
     MysqlConnection mc = new MysqlConnection();
     Set<String> check = mc.getItemsOnCat(category);
     Set<String> sample = new HashSet<>();
+    sample.add("111");
     sample.add("333");
     sample.add("444");
     assertEquals(sample, check);
