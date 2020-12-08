@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>OpenLibraryTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">project (Dec 8, 2020 10:12:07 PM)</a> &gt; <a href="../../index.html" class="el_group">project</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">unit</a> &gt; <span class="el_source">OpenLibraryTest.java</span></div><h1>OpenLibraryTest.java</h1><pre class="source lang-java linenums">package unit;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import entity.Item;
+import entity.Item.ItemBuilder;
+import external.OpenLibraryApi;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import controllers.Start;
+import database.MysqlRealData;
+import database.MysqlTableCreation;
+
+
+<span class="fc" id="L28">public class OpenLibraryTest {</span>
+  
+  /**
+   * Before all.
+   */
+  @BeforeAll
+  public static void init() {
+    // Start Server
+<span class="fc" id="L36">    MysqlTableCreation.main(null);</span>
+<span class="fc" id="L37">    MysqlRealData.main(null);</span>
+<span class="fc" id="L38">    System.out.println(&quot;Before All&quot;);</span>
+<span class="fc" id="L39">  }</span>
+  
+  /**
+   * to test method search. 
+   */
+  
+  @Test
+  public void testSearch() {
+<span class="fc" id="L47">    String title = &quot;the lord of rings&quot;;  </span>
+<span class="fc" id="L48">    OpenLibraryApi olApi = new OpenLibraryApi();</span>
+<span class="fc" id="L49">    List&lt;Item&gt; items = olApi.search(title, &quot;title&quot;);</span>
+<span class="fc" id="L50">    Item item = items.get(0);</span>
+<span class="fc" id="L51">    assertEquals(&quot;worksOL27448W&quot;, item.getItemId());</span>
+<span class="fc" id="L52">    assertEquals(&quot;the lord of the rings&quot;, item.getTitle());</span>
+<span class="fc" id="L53">    assertEquals(&quot;J.R.R. Tolkien&quot;, item.getAuthor());</span>
+<span class="fc" id="L54">  }</span>
+  
+  @Test
+  public void testSearchinvalid() {
+<span class="fc" id="L58">    String title = &quot;&quot;;</span>
+<span class="fc" id="L59">    OpenLibraryApi olApi = new OpenLibraryApi();</span>
+<span class="fc" id="L60">    List&lt;Item&gt; items = olApi.search(title, &quot;title&quot;);</span>
+<span class="fc" id="L61">    assertEquals(items, new ArrayList&lt;&gt;());</span>
+<span class="fc" id="L62">  }</span>
+  
+  /**
+   * to test method getCategories.
+   */
+  
+  @Test
+  public void testGetCategories() {
+   
+<span class="fc" id="L71">    JSONObject obj = new JSONObject();</span>
+    try {
+<span class="fc" id="L73">      obj.put(&quot;key&quot;, &quot;/works/OL27448W&quot;);</span>
+<span class="fc" id="L74">      List&lt;String&gt; categories = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L75">      categories.add(&quot;English&quot;);</span>
+<span class="fc" id="L76">      categories.add(&quot;Engineer&quot;);</span>
+<span class="fc" id="L77">      obj.put(&quot;subject&quot;, new JSONArray(categories)); </span>
+<span class="pc" id="L78">    } catch (JSONException e) {</span>
+<span class="nc" id="L79">      e.printStackTrace();</span>
+    }
+<span class="fc" id="L81">    OpenLibraryApi olApi = new OpenLibraryApi();</span>
+<span class="fc" id="L82">    assertEquals(true, olApi.getCategories(obj).contains(&quot;English&quot;));</span>
+<span class="fc" id="L83">  }</span>
+  
+  @Test 
+  public void testGetCategoriesinvalid1() {
+<span class="fc" id="L87">    JSONObject obj = new JSONObject();</span>
+    try {
+<span class="fc" id="L89">      obj.put(&quot;key&quot;, &quot;/works/OL27448W&quot;);</span>
+<span class="fc" id="L90">      List&lt;String&gt; categories = new ArrayList&lt;&gt;();</span>
+<span class="pc" id="L91">    } catch (JSONException e) {</span>
+<span class="nc" id="L92">      e.printStackTrace();</span>
+    }
+<span class="fc" id="L94">    OpenLibraryApi olApi = new OpenLibraryApi();</span>
+<span class="fc" id="L95">    assertEquals(true, olApi.getCategories(obj).isEmpty());</span>
+<span class="fc" id="L96">  }</span>
+  
+  @Test
+  public void testGetCategoriesinvalid2() {
+<span class="fc" id="L100">    JSONObject obj = new JSONObject();</span>
+    try {
+<span class="fc" id="L102">      obj.put(&quot;key&quot;, &quot;/works/OL27448W&quot;);</span>
+<span class="fc" id="L103">      List&lt;String&gt; categories = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L104">      obj.put(&quot;subject&quot;, new JSONArray(categories)); </span>
+<span class="pc" id="L105">    } catch (JSONException e) {</span>
+<span class="nc" id="L106">      e.printStackTrace();</span>
+    }
+<span class="fc" id="L108">    OpenLibraryApi olApi = new OpenLibraryApi();</span>
+<span class="fc" id="L109">    assertEquals(new HashSet&lt;&gt;(), olApi.getCategories(obj));</span>
+<span class="fc" id="L110">  }</span>
+  
+  /**
+   * to test method getDescribe.
+   */
+  
+  @Test
+  public void testGetDescribe() {
+<span class="fc" id="L118">    JSONObject obj = new JSONObject();</span>
+    try {
+<span class="fc" id="L120">      obj.put(&quot;key&quot;, &quot;/works/OL27448W&quot;);</span>
+<span class="pc" id="L121">    } catch (JSONException e) {</span>
+<span class="nc" id="L122">      e.printStackTrace();</span>
+    }
+<span class="fc" id="L124">    OpenLibraryApi olApi = new OpenLibraryApi();</span>
+<span class="fc" id="L125">    assertEquals(String.class, olApi.getDescribe(obj).getClass());</span>
+<span class="fc" id="L126">  }</span>
+  
+  @Test 
+  public void testGetDescribeinvalid1() {
+<span class="fc" id="L130">    JSONObject obj = new JSONObject();</span>
+    try {
+<span class="fc" id="L132">      obj.put(&quot;key&quot;, &quot;&quot;);</span>
+<span class="pc" id="L133">    } catch (JSONException e) {</span>
+<span class="nc" id="L134">      e.printStackTrace();</span>
+    }
+<span class="fc" id="L136">    OpenLibraryApi olApi = new OpenLibraryApi();</span>
+<span class="fc" id="L137">    assertEquals(&quot;&quot;, olApi.getDescribe(obj));</span>
+<span class="fc" id="L138">  }</span>
+  
+  @Test
+  public void testGetDescribeinvalid2() {
+<span class="fc" id="L142">    JSONObject obj = new JSONObject();</span>
+<span class="fc" id="L143">    OpenLibraryApi olApi = new OpenLibraryApi();</span>
+<span class="fc" id="L144">    assertEquals(&quot;&quot;, olApi.getDescribe(obj));</span>
+<span class="fc" id="L145">  }</span>
+  
+  /**
+   * to test method getItemList.
+   */
+  
+  @Test
+  public void testGetItemList1() {
+<span class="fc" id="L153">    JSONObject obj = new JSONObject();</span>
+    try {
+<span class="fc" id="L155">      List&lt;String&gt; author = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L156">      author.add(&quot;author&quot;);</span>
+<span class="fc" id="L157">      obj.put(&quot;key&quot;, &quot;/works/OL27448W&quot;);</span>
+<span class="fc" id="L158">      obj.put(&quot;author_name&quot;, author);</span>
+<span class="fc" id="L159">      obj.put(&quot;title&quot;, &quot;title&quot;);</span>
+<span class="fc" id="L160">      obj.put(&quot;rating&quot;, 5.0);</span>
+<span class="fc" id="L161">      List&lt;String&gt; categories = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L162">      categories.add(&quot;English&quot;);</span>
+<span class="fc" id="L163">      categories.add(&quot;Engineer&quot;);</span>
+<span class="fc" id="L164">      obj.put(&quot;subject&quot;, new JSONArray(categories));</span>
+<span class="fc" id="L165">      obj.put(&quot;cover_i&quot;, 2222);</span>
+      
+      
+<span class="pc" id="L168">    } catch (JSONException e) {</span>
+<span class="nc" id="L169">      e.printStackTrace();</span>
+    }
+<span class="fc" id="L171">    JSONArray objs = new JSONArray();</span>
+<span class="fc" id="L172">    objs.put(obj);</span>
+<span class="fc" id="L173">    OpenLibraryApi olApi = new OpenLibraryApi();</span>
+<span class="fc" id="L174">    List&lt;Item&gt; items = olApi.getItemList(objs);</span>
+<span class="fc" id="L175">    assertEquals(items.get(0).getImageUrl(), &quot;https://covers.openlibrary.org/b/id/2222-L.jpg&quot;);</span>
+<span class="fc" id="L176">  }</span>
+  
+  @Test
+  public void testGetItemList2() {
+<span class="fc" id="L180">    JSONObject obj = new JSONObject();</span>
+<span class="fc" id="L181">    JSONObject obj2 = new JSONObject();</span>
+    try {
+<span class="fc" id="L183">      List&lt;String&gt; author = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L184">      author.add(&quot;author&quot;);</span>
+<span class="fc" id="L185">      obj.put(&quot;key&quot;, &quot;/works/OL27448W&quot;);</span>
+<span class="fc" id="L186">      obj.put(&quot;author_name&quot;, author);</span>
+<span class="fc" id="L187">      obj.put(&quot;title&quot;, &quot;title&quot;);</span>
+<span class="fc" id="L188">      obj.put(&quot;rating&quot;, 5.0);</span>
+<span class="fc" id="L189">      List&lt;String&gt; categories = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L190">      categories.add(&quot;English&quot;);</span>
+<span class="fc" id="L191">      categories.add(&quot;Engineer&quot;);</span>
+<span class="fc" id="L192">      obj.put(&quot;subject&quot;, new JSONArray(categories));</span>
+<span class="fc" id="L193">      obj.put(&quot;cover_i&quot;, 1111);</span>
+      
+<span class="fc" id="L195">      List&lt;String&gt; author2 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L196">      author2.add(&quot;author2&quot;);</span>
+<span class="fc" id="L197">      obj.put(&quot;key&quot;, &quot;/works/OL27448W2&quot;);</span>
+<span class="fc" id="L198">      obj.put(&quot;author_name&quot;, author2);</span>
+<span class="fc" id="L199">      obj.put(&quot;title&quot;, &quot;title2&quot;);</span>
+<span class="fc" id="L200">      obj.put(&quot;rating&quot;, 5.0);</span>
+<span class="fc" id="L201">      List&lt;String&gt; categories2 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L202">      categories2.add(&quot;English2&quot;);</span>
+<span class="fc" id="L203">      categories2.add(&quot;Engineer2&quot;);</span>
+<span class="fc" id="L204">      obj.put(&quot;subject&quot;, new JSONArray(categories2));</span>
+<span class="fc" id="L205">      obj.put(&quot;cover_i&quot;, 2222);</span>
+      
+<span class="pc" id="L207">    } catch (JSONException e) {</span>
+<span class="nc" id="L208">      e.printStackTrace();</span>
+    }
+<span class="fc" id="L210">    JSONArray objs = new JSONArray();</span>
+<span class="fc" id="L211">    objs.put(obj);</span>
+<span class="fc" id="L212">    objs.put(obj2);</span>
+<span class="fc" id="L213">    OpenLibraryApi olApi = new OpenLibraryApi();</span>
+<span class="fc" id="L214">    List&lt;Item&gt; items = olApi.getItemList(objs);</span>
+<span class="fc" id="L215">    assertEquals(items.size(), 1);</span>
+<span class="fc" id="L216">  }</span>
+  
+  @Test
+  public void testGetItemListinvalid() {
+<span class="fc" id="L220">    JSONObject obj = new JSONObject();</span>
+<span class="fc" id="L221">    JSONArray objs = new JSONArray();</span>
+<span class="fc" id="L222">    objs.put(obj);</span>
+<span class="fc" id="L223">    OpenLibraryApi olApi = new OpenLibraryApi();</span>
+<span class="fc" id="L224">    List&lt;Item&gt; items = olApi.getItemList(objs);</span>
+<span class="fc" id="L225">    assertEquals(items.get(0).getAuthor(), null);</span>
+<span class="fc" id="L226">  }</span>
+  
+  /**
+   * to test method getAuthor.
+   */
+  
+  @Test
+  public void testGetAuthor1() {
+<span class="fc" id="L234">    JSONObject obj = new JSONObject();</span>
+    
+    try {
+<span class="fc" id="L237">      List&lt;String&gt; author = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L238">      author.add(&quot;author&quot;);</span>
+<span class="fc" id="L239">      obj.put(&quot;author_name&quot;, new JSONArray(author));</span>
+
+<span class="pc" id="L241">    } catch (JSONException e) {</span>
+<span class="nc" id="L242">      e.printStackTrace();</span>
+    }      
+<span class="fc" id="L244">    OpenLibraryApi olApi = new OpenLibraryApi();  </span>
+<span class="fc" id="L245">    assertEquals(&quot;author&quot;, olApi.getAuthor(obj));</span>
+<span class="fc" id="L246">  }</span>
+  
+  @Test
+  public void testGetAuthor2() {
+<span class="fc" id="L250">    JSONObject obj = new JSONObject();</span>
+    
+    try {
+<span class="fc" id="L253">      List&lt;String&gt; author = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L254">      author.add(&quot;author1&quot;);</span>
+<span class="fc" id="L255">      author.add(&quot;author2&quot;);</span>
+<span class="fc" id="L256">      obj.put(&quot;author_name&quot;, new JSONArray(author));</span>
+
+<span class="pc" id="L258">    } catch (JSONException e) {</span>
+<span class="nc" id="L259">      e.printStackTrace();</span>
+    }      
+<span class="fc" id="L261">    OpenLibraryApi olApi = new OpenLibraryApi();  </span>
+<span class="fc" id="L262">    assertEquals(&quot;author1&quot;, olApi.getAuthor(obj));</span>
+<span class="fc" id="L263">  }</span>
+  
+  @Test
+  public void testGetAuthorinvalid1() {
+<span class="fc" id="L267">    JSONObject obj = new JSONObject();</span>
+    try {
+<span class="fc" id="L269">      List&lt;String&gt; author = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L270">      obj.put(&quot;author_name&quot;, new JSONArray(author));</span>
+
+<span class="pc" id="L272">    } catch (JSONException e) {</span>
+<span class="nc" id="L273">      e.printStackTrace();</span>
+    }      
+<span class="fc" id="L275">    OpenLibraryApi olApi = new OpenLibraryApi();</span>
+<span class="fc" id="L276">    assertEquals(&quot;&quot;, olApi.getAuthor(obj));</span>
+<span class="fc" id="L277">  }</span>
+  
+  @Test
+  public void testGetAuthorinvalid2() {
+<span class="fc" id="L281">    JSONObject obj = new JSONObject();</span>
+<span class="fc" id="L282">    OpenLibraryApi olApi = new OpenLibraryApi();</span>
+<span class="fc" id="L283">    assertEquals(&quot;&quot;, olApi.getAuthor(obj));</span>
+<span class="fc" id="L284">  }</span>
+  
+  /**
+   * to test method saveItem.
+   */
+  
+  @Test
+  public void testSaveItem() {
+    
+<span class="fc" id="L293">    ItemBuilder builder = new ItemBuilder();</span>
+<span class="fc" id="L294">    builder.setAuthor(&quot;author&quot;);</span>
+<span class="fc" id="L295">    Set&lt;String&gt; types = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L296">    builder.setCategories(types);</span>
+<span class="fc" id="L297">    builder.setDescribe(&quot;describe&quot;);</span>
+<span class="fc" id="L298">    builder.setImageUrl(&quot;imageUrl&quot;);</span>
+<span class="fc" id="L299">    builder.setItemId(&quot;itemId&quot;);</span>
+<span class="fc" id="L300">    builder.setRating(5.0);</span>
+<span class="fc" id="L301">    builder.setTitle(&quot;title&quot;);</span>
+<span class="fc" id="L302">    builder.setUrl(&quot;url&quot;);</span>
+<span class="fc" id="L303">    Item item = builder.build();</span>
+<span class="fc" id="L304">    OpenLibraryApi olApi = new OpenLibraryApi();</span>
+<span class="fc" id="L305">    olApi.saveItem(item);</span>
+<span class="fc" id="L306">    Connection conn = null;</span>
+<span class="fc" id="L307">    Statement stmt = null;</span>
+    try {
+
+      try {
+<span class="fc" id="L311">        Class.forName(&quot;org.sqlite.JDBC&quot;);</span>
+<span class="fc" id="L312">        conn = DriverManager.getConnection(&quot;jdbc:sqlite:ase.db&quot;);</span>
+<span class="pc" id="L313">      } catch (SQLException e) {</span>
+<span class="nc" id="L314">        e.printStackTrace();</span>
+      }
+<span class="pc bpc" id="L316" title="1 of 2 branches missed.">      if (conn == null) {</span>
+<span class="nc" id="L317">        System.out.println(&quot;Bad connection to DB when test saveItem&quot;);</span>
+<span class="nc" id="L318">        return;</span>
+      }
+<span class="fc" id="L320">      stmt = conn.createStatement();</span>
+<span class="fc" id="L321">      String sql = &quot;SELECT item_id, title, author FROM items where item_id = 'itemId'&quot;;</span>
+<span class="fc" id="L322">      ResultSet rs = stmt.executeQuery(sql);</span>
+<span class="fc bfc" id="L323" title="All 2 branches covered.">      while (rs.next()) {</span>
+<span class="fc" id="L324">        assertEquals(&quot;itemId&quot;, rs.getString(&quot;item_id&quot;));</span>
+<span class="fc" id="L325">        assertEquals(&quot;title&quot;, rs.getString(&quot;title&quot;));</span>
+<span class="fc" id="L326">        assertEquals(&quot;author&quot;, rs.getString(&quot;author&quot;));</span>
+      }
+<span class="fc" id="L328">      rs.close();</span>
+     
+<span class="pc" id="L330">    } catch (Exception e) {</span>
+<span class="nc" id="L331">      e.printStackTrace();</span>
+    } finally {
+      try {
+<span class="pc bpc" id="L334" title="1 of 2 branches missed.">        if (stmt != null) {</span>
+<span class="fc" id="L335">          stmt.close();</span>
+        }
+<span class="pc" id="L337">      } catch (SQLException e) {</span>
+<span class="nc" id="L338">        e.printStackTrace();</span>
+      }
+      try {
+<span class="pc bpc" id="L341" title="1 of 2 branches missed.">        if (conn != null) {</span>
+<span class="fc" id="L342">          conn.close();</span>
+        }
+<span class="pc" id="L344">      } catch (SQLException e) {</span>
+<span class="nc" id="L345">        e.printStackTrace();</span>
+      }
+    }
+
+<span class="fc" id="L349">  }</span>
+  
+  @Test
+  public void testSaveIteminvalid() {
+    
+<span class="fc" id="L354">    ItemBuilder builder = new ItemBuilder();</span>
+<span class="fc" id="L355">    Item item = builder.build();</span>
+<span class="fc" id="L356">    OpenLibraryApi olApi = new OpenLibraryApi();</span>
+<span class="fc" id="L357">    olApi.saveItem(item);</span>
+<span class="fc" id="L358">    Connection conn = null;</span>
+<span class="fc" id="L359">    Statement stmt = null;</span>
+    try {
+
+      try {
+<span class="fc" id="L363">        Class.forName(&quot;org.sqlite.JDBC&quot;);</span>
+<span class="fc" id="L364">        conn = DriverManager.getConnection(&quot;jdbc:sqlite:ase.db&quot;);</span>
+<span class="pc" id="L365">      } catch (SQLException e) {</span>
+<span class="nc" id="L366">        e.printStackTrace();</span>
+      }
+<span class="pc bpc" id="L368" title="1 of 2 branches missed.">      if (conn == null) {</span>
+<span class="nc" id="L369">        System.out.println(&quot;Bad connection to DB when test saveItem&quot;);</span>
+<span class="nc" id="L370">        return;</span>
+      }
+<span class="fc" id="L372">      stmt = conn.createStatement();</span>
+<span class="fc" id="L373">      String sql = &quot;SELECT item_id, title, author FROM items where item_id = 'null'&quot;;</span>
+<span class="fc" id="L374">      ResultSet rs = stmt.executeQuery(sql);</span>
+<span class="nc" id="L375">      assertEquals(true, rs.wasNull());</span>
+<span class="nc" id="L376">      rs.close();</span>
+     
+<span class="pc" id="L378">    } catch (Exception e) {</span>
+<span class="fc" id="L379">      e.printStackTrace();</span>
+    } finally {
+      try {
+<span class="pc bpc" id="L382" title="1 of 2 branches missed.">        if (stmt != null) {</span>
+<span class="fc" id="L383">          stmt.close();</span>
+        }
+<span class="pc" id="L385">      } catch (SQLException e) {</span>
+<span class="nc" id="L386">        e.printStackTrace();</span>
+      }
+      try {
+<span class="pc bpc" id="L389" title="1 of 2 branches missed.">        if (conn != null) {</span>
+<span class="fc" id="L390">          conn.close();</span>
+        }
+<span class="pc" id="L392">      } catch (SQLException e) {</span>
+<span class="nc" id="L393">        e.printStackTrace();</span>
+      }
+    }
+
+<span class="fc" id="L397">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>project (Dec 8, 2020 10:12:07 PM)</div></body></html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SimpleEchoSocket.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">project (Dec 8, 2020 10:12:07 PM)</a> &gt; <a href="../../index.html" class="el_group">project</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">integration</a> &gt; <span class="el_source">SimpleEchoSocket.java</span></div><h1>SimpleEchoSocket.java</h1><pre class="source lang-java linenums">package integration;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.StatusCode;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
+import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+ 
+/**
+ * Basic Echo Client Socket.
+ */
+@WebSocket(maxTextMessageSize = 64 * 1024)
+public class SimpleEchoSocket {
+  private final CountDownLatch closeLatch;
+ 
+  @SuppressWarnings(&quot;unused&quot;)
+  private Session session;
+ 
+<span class="fc" id="L23">  public SimpleEchoSocket() {</span>
+<span class="fc" id="L24">    this.closeLatch = new CountDownLatch(1);</span>
+<span class="fc" id="L25">  }</span>
+ 
+  public boolean awaitClose(int duration, TimeUnit unit) throws InterruptedException {
+<span class="fc" id="L28">    return this.closeLatch.await(duration, unit);</span>
+  }
+ 
+  /**
+   * This is to close socket .
+   * @param statusCode .
+   * @param reason .
+   */
+  @OnWebSocketClose
+  public void onClose(int statusCode, String reason) {
+<span class="fc" id="L38">    System.out.printf(&quot;Connection closed: %d - %s%n&quot;, statusCode, reason);</span>
+<span class="fc" id="L39">    this.session = null;</span>
+<span class="fc" id="L40">    this.closeLatch.countDown();</span>
+<span class="fc" id="L41">  }</span>
+  
+  /**
+   * This is to connect.
+   * @param session .
+   */
+  @OnWebSocketConnect
+  public void onConnect(Session session) {
+<span class="fc" id="L49">    System.out.printf(&quot;Got connect: %s%n&quot;, session);</span>
+<span class="fc" id="L50">    this.session = session;</span>
+    try {
+      Future&lt;Void&gt; fut;
+<span class="fc" id="L53">      fut = session.getRemote().sendStringByFuture(&quot;Hello&quot;);</span>
+<span class="fc" id="L54">      fut.get(2, TimeUnit.SECONDS);</span>
+<span class="fc" id="L55">      fut = session.getRemote().sendStringByFuture(&quot;Thanks for the conversation.&quot;);</span>
+<span class="fc" id="L56">      fut.get(2, TimeUnit.SECONDS);</span>
+<span class="fc" id="L57">      session.close(StatusCode.NORMAL, &quot;I'm done&quot;);</span>
+<span class="pc" id="L58">    } catch (Throwable t) {</span>
+<span class="nc" id="L59">      t.printStackTrace();</span>
+    }
+<span class="fc" id="L61">  }</span>
+ 
+  /**
+   * This is to send message.
+   * @param msg .
+   */
+  @OnWebSocketMessage
+  public void onMessage(String msg) {
+    //session.getRemote().sendStringByFuture(msg);
+<span class="fc" id="L70">    System.out.printf(&quot;Got msg: %s%n&quot;, msg);</span>
+<span class="fc" id="L71">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>project (Dec 8, 2020 10:12:07 PM)</div></body></html>

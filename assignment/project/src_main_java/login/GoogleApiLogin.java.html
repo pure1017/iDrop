@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>GoogleApiLogin.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">project (Dec 8, 2020 10:12:07 PM)</a> &gt; <a href="../../index.html" class="el_group">project</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">login</a> &gt; <span class="el_source">GoogleApiLogin.java</span></div><h1>GoogleApiLogin.java</h1><pre class="source lang-java linenums">package login;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+
+<span class="nc" id="L28">public class GoogleApiLogin {</span>
+  /**
+   * login function.
+ * @throws IOException .
+ * @throws FileNotFoundException .
+   */
+  public static Map&lt;String, String&gt; login(String authCode) 
+      throws FileNotFoundException, IOException {
+<span class="nc" id="L36">    String clientId = &quot;236055320521-rsf99kh834fv176d1u5sm9a3oinskia7.apps.googleusercontent.com&quot;;</span>
+<span class="nc" id="L37">    String clientSecret = &quot;AWMEtkmHgmHSHArhhBqVo3_c&quot;;</span>
+<span class="nc" id="L38">    String redirectUri = &quot;http://localhost:8080&quot;;</span>
+<span class="nc" id="L39">    GoogleTokenResponse tokenResponse =</span>
+<span class="nc" id="L40">        new GoogleAuthorizationCodeTokenRequest(</span>
+<span class="nc" id="L41">        new NetHttpTransport(),</span>
+<span class="nc" id="L42">        JacksonFactory.getDefaultInstance(),</span>
+<span class="nc" id="L43">        &quot;https://oauth2.googleapis.com/token&quot;,</span>
+        //clientSecrets.getDetails().getClientId(),
+        //clientSecrets.getDetails().getClientSecret(),
+<span class="nc" id="L46">        clientId,</span>
+<span class="nc" id="L47">        clientSecret,</span>
+<span class="nc" id="L48">        authCode,</span>
+<span class="nc" id="L49">        redirectUri)  // Specify the same redirect URI that you use with your web</span>
+        // app. If you don't have a web version of your app, you can
+        // specify an empty string.
+<span class="nc" id="L52">        .execute();</span>
+    
+<span class="nc" id="L54">    Long expiresAt = System.currentTimeMillis() + (tokenResponse.getExpiresInSeconds() * 1000);</span>
+<span class="nc" id="L55">    tokenResponse.setExpiresInSeconds(expiresAt);</span>
+    
+    // Get profile info from ID token
+<span class="nc" id="L58">    GoogleIdToken idToken = tokenResponse.parseIdToken();</span>
+<span class="nc" id="L59">    GoogleIdToken.Payload payload = idToken.getPayload();</span>
+<span class="nc" id="L60">    String userId = payload.getSubject();  // Use this value as a key to identify a user.</span>
+<span class="nc" id="L61">    String email = payload.getEmail();</span>
+<span class="nc" id="L62">    String pictureUrl = (String) payload.get(&quot;picture&quot;);</span>
+<span class="nc" id="L63">    String familyName = (String) payload.get(&quot;family_name&quot;);</span>
+<span class="nc" id="L64">    String givenName = (String) payload.get(&quot;given_name&quot;);</span>
+<span class="nc" id="L65">    Map&lt;String, String&gt; map = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L66">    map.put(&quot;name&quot;, givenName);</span>
+<span class="nc" id="L67">    map.put(&quot;userId&quot;, userId);</span>
+<span class="nc" id="L68">    map.put(&quot;pictureUrl&quot;, pictureUrl);</span>
+    
+    //set data to database
+<span class="nc" id="L71">    Connection conn = null;</span>
+<span class="nc" id="L72">    Statement stmt = null;</span>
+<span class="nc" id="L73">    ResultSet rs = null;</span>
+    try {
+      // Step 1 Connect to MySQL.
+      try {
+<span class="nc" id="L77">        System.out.println(&quot;Connecting to jdbc:sqlite:ase.db&quot;);</span>
+        //Dynamically get reflection of data at runtime. 
+<span class="nc" id="L79">        Class.forName(&quot;org.sqlite.JDBC&quot;);</span>
+<span class="nc" id="L80">        conn = DriverManager.getConnection(&quot;jdbc:sqlite:ase.db&quot;);</span>
+<span class="nc" id="L81">      } catch (SQLException e) {</span>
+<span class="nc" id="L82">        e.printStackTrace();</span>
+      }
+<span class="nc bnc" id="L84" title="All 2 branches missed.">      if (conn == null) {</span>
+<span class="nc" id="L85">        return null;</span>
+      }
+      //check if the user exists
+<span class="nc" id="L88">      stmt = conn.createStatement();</span>
+<span class="nc" id="L89">      String sql = String.format(&quot;SELECT user_id from users where user_id = %s&quot;, userId);</span>
+<span class="nc" id="L90">      rs = stmt.executeQuery(sql);</span>
+      //if the user do not exits, rs.next() return false.
+<span class="nc bnc" id="L92" title="All 2 branches missed.">      if (!rs.next()) {</span>
+<span class="nc" id="L93">        sql = String.format(&quot;INSERT OR IGNORE INTO users (user_id,email,first_name,last_name)&quot;</span>
+<span class="nc" id="L94">          + &quot;VALUES ('%s', '%s', '%s', '%s')&quot;, userId, email, givenName, familyName);</span>
+<span class="nc" id="L95">        stmt.executeUpdate(sql);  </span>
+      }
+<span class="nc" id="L97">      rs.close();</span>
+<span class="nc" id="L98">      stmt.close();</span>
+<span class="nc" id="L99">      conn.close();</span>
+<span class="nc" id="L100">    } catch (Exception e) {</span>
+<span class="nc" id="L101">      e.printStackTrace();</span>
+    } finally {
+<span class="nc bnc" id="L103" title="All 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="nc" id="L105">          stmt.close();</span>
+<span class="nc" id="L106">        } catch (SQLException e) {</span>
+<span class="nc" id="L107">          e.printStackTrace();</span>
+        }
+      }
+<span class="nc bnc" id="L110" title="All 2 branches missed.">      if (rs != null) {</span>
+        try {
+<span class="nc" id="L112">          rs.close();</span>
+<span class="nc" id="L113">        } catch (SQLException e) {</span>
+<span class="nc" id="L114">          e.printStackTrace();</span>
+        }
+      }
+<span class="nc bnc" id="L117" title="All 2 branches missed.">      if (conn != null) {</span>
+        try {
+<span class="nc" id="L119">          conn.close();</span>
+<span class="nc" id="L120">        } catch (SQLException e) {</span>
+<span class="nc" id="L121">          e.printStackTrace();</span>
+        }
+      }
+    }  
+<span class="nc" id="L125">    return map;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>project (Dec 8, 2020 10:12:07 PM)</div></body></html>

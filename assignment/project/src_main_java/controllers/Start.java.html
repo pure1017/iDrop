@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Start.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">project (Dec 8, 2020 10:12:07 PM)</a> &gt; <a href="../../index.html" class="el_group">project</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">controllers</a> &gt; <span class="el_source">Start.java</span></div><h1>Start.java</h1><pre class="source lang-java linenums">package controllers;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import database.MysqlConnection;
+import entity.Item;
+import external.OpenLibraryApi;
+import io.javalin.Javalin;
+import io.javalin.http.Context;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
+import login.GoogleApiLogin;
+import org.eclipse.jetty.websocket.api.Session;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import recommendation.BookRecommend;
+import io.javalin.websocket.WsContext;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import org.json.JSONObject;
+import static j2html.TagCreator.article;
+import static j2html.TagCreator.attrs;
+import static j2html.TagCreator.b;
+import static j2html.TagCreator.p;
+import static j2html.TagCreator.span;
+import static j2html.TagCreator.div;
+import static j2html.TagCreator.img;
+
+<span class="nc" id="L37">public class Start {</span>
+
+  private static final int PORT_NUMBER = 8080;
+
+  private static Javalin app;
+
+<span class="fc" id="L43">  private static Map&lt;WsContext, String&gt; userUsernameMap = new ConcurrentHashMap&lt;&gt;();</span>
+<span class="fc" id="L44">  private static Map&lt;String, String&gt; userUserPicMap = new ConcurrentHashMap&lt;&gt;();</span>
+  
+<span class="fc" id="L46">  private static String currentUserName = &quot;&quot;;</span>
+<span class="fc" id="L47">  private static String currentUserPicture = &quot;&quot;;</span>
+
+  /** Main method of the application.
+   * @param args Command line arguments
+   */
+
+  public static void main(final String[] args) {
+
+<span class="fc" id="L55">    app = Javalin.create(config -&gt; {</span>
+<span class="fc" id="L56">      config.addStaticFiles(&quot;/public&quot;);</span>
+<span class="fc" id="L57">    }).start(PORT_NUMBER);</span>
+
+    // Test Echo Server
+<span class="fc" id="L60">    app.post(&quot;/echo&quot;, ctx -&gt; {</span>
+//      ctx.result(ctx.body());
+<span class="nc" id="L62">    });</span>
+    
+    // New Game
+<span class="fc" id="L65">    app.get(&quot;/&quot;, ctx -&gt; {</span>
+<span class="fc" id="L66">      ctx.redirect(&quot;/start.html&quot;);</span>
+<span class="fc" id="L67">    });</span>
+    
+    //Sign in with Google
+<span class="fc" id="L70">    app.post(&quot;/storeauthcode&quot;, ctx -&gt; {</span>
+//      //System.out.println(ctx.queryParam(&quot;code&quot;));
+//      String authCode = ctx.queryParam(&quot;code&quot;);
+//      System.out.println(authCode);
+//      Map&lt;String, String&gt; map = GoogleApiLogin.login(authCode);
+//      Gson gson = new Gson();
+//      System.out.println(gson.toJson(map));
+//      ctx.result(gson.toJson(map));
+<span class="nc" id="L78">    });</span>
+    
+    //Get favorite item
+<span class="fc" id="L81">    app.get(&quot;/getfavorite&quot;, ctx -&gt; {</span>
+
+      //sample request from frontend
+      //http://localhost:8080/getfavorite?userId=11111
+<span class="fc" id="L85">      String userId = ctx.queryParam(&quot;userId&quot;);</span>
+<span class="fc" id="L86">      JSONArray arr = new JSONArray();</span>
+      
+<span class="fc" id="L88">      System.out.println(userId);</span>
+      
+<span class="fc" id="L90">      MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L91">      Set&lt;Item&gt; items  = conn.getFavoriteItems(userId);</span>
+<span class="fc" id="L92">      conn.close();</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">      for (Item item : items) {</span>
+<span class="fc" id="L94">        JSONObject obj = item.toJsonObject();</span>
+        try {
+<span class="fc" id="L96">          obj.append(&quot;favorite&quot;, true);</span>
+<span class="pc" id="L97">        } catch (JSONException e) {</span>
+//          e.printStackTrace();
+        }
+<span class="fc" id="L100">        arr.put(obj);</span>
+      }
+<span class="fc" id="L102">      Gson gson = new Gson();</span>
+<span class="fc" id="L103">      ctx.result(gson.toJson(arr));</span>
+<span class="fc" id="L104">    });</span>
+    
+    //Set favorite item
+<span class="fc" id="L107">    app.post(&quot;/setfavorite&quot;, ctx -&gt; {</span>
+
+      //sample request
+      //http://localhost:8080/setfavorite?userId=11111&amp;itemId=222
+<span class="fc" id="L111">      String userId = ctx.queryParam(&quot;userId&quot;);</span>
+<span class="fc" id="L112">      String itemId = ctx.queryParam(&quot;itemId&quot;);</span>
+<span class="fc" id="L113">      System.out.println(userId);</span>
+<span class="fc" id="L114">      System.out.println(itemId);</span>
+<span class="fc" id="L115">      List&lt;String&gt; itemIds = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L116">      itemIds.add(itemId);</span>
+      //      HttpServletRequest request = ctx.req;
+      //      JSONObject input = RpcHelper.readJsonObject(request);
+      //      System.out.println(input);
+      //      
+      //      JSONArray array = input.getJSONArray(&quot;favorite&quot;);
+      //      List&lt;String&gt; itemIds = new ArrayList&lt;&gt;();
+      //      for (int i = 0; i &lt; array.length(); ++i) {
+      //        itemIds.add(array.get(i).toString());
+      //      }
+      
+<span class="fc" id="L127">      MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L128">      conn.setFavoriteItems(userId, itemIds);</span>
+<span class="fc" id="L129">      conn.close();</span>
+<span class="fc" id="L130">      ctx.result(&quot;set favorite item successfully&quot;);</span>
+<span class="fc" id="L131">    });</span>
+    
+    //Unset favorite item
+<span class="fc" id="L134">    app.delete(&quot;/unsetfavorite&quot;, ctx -&gt; {</span>
+      
+      //sample request
+      //http://localhost:8080/setfavorite?userId=11111&amp;itemId=333
+<span class="fc" id="L138">      String userId = ctx.queryParam(&quot;userId&quot;);</span>
+<span class="fc" id="L139">      String itemId = ctx.queryParam(&quot;itemId&quot;);</span>
+<span class="fc" id="L140">      System.out.println(userId);</span>
+<span class="fc" id="L141">      System.out.println(itemId);</span>
+<span class="fc" id="L142">      List&lt;String&gt; itemIds = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L143">      itemIds.add(itemId);</span>
+      
+      //      HttpServletRequest request = ctx.req;
+      //      JSONObject input = RpcHelper.readJsonObject(request);
+      //        
+      //      JSONArray array = input.getJSONArray(&quot;favorite&quot;);
+      //      List&lt;String&gt; itemIds = new ArrayList&lt;&gt;();
+      //      for (int i = 0; i &lt; array.length(); ++i) {
+      //        itemIds.add(array.get(i).toString());
+      //      }
+        
+<span class="fc" id="L154">      MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L155">      conn.unsetFavoriteItems(userId, itemIds);</span>
+<span class="fc" id="L156">      conn.close();</span>
+      
+<span class="fc" id="L158">      ctx.result(&quot;unset favorite item successfully&quot;);</span>
+<span class="fc" id="L159">    });</span>
+    
+    //get recommendation
+<span class="fc" id="L162">    app.post(&quot;/recommend&quot;, ctx -&gt; {</span>
+<span class="fc" id="L163">      String userId = ctx.queryParam(&quot;userId&quot;);</span>
+<span class="fc" id="L164">      Set&lt;Item&gt; items = BookRecommend.recommendItems(userId);</span>
+<span class="fc" id="L165">      System.out.println(&quot;3333333333333&quot;);</span>
+<span class="fc" id="L166">      JSONArray arr = new JSONArray();</span>
+<span class="fc" id="L167">      int count = 0;</span>
+<span class="fc" id="L168">      System.out.println(&quot;4444444444444&quot;);</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">      for (Item item : items) {</span>
+<span class="fc" id="L170">        JSONObject obj = item.toJsonObject();</span>
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        if (count &gt;= 5) {</span>
+<span class="nc" id="L172">          break;</span>
+        }
+<span class="fc" id="L174">        count = count + 1;</span>
+<span class="fc" id="L175">        arr.put(obj);</span>
+      }
+<span class="fc" id="L177">      System.out.println(&quot;5555555555&quot;);</span>
+<span class="fc" id="L178">      Gson gson = new Gson();</span>
+<span class="fc" id="L179">      ctx.result(gson.toJson(arr));</span>
+<span class="fc" id="L180">    });</span>
+    
+    //Host Group
+<span class="fc" id="L183">    app.post(&quot;/hostGroup&quot;, ctx -&gt; {</span>
+      //http://localhost:8080/hostgroup?userId=33333&amp;bookName=book3&amp;groupName=group3&amp;
+      //beginDate=2020&amp;groupSize=5&amp;groupDescription=description4
+<span class="fc" id="L186">      String hostId = ctx.queryParam(&quot;userId&quot;);</span>
+<span class="fc" id="L187">      String bookName = ctx.queryParam(&quot;bookName&quot;).toLowerCase();</span>
+<span class="fc" id="L188">      String groupName = ctx.queryParam(&quot;groupName&quot;);</span>
+<span class="fc" id="L189">      String beginDate = ctx.queryParam(&quot;beginDate&quot;);</span>
+<span class="fc" id="L190">      String groupSize = ctx.queryParam(&quot;groupSize&quot;);</span>
+<span class="fc" id="L191">      String groupDescription = ctx.queryParam(&quot;groupDescription&quot;);</span>
+<span class="pc bpc" id="L192" title="3 of 6 branches missed.">      if (hostId == null || bookName == null || groupName == null</span>
+<span class="pc bpc" id="L193" title="3 of 6 branches missed.">          || beginDate == null || groupSize == null || groupDescription == null) {</span>
+ //       ctx.result(&quot;input error&quot;);
+<span class="nc" id="L195">        return;</span>
+      }
+<span class="fc" id="L197">      MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L198">      conn.createGroup(hostId, bookName, groupName, beginDate, groupSize, groupDescription);</span>
+<span class="fc" id="L199">      ctx.result(&quot;group created&quot;);</span>
+<span class="fc" id="L200">    });</span>
+    
+    //Join Group
+<span class="fc" id="L203">    app.post(&quot;/joinGroup&quot;, ctx -&gt; {</span>
+      //
+<span class="fc" id="L205">      String userId = ctx.queryParam(&quot;userId&quot;);</span>
+<span class="fc" id="L206">      String bookName = ctx.queryParam(&quot;bookName&quot;).toLowerCase();</span>
+<span class="fc" id="L207">      String groupName = ctx.queryParam(&quot;groupName&quot;);</span>
+<span class="fc" id="L208">      String joinMessage = ctx.queryParam(&quot;joinMessage&quot;);</span>
+<span class="pc bpc" id="L209" title="4 of 8 branches missed.">      if (userId == null || bookName == null || groupName == null || joinMessage == null) {</span>
+//        ctx.result(&quot;input error&quot;);
+<span class="nc" id="L211">        return;</span>
+      }
+<span class="fc" id="L213">      MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L214">      int flag = conn.joinGroup(userId, groupName, joinMessage);</span>
+<span class="pc bpc" id="L215" title="1 of 2 branches missed.">      if (flag == 1) {</span>
+//        ctx.result(&quot;Group does not exist&quot;);
+<span class="nc" id="L217">        return;</span>
+      }
+<span class="pc bpc" id="L219" title="1 of 2 branches missed.">      if (flag == 2) {</span>
+//        ctx.result(&quot;The group is full&quot;);
+<span class="nc" id="L221">        return;</span>
+      }
+<span class="fc" id="L223">      ctx.result(&quot;join successfully&quot;);</span>
+<span class="fc" id="L224">    });</span>
+    
+    //get user group profile
+<span class="fc" id="L227">    app.get(&quot;/getusergroup&quot;, ctx -&gt; {</span>
+      //http://localhost:8080/getusergroup?userId=11111
+<span class="fc" id="L229">      String userId = ctx.queryParam(&quot;userId&quot;);</span>
+<span class="fc" id="L230">      MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L231">      List&lt;Map&lt;String, String&gt;&gt; groupsByHost = conn.getGroupsByHost(userId);</span>
+<span class="fc" id="L232">      List&lt;Map&lt;String, String&gt;&gt; groupsByMember = conn.getGroupsByMember(userId);</span>
+<span class="fc" id="L233">      List&lt;List&lt;Map&lt;String, String&gt;&gt;&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L234">      result.add(groupsByHost);</span>
+<span class="fc" id="L235">      result.add(groupsByMember);</span>
+<span class="fc" id="L236">      Gson gson = new Gson();</span>
+<span class="fc" id="L237">      ctx.result(gson.toJson(result));</span>
+<span class="fc" id="L238">    });</span>
+    
+    //get join message
+<span class="fc" id="L241">    app.get(&quot;/getjoinmessage&quot;, ctx -&gt; {</span>
+      //http://localhost:8080/getjoinmessage?userId=11111
+<span class="fc" id="L243">      String userId = ctx.queryParam(&quot;userId&quot;);</span>
+<span class="fc" id="L244">      MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L245">      List&lt;Map&lt;String, List&lt;Map&lt;String, String&gt;&gt;&gt;&gt; messages = conn.getJoinMessages(userId);</span>
+<span class="fc" id="L246">      Gson gson = new Gson();</span>
+<span class="fc" id="L247">      ctx.result(gson.toJson(messages));</span>
+<span class="fc" id="L248">    });</span>
+    
+    //Search Book
+<span class="fc" id="L251">    app.post(&quot;/search&quot;, ctx -&gt; {</span>
+<span class="fc" id="L252">      String userId = ctx.queryParam(&quot;userId&quot;);</span>
+<span class="fc" id="L253">      String bookName = ctx.queryParam(&quot;bookName&quot;).toLowerCase();</span>
+<span class="fc" id="L254">      System.out.println(bookName);</span>
+<span class="fc" id="L255">      MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L256">      List&lt;Item&gt; items = conn.searchItems(bookName, &quot;title&quot;);</span>
+<span class="fc" id="L257">      String realbookName = &quot;&quot;;</span>
+<span class="fc bfc" id="L258" title="All 2 branches covered.">      for (Item item : items) {</span>
+<span class="fc" id="L259">        realbookName = item.getTitle();</span>
+      }
+<span class="fc" id="L261">      boolean rerating = conn.ifRerating(userId, realbookName);</span>
+      // to get JSON version of items
+<span class="fc" id="L263">      JSONObject obj = new JSONObject();</span>
+      try {
+<span class="pc bpc" id="L265" title="1 of 2 branches missed.">        for (Item item : items) {</span>
+<span class="fc" id="L266">          System.out.println(item);</span>
+<span class="fc" id="L267">          obj = item.toJsonObject();</span>
+          //list.add(obj);
+          break;
+        }
+<span class="pc" id="L271">      } catch (Exception e) {</span>
+<span class="nc" id="L272">        e.printStackTrace();</span>
+      }
+      //JSONArray array = new JSONArray(list);
+<span class="fc" id="L275">      Gson gson = new Gson();</span>
+<span class="fc" id="L276">      String json = gson.toJson(obj);</span>
+<span class="fc" id="L277">      String result = &quot;&quot;;</span>
+<span class="pc bpc" id="L278" title="1 of 2 branches missed.">      if (rerating) {</span>
+//        result = String.format(&quot;{\&quot;rerating\&quot;:\&quot;true\&quot;,\&quot;map\&quot;:%s}&quot;, json);
+      } else {
+<span class="fc" id="L281">        result = String.format(&quot;{\&quot;rerating\&quot;:\&quot;false\&quot;,\&quot;map\&quot;:%s}&quot;, json);</span>
+      }
+<span class="fc" id="L283">      ctx.result(gson.toJson(result));</span>
+<span class="fc" id="L284">    });</span>
+    
+    // Rating book
+<span class="fc" id="L287">    app.post(&quot;/rating&quot;, ctx -&gt; {</span>
+<span class="fc" id="L288">      String userId = ctx.queryParam(&quot;userId&quot;);</span>
+<span class="fc" id="L289">      String itemId = ctx.queryParam(&quot;itemId&quot;);</span>
+<span class="fc" id="L290">      String time = ctx.queryParam(&quot;time&quot;);</span>
+<span class="fc" id="L291">      float rating = Float.parseFloat(ctx.queryParam(&quot;rating&quot;));</span>
+<span class="fc" id="L292">      String comment = ctx.queryParam(&quot;comment&quot;);</span>
+<span class="pc bpc" id="L293" title="3 of 6 branches missed.">      if (userId == null || itemId == null || rating == 0.0) {</span>
+//        ctx.result(&quot;input error&quot;);
+<span class="nc" id="L295">        return;</span>
+      }
+<span class="fc" id="L297">      MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L298">      conn.ratingBook(userId, itemId, time, rating, comment);</span>
+<span class="fc" id="L299">      conn.close();</span>
+<span class="fc" id="L300">      ctx.result(&quot;book rated&quot;);</span>
+<span class="fc" id="L301">    });</span>
+    
+    //get ratings
+<span class="fc" id="L304">    app.get(&quot;/getrating&quot;, ctx -&gt; {</span>
+      //http://localhost:8080/getrating?itemId=333
+<span class="fc" id="L306">      String itemId = ctx.queryParam(&quot;itemId&quot;);</span>
+<span class="pc bpc" id="L307" title="1 of 2 branches missed.">      if (itemId == null) {</span>
+//        ctx.result(&quot;input error&quot;);
+<span class="nc" id="L309">        return;</span>
+      }
+<span class="fc" id="L311">      MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L312">      List&lt;List&lt;String&gt;&gt; result = conn.getRatingsAndComments(itemId);</span>
+<span class="fc" id="L313">      conn.close();</span>
+<span class="fc" id="L314">      Gson gson = new Gson();</span>
+<span class="fc" id="L315">      ctx.result(gson.toJson(result));</span>
+<span class="fc" id="L316">    }); </span>
+    
+    // handle join group requests
+<span class="fc" id="L319">    app.post(&quot;/handleapplication&quot;, ctx -&gt; {</span>
+      // String hostId = ctx.queryParam(&quot;hostId&quot;);
+<span class="fc" id="L321">      String applicantId = ctx.queryParam(&quot;applicantId&quot;);</span>
+<span class="fc" id="L322">      String groupName = ctx.queryParam(&quot;groupName&quot;);</span>
+<span class="fc" id="L323">      boolean add = Boolean.parseBoolean(ctx.queryParam(&quot;add&quot;));</span>
+<span class="pc bpc" id="L324" title="2 of 4 branches missed.">      if (applicantId == null || groupName == null) {</span>
+//        ctx.result(&quot;input error&quot;);
+<span class="nc" id="L326">        return;</span>
+      }
+<span class="fc" id="L328">      MysqlConnection conn = new MysqlConnection();</span>
+<span class="pc bpc" id="L329" title="1 of 2 branches missed.">      if (add == false) {</span>
+<span class="fc" id="L330">        conn.rejectJoinRequests(applicantId, groupName);</span>
+<span class="fc" id="L331">        ctx.result(&quot;reject success&quot;);</span>
+<span class="fc" id="L332">        return;</span>
+      }
+//      boolean isAvailable = conn.handleJoinRequests(applicantId, groupName);
+//      conn.close();
+//      if (isAvailable) {
+//        ctx.result(&quot;add success&quot;);
+//      } else {
+//        ctx.result(&quot;Up to volumn limit&quot;);
+//      }
+      
+<span class="nc" id="L342">    });</span>
+    
+    
+    
+<span class="fc" id="L346">    app.ws(&quot;/chat&quot;, ws -&gt; {</span>
+<span class="fc" id="L347">      ws.onConnect(ctx -&gt; {</span>
+<span class="fc" id="L348">        String username = ctx.queryParam(&quot;userName&quot;);</span>
+<span class="fc" id="L349">        String picture = ctx.queryParam(&quot;picture&quot;);</span>
+<span class="fc" id="L350">        currentUserName = username;</span>
+<span class="fc" id="L351">        currentUserPicture = picture;</span>
+
+        
+<span class="fc" id="L354">        userUsernameMap.put(ctx, username);</span>
+<span class="fc" id="L355">        userUserPicMap.put(username, picture);</span>
+<span class="fc" id="L356">        broadcastMessage(&quot;Server&quot;, (username + &quot; joined the chat&quot;));</span>
+<span class="fc" id="L357">      });</span>
+<span class="fc" id="L358">      ws.onClose(ctx -&gt; {</span>
+<span class="fc" id="L359">        String username = userUsernameMap.get(ctx);</span>
+<span class="fc" id="L360">        userUsernameMap.remove(ctx);</span>
+<span class="fc" id="L361">        broadcastMessage(&quot;Server&quot;, (username + &quot; left the chat&quot;));</span>
+<span class="fc" id="L362">      });</span>
+<span class="fc" id="L363">      ws.onMessage(ctx -&gt; {</span>
+//        broadcastMessage(userUsernameMap.get(ctx), ctx.message());
+<span class="nc" id="L365">      });</span>
+<span class="fc" id="L366">    });</span>
+<span class="fc" id="L367">  }</span>
+  
+  //Sends a message from one user to all users, along with a list of current usernames
+  private static void broadcastMessage(String sender, String message) {
+<span class="fc" id="L371">    userUsernameMap.keySet().stream().filter(ctx -&gt; ctx.session.isOpen()).forEach(session -&gt; {</span>
+<span class="fc" id="L372">      session.send(</span>
+<span class="fc" id="L373">          new JSONObject()</span>
+<span class="fc" id="L374">              .put(&quot;userMessage&quot;, createHtmlMessageFromSender(sender, message))</span>
+<span class="fc" id="L375">              .put(&quot;userlist&quot;, userUsernameMap.values()).toString()</span>
+      );
+<span class="fc" id="L377">    });</span>
+<span class="fc" id="L378">  }</span>
+
+  // Builds a HTML element with a sender-name, a message, and a timestamp
+  private static String createHtmlMessageFromSender(String sender, String message) {
+<span class="pc bpc" id="L382" title="1 of 2 branches missed.">    if (sender == currentUserName) {</span>
+//      String time = new SimpleDateFormat(&quot;HH:mm:ss&quot;).format(new Date());
+//      return article(
+//        div(attrs(&quot;.outgoing-chats&quot;),
+//          div(attrs(&quot;.outgoing-chats-msg&quot;),
+//            p(message),
+//            span(attrs(&quot;.time&quot;), sender + &quot;  &quot; + time)),
+//          div(attrs(&quot;.outgoing-chats-img&quot;), img().withSrc(currentUserPicture)))
+//        ).render();
+<span class="pc bpc" id="L391" title="1 of 2 branches missed.">    } else if (sender == &quot;Server&quot;) {</span>
+<span class="fc" id="L392">      return article(</span>
+<span class="fc" id="L393">        div(attrs(&quot;.server_msg_box&quot;),</span>
+<span class="fc" id="L394">          p(attrs(&quot;#server_msg&quot;), message))</span>
+<span class="fc" id="L395">        ).render();</span>
+    }
+//    String time = new SimpleDateFormat(&quot;HH:mm:ss&quot;).format(new Date());
+//    return article(
+//      div(attrs(&quot;.received-chats&quot;),
+//        div(attrs(&quot;.received-chats-img&quot;), img().withSrc(userUserPicMap.get(sender))),
+//        div(attrs(&quot;.received-msg&quot;),
+//          div(attrs(&quot;.received-msg-inbox&quot;),
+//          p(message),
+//          span(attrs(&quot;.time&quot;), sender + &quot;  &quot; + time)
+//          )
+//        )
+//      )
+//    ).render();
+<span class="nc" id="L409">    return &quot;&quot;;</span>
+  }
+
+  public static void stop() {
+<span class="fc" id="L413">    app.stop();</span>
+<span class="fc" id="L414">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>project (Dec 8, 2020 10:12:07 PM)</div></body></html>

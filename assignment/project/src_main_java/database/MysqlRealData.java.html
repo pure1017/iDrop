@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MysqlRealData.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">project (Dec 8, 2020 10:12:07 PM)</a> &gt; <a href="../../index.html" class="el_group">project</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">database</a> &gt; <span class="el_source">MysqlRealData.java</span></div><h1>MysqlRealData.java</h1><pre class="source lang-java linenums">package database;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+
+<span class="nc" id="L8">public class MysqlRealData {</span>
+
+  /**
+   * main method for creating and adding data.
+   * @param args default
+   */
+  public static void main(String[] args) {
+
+    //MysqlTableCreation.createTables();
+<span class="fc" id="L17">    addRealData();</span>
+<span class="fc" id="L18">  }</span>
+  
+  /**
+   * Add some real data from OL.
+   * @return
+   */
+  public static boolean addRealData() {
+<span class="fc" id="L25">    List&lt;String&gt; bookName = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L26">    bookName.add(&quot;the lord of the king&quot;.toLowerCase());</span>
+<span class="fc" id="L27">    bookName.add(&quot;A Song of Ice and Fire&quot;.toLowerCase());</span>
+<span class="fc" id="L28">    bookName.add(&quot;Greak Mythology&quot;.toLowerCase());</span>
+<span class="fc" id="L29">    bookName.add(&quot;Aesop's Fables&quot;.toLowerCase());</span>
+<span class="fc" id="L30">    bookName.add(&quot;Homeric&quot;.toLowerCase());</span>
+<span class="fc" id="L31">    bookName.add(&quot;Bible&quot;.toLowerCase());</span>
+<span class="fc" id="L32">    bookName.add(&quot;The Tale of Genji&quot;.toLowerCase());</span>
+<span class="fc" id="L33">    bookName.add(&quot;Decameron&quot;.toLowerCase());</span>
+<span class="fc" id="L34">    bookName.add(&quot;the Little Prince&quot;.toLowerCase());</span>
+<span class="fc" id="L35">    bookName.add(&quot;Cinderella&quot;.toLowerCase());</span>
+<span class="fc" id="L36">    bookName.add(&quot;Hamlet&quot;.toLowerCase());</span>
+<span class="fc" id="L37">    bookName.add(&quot;Don Quixote&quot;.toLowerCase());</span>
+<span class="fc" id="L38">    bookName.add(&quot;Robinson Crusoe&quot;.toLowerCase());</span>
+<span class="fc" id="L39">    bookName.add(&quot;Gulliver's Travels&quot;.toLowerCase());</span>
+<span class="fc" id="L40">    bookName.add(&quot;Pride and Prejudice&quot;.toLowerCase());</span>
+<span class="fc" id="L41">    bookName.add(&quot;Notre Dame de Paris&quot;.toLowerCase());</span>
+<span class="fc" id="L42">    bookName.add(&quot;Red and black&quot;.toLowerCase());</span>
+<span class="fc" id="L43">    bookName.add(&quot;Count of Monte Cristo&quot;.toLowerCase());</span>
+<span class="fc" id="L44">    bookName.add(&quot;Harry Potter and the Philosopher's Stone&quot;.toLowerCase());</span>
+<span class="fc" id="L45">    bookName.add(&quot;Harry Potter and the Chamber of Secrets&quot;.toLowerCase());</span>
+<span class="fc" id="L46">    bookName.add(&quot;Harry Potter and the Half-Blood Prince&quot;.toLowerCase());</span>
+<span class="fc" id="L47">    bookName.add(&quot;Madame Bovary&quot;);</span>
+<span class="fc" id="L48">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">    for (int i = 0; i &lt; bookName.size(); i++) {</span>
+<span class="fc" id="L50">      conn.searchItems(bookName.get(i), &quot;title&quot;);   </span>
+    }
+<span class="fc" id="L52">    return true;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>project (Dec 8, 2020 10:12:07 PM)</div></body></html>

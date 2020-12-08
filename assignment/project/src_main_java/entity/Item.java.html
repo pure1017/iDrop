@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Item.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">project (Dec 8, 2020 10:12:07 PM)</a> &gt; <a href="../../index.html" class="el_group">project</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">entity</a> &gt; <span class="el_source">Item.java</span></div><h1>Item.java</h1><pre class="source lang-java linenums">package entity;
+
+import java.util.Set;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class Item {
+  private String itemId;
+  private String author;
+  private String title;
+  private double rating;
+  private Set&lt;String&gt; categories;
+  private String imageUrl;
+  private String url;
+  private String describe;
+  
+  public String getItemId() {
+<span class="fc" id="L19">    return itemId;</span>
+  }
+  
+  public String getAuthor() {
+<span class="fc" id="L23">    return author;</span>
+  }
+  
+  public String getTitle() {
+<span class="fc" id="L27">    return title;</span>
+  }
+  
+  public double getRating() {
+<span class="fc" id="L31">    return rating;</span>
+  }
+  
+  public Set&lt;String&gt; getCategories() {
+<span class="fc" id="L35">    return categories;</span>
+  }
+  
+  public String getImageUrl() {
+<span class="fc" id="L39">    return imageUrl;</span>
+  }
+  
+  public String getUrl() {
+<span class="fc" id="L43">    return url;</span>
+  }
+  
+  public String getDescribe() {
+<span class="fc" id="L47">    return describe;</span>
+  }
+  
+  /**
+   * to get the JSON version of item.
+   * @return
+   */
+  
+  public JSONObject toJsonObject() {
+<span class="fc" id="L56">    JSONObject obj = new JSONObject();</span>
+    try {
+<span class="fc" id="L58">      obj.put(&quot;item_id&quot;, itemId);</span>
+<span class="fc" id="L59">      obj.put(&quot;author&quot;, author);</span>
+<span class="fc" id="L60">      obj.put(&quot;title&quot;, title);</span>
+<span class="fc" id="L61">      obj.put(&quot;rating&quot;, rating);</span>
+<span class="fc" id="L62">      obj.put(&quot;subject&quot;, new JSONArray(categories));</span>
+<span class="fc" id="L63">      obj.put(&quot;cover_url&quot;, imageUrl);</span>
+<span class="fc" id="L64">      obj.put(&quot;url&quot;, url);</span>
+<span class="fc" id="L65">      obj.put(&quot;description&quot;, describe);</span>
+<span class="pc" id="L66">    } catch (JSONException e) {</span>
+<span class="nc" id="L67">      e.printStackTrace();</span>
+    }
+<span class="fc" id="L69">    return obj;</span>
+  }
+  
+<span class="fc" id="L72">  public static class ItemBuilder {</span>
+
+    public void setItemId(String itemId) {
+<span class="fc" id="L75">      this.itemId = itemId;</span>
+<span class="fc" id="L76">    }</span>
+    
+    public void setAuthor(String author) {
+<span class="fc" id="L79">      this.author = author;</span>
+<span class="fc" id="L80">    }</span>
+    
+    public void setTitle(String title) {
+<span class="fc" id="L83">      this.title = title;</span>
+<span class="fc" id="L84">    }</span>
+    
+    public void setRating(double rating) {
+<span class="fc" id="L87">      this.rating = rating;</span>
+<span class="fc" id="L88">    }</span>
+    
+    public void setCategories(Set&lt;String&gt; categories) {
+<span class="fc" id="L91">      this.categories = categories;</span>
+<span class="fc" id="L92">    }</span>
+    
+    public void setImageUrl(String imageUrl) {
+<span class="fc" id="L95">      this.imageUrl = imageUrl;</span>
+<span class="fc" id="L96">    }</span>
+    
+    public void setUrl(String url) {
+<span class="fc" id="L99">      this.url = url;</span>
+<span class="fc" id="L100">    }</span>
+    
+    public void setDescribe(String describe) {
+<span class="fc" id="L103">      this.describe = describe;</span>
+<span class="fc" id="L104">    }</span>
+    
+    private double rating;
+    private String itemId;
+    private String author;
+    private String title;
+    private Set&lt;String&gt; categories;
+    private String imageUrl;
+    private String url;
+    private String describe;
+    
+    public Item build() {
+<span class="fc" id="L116">      return new Item(this);</span>
+    }
+  }
+  
+<span class="fc" id="L120">  private Item(ItemBuilder builder) {</span>
+<span class="fc" id="L121">    this.itemId = builder.itemId;</span>
+<span class="fc" id="L122">    this.author = builder.author;</span>
+<span class="fc" id="L123">    this.title = builder.title;</span>
+<span class="fc" id="L124">    this.rating = builder.rating;</span>
+<span class="fc" id="L125">    this.categories = builder.categories;</span>
+<span class="fc" id="L126">    this.imageUrl = builder.imageUrl;</span>
+<span class="fc" id="L127">    this.url = builder.url;</span>
+<span class="fc" id="L128">    this.describe = builder.describe;</span>
+<span class="fc" id="L129">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>project (Dec 8, 2020 10:12:07 PM)</div></body></html>

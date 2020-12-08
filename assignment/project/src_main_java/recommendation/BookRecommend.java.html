@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>BookRecommend.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">project (Dec 8, 2020 10:12:07 PM)</a> &gt; <a href="../../index.html" class="el_group">project</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">recommendation</a> &gt; <span class="el_source">BookRecommend.java</span></div><h1>BookRecommend.java</h1><pre class="source lang-java linenums">package recommendation;
+
+import database.MysqlConnection;
+import entity.Item;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+
+// Recommendation based on geo distance and similar categories.
+<span class="nc" id="L17">public class BookRecommend {</span>
+  /**
+   * collaboratIve filtering based on items.
+   * @param userId user's id
+   * @return
+   */
+  public static Set&lt;Item&gt; recommendItems(String userId) {
+    
+<span class="fc bfc" id="L25" title="All 2 branches covered.">    if (userId == null) {</span>
+<span class="fc" id="L26">      return null;</span>
+    }
+<span class="fc" id="L28">    MysqlConnection conn = new MysqlConnection();</span>
+    
+    // Step 1 Get all favorite items
+<span class="fc" id="L31">    Set&lt;String&gt; favoriteItemIds = conn.getFavoriteItemIds(userId);</span>
+    // Step 2 Get all categories of favorite items, sort by count
+<span class="fc" id="L33">    Map&lt;String, Integer&gt; allCategories = new HashMap&lt;&gt;();</span>
+    
+<span class="fc bfc" id="L35" title="All 2 branches covered.">    for (String itemId : favoriteItemIds) {</span>
+      
+<span class="fc" id="L37">      Set&lt;String&gt; categories = conn.getCategories(itemId);</span>
+      
+<span class="fc bfc" id="L39" title="All 2 branches covered.">      for (String category : categories) {</span>
+<span class="fc" id="L40">        allCategories.put(category, allCategories.getOrDefault(category, 0) + 1);</span>
+      }
+    }
+    
+<span class="fc" id="L44">    List&lt;Entry&lt;String, Integer&gt;&gt; categoryList =</span>
+<span class="fc" id="L45">            new ArrayList&lt;Entry&lt;String, Integer&gt;&gt;(allCategories.entrySet());</span>
+<span class="fc" id="L46">    Collections.sort(categoryList, new Comparator&lt;Entry&lt;String, Integer&gt;&gt;() {</span>
+        @Override
+        public int compare(Entry&lt;String, Integer&gt; o1, Entry&lt;String, Integer&gt; o2) {
+<span class="fc" id="L49">            return Integer.compare(o2.getValue(), o1.getValue());</span>
+        }
+    });
+    
+    // Step 3, do search based on category, filter out favorite items
+<span class="fc" id="L54">    Set&lt;String&gt; visitedItems = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L55">    Entry&lt;String, Integer&gt; category = categoryList.get(0);</span>
+<span class="fc" id="L56">    System.out.println(category.getKey());</span>
+<span class="fc" id="L57">    Set&lt;String&gt; itemList = conn.getItemsOnCat(category.getKey());</span>
+<span class="fc" id="L58">    List&lt;String&gt; filteredItemids = new ArrayList&lt;&gt;();</span>
+      
+<span class="fc bfc" id="L60" title="All 2 branches covered.">    for (String itemId : itemList) {</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">      if (!favoriteItemIds.contains(itemId)</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">              &amp;&amp; !visitedItems.contains(itemId)) {</span>
+<span class="fc" id="L63">        filteredItemids.add(itemId);</span>
+      }
+    }
+      
+<span class="fc" id="L67">    visitedItems.addAll(itemList);</span>
+    
+<span class="fc" id="L69">    Set&lt;String&gt; recommendedItemids = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L70">    recommendedItemids.addAll(filteredItemids);</span>
+    
+<span class="fc" id="L72">    Set&lt;Item&gt; recomdItems = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L73">    recomdItems = conn.getItemsOnIds(recommendedItemids);</span>
+<span class="fc" id="L74">    return recomdItems;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>project (Dec 8, 2020 10:12:07 PM)</div></body></html>
