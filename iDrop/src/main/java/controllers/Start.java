@@ -349,6 +349,8 @@ public class Start {
         String picture = ctx.queryParam("picture");
         currentUserName = username;
         currentUserPicture = picture;
+
+        
         userUsernameMap.put(ctx, username);
         userUserPicMap.put(username, picture);
         broadcastMessage("Server", (username + " joined the chat"));
