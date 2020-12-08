@@ -265,21 +265,21 @@ public class StartTest {
     assertEquals(200, response.getStatus()); 
   }
   
-  /**
-   * This is to test chat endpoint.
-   */
-  @Test
-  @Order(15)
-  public void chatTest() {
-
-    System.out.println("----------------Test Chat----------------");
-    HttpResponse<String> response =  Unirest.post("http://localhost:8080/chat?"
-        + "userName=user1&picture=picture1").asString();
-    assertEquals(200, response.getStatus()); 
-    HttpResponse<String> response2 =  Unirest.post("http://localhost:8080/chat?"
-        + "userName=user2&picture=picture2").asString();
-    assertEquals(200, response2.getStatus()); 
-  }
+//  /**
+//   * This is to test chat endpoint.
+//   */
+//  @Test
+//  @Order(15)
+//  public void chatTest() {
+//
+//    System.out.println("----------------Test Chat----------------");
+//    HttpResponse<String> response =  Unirest.post("http://localhost:8080/chat?"
+//        + "userName=user1&picture=picture1").asString();
+//    assertEquals(200, response.getStatus()); 
+//    HttpResponse<String> response2 =  Unirest.post("http://localhost:8080/chat?"
+//        + "userName=user2&picture=picture2").asString();
+//    assertEquals(200, response2.getStatus()); 
+//  }
   
   /**
     * This will run every time after a test has finished.
