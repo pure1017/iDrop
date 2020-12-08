@@ -22,6 +22,9 @@ public class BookRecommend {
    */
   public static Set<Item> recommendItems(String userId) {
     
+    if (userId == null) {
+      return null;
+    }
     MysqlConnection conn = new MysqlConnection();
     
     // Step 1 Get all favorite items

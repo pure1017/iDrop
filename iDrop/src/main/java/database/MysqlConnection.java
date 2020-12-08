@@ -54,7 +54,7 @@ public class MysqlConnection {
    */
   public boolean setFavoriteItems(String userId, List<String> itemIds) {
     // TODO Auto-generated method stub
-    if (conn == null) {
+    if (userId == null) {
       return false;
     }
     PreparedStatement stmt = null;
@@ -89,7 +89,7 @@ public class MysqlConnection {
    */
   public boolean unsetFavoriteItems(String userId, List<String> itemIds) {
     // TODO Auto-generated method stub
-    if (conn == null) {
+    if (userId == null) {
       return false;
     }
     PreparedStatement stmt = null;
@@ -123,10 +123,9 @@ public class MysqlConnection {
    */
   public Set<String> getFavoriteItemIds(String userId) {
     // TODO Auto-generated method stub
-    if (conn == null) {
-      return new HashSet<>();
+    if (userId == null) {
+      return null;
     }
-
     Set<String> favoriteItemIds = new HashSet<>();
     PreparedStatement stmt = null;
     ResultSet rs = null;
@@ -169,10 +168,9 @@ public class MysqlConnection {
    */
   public Set<Item> getFavoriteItems(String userId) {
     // TODO Auto-generated method stub
-    if (conn == null) {
-      return new HashSet<>();
+    if (userId == null) {
+      return null;
     }
-
     Set<Item> favoriteItems = new HashSet<>();
     Set<String> itemIds = getFavoriteItemIds(userId);
     PreparedStatement stmt = null;
@@ -225,9 +223,6 @@ public class MysqlConnection {
    */
   public Set<String> getCategories(String itemId) {
     // TODO Auto-generated method stub
-    if (conn == null) {
-      return null;
-    }
     Set<String> categories = new HashSet<>();
     PreparedStatement statement = null;
     ResultSet rs = null;
@@ -268,7 +263,7 @@ public class MysqlConnection {
    */
   public List<Item> searchItems(String keyword, String typeKey) {
     // TODO Auto-generated method stub
-    if (conn == null) {
+    if (keyword == null) {
       return null;
     }
     List<Item> items = new ArrayList<>();
@@ -332,7 +327,7 @@ public class MysqlConnection {
    */
   public boolean saveItem(Item item) {
     // TODO Auto-generated method stub
-    if (conn == null) {
+    if (item == null) {
       return false;
     }
     PreparedStatement stmt = null;
@@ -379,9 +374,6 @@ public class MysqlConnection {
    */
   public Set<String> getItemsOnCat(String category) {
     // TODO Auto-generated method stub
-    if (conn == null) {
-      return null;
-    }
     Set<String> itemList = new HashSet<>();
     PreparedStatement statement = null;
     ResultSet rs = null;
@@ -427,10 +419,9 @@ public class MysqlConnection {
    */
   public Set<Item> getItemsOnIds(Set<String> itemIds) {
     // TODO Auto-generated method stub
-    if (conn == null) {
-      return new HashSet<>();
+    if (itemIds == null) {
+      return null;
     }
-
     Set<Item> recomdItems = new HashSet<>();
     //Set<String> itemIds = getFavoriteItemIds(userId);
     PreparedStatement stmt = null;
@@ -494,7 +485,26 @@ public class MysqlConnection {
    */
   public boolean createGroup(String hostId, String bookName, String groupName,
       String beginDate, String groupSize, String groupDescription) {
-    if (conn == null) {
+    int flag = 0;
+    if (hostId == null) {
+      flag = 1;
+    }
+    if (bookName == null) {
+      flag = 1;
+    }
+    if (groupName == null) {
+      flag = 1;
+    }
+    if (beginDate == null) {
+      flag = 1;
+    }
+    if (groupSize == null) {
+      flag = 1;
+    }
+    if (groupDescription == null) {
+      flag = 1;
+    }
+    if (flag == 1) {
       return false;
     }
     PreparedStatement stmt = null;
@@ -752,9 +762,6 @@ public class MysqlConnection {
    * @return
    */
   public List<Map<String, List<Map<String, String>>>> getJoinMessages(String userId) {
-    if (conn == null) {
-      return null;
-    }
     PreparedStatement stmt = null;
     ResultSet rs = null;
     List<Map<String, List<Map<String, String>>>> result = new ArrayList<>();
@@ -866,7 +873,20 @@ public class MysqlConnection {
    */
   public boolean ratingBook(String userId, String itemId, 
       String time, float rating, String comment) {
-    if (conn == null) {
+    int flag = 0;
+    if (userId == null) {
+      flag = 1;
+    }
+    if (itemId == null) {
+      flag = 1;
+    }
+    if (time == null) {
+      flag = 1;
+    }
+    if (comment == null) {
+      flag = 1;
+    }
+    if (flag == 1) {
       return false;
     }
     PreparedStatement stmt = null;
@@ -1062,6 +1082,16 @@ public class MysqlConnection {
     if (conn == null) {
       return false;
     }
+    int flag = 0;
+    if (applicantId == null) {
+      flag = 1;
+    }
+    if (groupName == null) {
+      flag = 1;
+    }
+    if (flag == 1) {
+      return false;
+    }
     PreparedStatement stmt = null;
     ResultSet rs = null;
     try {
@@ -1118,10 +1148,14 @@ public class MysqlConnection {
    * @return
    */
   public boolean ifRerating(String userId, String bookName) {
-    if (conn == null) {
-      return false;
+    int flag = 0;
+    if (userId == null) {
+      flag = 1;
     }
-    if (bookName == "") {
+    if (bookName == null) {
+      flag = 1;
+    }
+    if (flag == 1) {
       return false;
     }
     PreparedStatement stmt = null;

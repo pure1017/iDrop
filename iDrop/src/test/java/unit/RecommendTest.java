@@ -26,6 +26,9 @@ public class RecommendTest {
     System.out.println("Before All");
   }
   
+  /**
+   * This is to test method recommend.
+   */
   @Test
   public void testRecommend() {
     
@@ -41,7 +44,17 @@ public class RecommendTest {
       assertEquals("url", ck.getUrl());
       assertEquals(category, ck.getCategories());
     }
-    
   }
   
+  /**
+   * This is to test method recommend.
+   */
+  @Test
+  public void testRecommendInvalid() {
+    String userId = null;
+    Set<String> category = new HashSet<>();
+    category.add("female");
+    Set<Item> check = BookRecommend.recommendItems(userId);
+    assertEquals(null, check);
+  }
 }

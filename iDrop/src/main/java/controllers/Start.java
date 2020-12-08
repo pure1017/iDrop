@@ -349,6 +349,8 @@ public class Start {
         String picture = ctx.queryParam("picture");
         currentUserName = username;
         currentUserPicture = picture;
+
+        
         userUsernameMap.put(ctx, username);
         userUserPicMap.put(username, picture);
         broadcastMessage("Server", (username + " joined the chat"));
@@ -359,6 +361,7 @@ public class Start {
         broadcastMessage("Server", (username + " left the chat"));
       });
       ws.onMessage(ctx -> {
+    	System.out.print("!!!!!!!"+userUsernameMap.get(ctx));
         broadcastMessage(userUsernameMap.get(ctx), ctx.message());
       });
     });
