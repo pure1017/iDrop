@@ -517,7 +517,7 @@ public class MysqlConnectionTest {
   @Order(16)
   public void testRatingBook() {
     MysqlConnection mc = new MysqlConnection();
-    float rating = (float) 4.5;
+    float rating = (float) 1.0;
     boolean check = mc.ratingBook("44444", "333", "2020-11-12", rating, "Good");
     assertEquals(true, check);
     Connection conn = null;
@@ -536,7 +536,7 @@ public class MysqlConnectionTest {
       String sql = "SELECT * FROM items where item_id = '333'";
       ResultSet rs = stmt.executeQuery(sql);
       if (rs.next()) {
-        assertEquals(4.5, rs.getFloat("rating"));
+        assertEquals(1.0, rs.getFloat("rating"));
       }
       rs.close();
 
@@ -566,11 +566,26 @@ public class MysqlConnectionTest {
    */
   @Test
   @Order(16)
-  public void testRatingBookInvalid1() {
+  public void testRatingBook2() {
     MysqlConnection mc = new MysqlConnection();
-    float rating = (float) 4.5;
-    boolean check = mc.ratingBook("44444", null, "2020-11-12", rating, "Good");
+    float rating = (float) 5.0;
+    boolean check = mc.ratingBook("44444", "333", "2020-11-12", rating, "Good");
+    assertEquals(true, check);
+  }
+  
+  /**
+   * This is to test method ratingBook.
+   */
+  @Test
+  @Order(16)
+  public void testRatingBookInvalid() {
+    MysqlConnection mc = new MysqlConnection();
+    float rating = (float) 0.0;
+    boolean check = mc.ratingBook("44444", "333", "2020-11-12", rating, "Good");
     assertEquals(false, check);
+    rating = (float) 4.0;
+    check = mc.ratingBook("44444", "333", "2020-11-12", rating, "Good");
+    assertEquals(true, check);
   }
   
   /**
@@ -580,20 +595,11 @@ public class MysqlConnectionTest {
   @Order(16)
   public void testRatingBookInvalid2() {
     MysqlConnection mc = new MysqlConnection();
-    float rating = (float) 4.5;
-    boolean check = mc.ratingBook(null, "333", "2020-11-12", rating, "Good");
-    assertEquals(false, check);
-  }
-  
-  /**
-   * This is to test method ratingBook.
-   */
-  @Test
-  @Order(16)
-  public void testRatingBookInvalid3() {
-    MysqlConnection mc = new MysqlConnection();
-    float rating = (float) 4.5;
-    boolean check = mc.ratingBook("44444", "333", null, rating, "Good");
+    float rating = (float) 2.0;
+    boolean check = mc.ratingBook("44444", "333", "2020-11-12", rating, "Good");
+    assertEquals(true, check);
+    rating = (float) 6.0;
+    check = mc.ratingBook("44444", "333", "2020-11-12", rating, "Good");
     assertEquals(false, check);
   }
   
@@ -604,8 +610,8 @@ public class MysqlConnectionTest {
   @Order(16)
   public void testRatingBookInvalid4() {
     MysqlConnection mc = new MysqlConnection();
-    float rating = (float) 4.5;
-    boolean check = mc.ratingBook("44444", "333", "2020-11-12", rating, null);
+    float rating = (float) -1.0;
+    boolean check = mc.ratingBook("44444", "333", "2020-11-12", rating, "Good");
     assertEquals(false, check);
   }
   

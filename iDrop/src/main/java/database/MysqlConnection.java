@@ -874,6 +874,9 @@ public class MysqlConnection {
   public boolean ratingBook(String userId, String itemId, 
       String time, float rating, String comment) {
     int flag = 0;
+    if (rating < 1.0 || rating > 5.0) {
+      flag = 1;
+    }
     if (userId == null) {
       flag = 1;
     }
