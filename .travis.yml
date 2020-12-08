@@ -1,8 +1,12 @@
 language: java
 
-jdk：
+jdk:
   -  openjdk9
 
-install: cd iDrop && mvn install -DskipTests=true -Dmaven.javadoc.skip=true
+branches:
+    only:
+        - master
+
+
 
 
