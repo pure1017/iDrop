@@ -7,9 +7,7 @@ branches:
     only:
         - master
 
-script: 
-  - ./iDrop/src/test/java/unit/RecommendTest test 
-
+script: mvn test by default
 
 
 
