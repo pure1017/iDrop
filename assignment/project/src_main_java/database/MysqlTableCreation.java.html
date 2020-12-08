@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MysqlTableCreation.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">project (Dec 8, 2020 10:12:07 PM)</a> &gt; <a href="../../index.html" class="el_group">project</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">database</a> &gt; <span class="el_source">MysqlTableCreation.java</span></div><h1>MysqlTableCreation.java</h1><pre class="source lang-java linenums">package database;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+<span class="nc" id="L8">public class MysqlTableCreation {</span>
+  /**
+   * This is the main function.
+   * @param args .
+   */
+  public static void main(String[] args) {
+<span class="fc" id="L14">    createTables();</span>
+<span class="fc" id="L15">    addFakeData();</span>
+<span class="fc" id="L16">  }</span>
+  
+  /**
+   * This is to create tables.
+   */
+  public static boolean createTables() {
+<span class="fc" id="L22">    Connection conn = null;</span>
+<span class="fc" id="L23">    Statement stmt = null;</span>
+    try {
+      // This is java.sql.Connection. Not com.mysql.jdbc.Connection.
+
+      // Step 1 Connect to MySQL.
+      try {
+<span class="fc" id="L29">        System.out.println(&quot;Connecting to jdbc:sqlite:ase.db&quot;);</span>
+        //Dynamically get reflection of data at runtime. 
+<span class="fc" id="L31">        Class.forName(&quot;org.sqlite.JDBC&quot;);</span>
+<span class="fc" id="L32">        conn = DriverManager.getConnection(&quot;jdbc:sqlite:ase.db&quot;);</span>
+<span class="pc" id="L33">      } catch (SQLException e) {</span>
+<span class="nc" id="L34">        e.printStackTrace();</span>
+      }
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">      if (conn == null) {</span>
+<span class="nc" id="L37">        return false;</span>
+      }
+
+      // Step2 Drop tables in case they exist
+<span class="fc" id="L41">      stmt = conn.createStatement();</span>
+<span class="fc" id="L42">      String sql = &quot;DROP TABLE IF EXISTS categories&quot;;</span>
+<span class="fc" id="L43">      stmt.executeUpdate(sql);</span>
+
+<span class="fc" id="L45">      sql = &quot;DROP TABLE IF EXISTS history&quot;;</span>
+<span class="fc" id="L46">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L48">      sql = &quot;DROP TABLE IF EXISTS items&quot;;</span>
+<span class="fc" id="L49">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L51">      sql = &quot;DROP TABLE IF EXISTS users&quot;;</span>
+<span class="fc" id="L52">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L54">      sql = &quot;DROP TABLE IF EXISTS groups&quot;;</span>
+<span class="fc" id="L55">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L57">      sql = &quot;DROP TABLE IF EXISTS applications&quot;;</span>
+<span class="fc" id="L58">      stmt.executeUpdate(sql);</span>
+      
+      
+<span class="fc" id="L61">      sql = &quot;DROP TABLE IF EXISTS ratings&quot;;</span>
+<span class="fc" id="L62">      stmt.executeUpdate(sql);</span>
+
+      // Step 3 Create new tables
+<span class="fc" id="L65">      sql = &quot;CREATE TABLE items (&quot;</span>
+        + &quot;item_id VARCHAR(255) NOT NULL,&quot;
+        + &quot;title VARCHAR(255),&quot;
+        + &quot;author VARCHAR(255),&quot;
+        + &quot;rating FLOAT,&quot;
+        + &quot;description VARCHAR(10000),&quot;
+        + &quot;cover_url VARCHAR(255),&quot;
+        + &quot;url VARCHAR(255),&quot;
+        + &quot;PRIMARY KEY (item_id))&quot;;
+<span class="fc" id="L74">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L76">      sql = &quot;CREATE TABLE categories (&quot;</span>
+        + &quot;item_id VARCHAR(255) NOT NULL,&quot;
+        + &quot;category VARCHAR(255) NOT NULL,&quot;
+        + &quot;PRIMARY KEY (item_id, category),&quot;//multiple to multiple
+        + &quot;FOREIGN KEY (item_id) REFERENCES items(item_id))&quot;;
+<span class="fc" id="L81">      stmt.executeUpdate(sql);</span>
+
+<span class="fc" id="L83">      sql = &quot;CREATE TABLE users (&quot;</span>
+        + &quot;user_id VARCHAR(255) NOT NULL,&quot;
+        + &quot;email VARCHAR(255) NOT NULL,&quot;
+        + &quot;first_name VARCHAR(255),&quot;
+        + &quot;last_name VARCHAR(255),&quot;
+        + &quot;PRIMARY KEY (user_id))&quot;;
+<span class="fc" id="L89">      stmt.executeUpdate(sql);</span>
+
+<span class="fc" id="L91">      sql = &quot;CREATE TABLE history (&quot;</span>
+        + &quot;user_id VARCHAR(255) NOT NULL,&quot;
+        + &quot;item_id VARCHAR(255) NOT NULL,&quot;
+        + &quot;last_favor_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,&quot;
+        + &quot;PRIMARY KEY (user_id, item_id),&quot;
+        + &quot;FOREIGN KEY (item_id) REFERENCES items(item_id),&quot;
+        + &quot;FOREIGN KEY (user_id) REFERENCES users(user_id))&quot;;
+<span class="fc" id="L98">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L100">      sql = &quot;CREATE TABLE groups (&quot;</span>
+        + &quot;group_id INT AUTO_INCREMENT,&quot;
+        + &quot;group_name VARCHAR(255) NOT NULL,&quot;
+        + &quot;book_name VARCHAR(255) NOT NULL,&quot;
+        + &quot;host VARCHAR(255) NOT NULL,&quot;
+        + &quot;begin_date VARCHAR(255) NOT NULL,&quot;
+        + &quot;group_size VARCHAR(255) NOT NULL,&quot;
+        + &quot;group_description VARCHAR(255) NOT NULL,&quot;
+        + &quot;member_1 VARCHAR(255),&quot;
+        + &quot;message_1 VARCHAR(255),&quot;
+        + &quot;member_2 VARCHAR(255),&quot;
+        + &quot;message_2 VARCHAR(255),&quot;
+        + &quot;member_3 VARCHAR(255),&quot;
+        + &quot;message_3 VARCHAR(255),&quot;
+        + &quot;member_4 VARCHAR(255),&quot;
+        + &quot;message_4 VARCHAR(255),&quot;
+        + &quot;current_size INT NOT NULL DEFAULT 1,&quot;
+        + &quot;PRIMARY KEY (group_id),&quot;
+        + &quot;FOREIGN KEY (host) REFERENCES users(user_id),&quot;
+        + &quot;FOREIGN KEY (member_1) REFERENCES users(user_id),&quot;
+        + &quot;FOREIGN KEY (member_2) REFERENCES users(user_id),&quot;
+        + &quot;FOREIGN KEY (member_3) REFERENCES users(user_id),&quot;
+        + &quot;FOREIGN KEY (member_4) REFERENCES users(user_id))&quot;;
+<span class="fc" id="L123">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L125">      sql = &quot;CREATE TABLE applications (&quot;</span>
+        + &quot;application_id INT AUTO_INCREMENT,&quot;
+        + &quot;group_id INT NOT NULL,&quot;
+        + &quot;group_name VARCHAR(255) NOT NULL,&quot;
+        + &quot;member VARCHAR(255) NOT NULL,&quot;
+        + &quot;message VARCHAR(255) NOT NULL,&quot;
+        + &quot;validm VARCHAR(255) NOT NULL,&quot;
+        + &quot;PRIMARY KEY (group_id, member),&quot;
+        + &quot;FOREIGN KEY (member) REFERENCES users(user_id),&quot;
+        + &quot;FOREIGN KEY (group_id) REFERENCES groups(group_id),&quot;
+        + &quot;FOREIGN KEY (group_name) REFERENCES groups(group_name))&quot;;
+<span class="fc" id="L136">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L138">      sql = &quot;CREATE TABLE ratings (&quot;</span>
+        + &quot;rating_no INT AUTO_INCREMENT,&quot;
+        + &quot;user_id VARCHAR(225) NOT NULL,&quot;
+        + &quot;item_id VARCHAR(225) NOT NULL,&quot;
+        + &quot;time VARCHAR(225) NOT NULL,&quot;
+        + &quot;rating FLOAT NOT NULL,&quot;
+        + &quot;comment VARCHAR(1000),&quot;
+        + &quot;PRIMARY KEY (rating_no),&quot;
+        + &quot;FOREIGN KEY (user_id) REFERENCES users(user_id),&quot;
+        + &quot;FOREIGN KEY (item_id) REFERENCES items(item_id))&quot;;
+<span class="fc" id="L148">      stmt.executeUpdate(sql);</span>
+
+      // Step 4: insert test data
+<span class="fc" id="L151">      sql = &quot;INSERT INTO users VALUES (&quot;</span>
+        + &quot;'1111', '3229c1097c00d497a0fd282d586be050', 'Hankun', 'Cao')&quot;;
+<span class="fc" id="L153">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L154">      stmt.executeUpdate(sql);</span>
+<span class="fc" id="L155">      stmt.close();</span>
+<span class="fc" id="L156">      conn.close();</span>
+<span class="fc" id="L157">      System.out.println(&quot;Tables created successfully.&quot;);</span>
+      
+<span class="pc" id="L159">    } catch (Exception e) {</span>
+<span class="nc" id="L160">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L162" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L164">          stmt.close();</span>
+<span class="pc" id="L165">        } catch (SQLException e) {</span>
+<span class="nc" id="L166">          e.printStackTrace();</span>
+        }
+      }
+<span class="pc bpc" id="L169" title="1 of 2 branches missed.">      if (conn != null) {</span>
+        try {
+<span class="fc" id="L171">          conn.close();</span>
+<span class="pc" id="L172">        } catch (SQLException e) {</span>
+<span class="nc" id="L173">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L177">    return true;</span>
+  }
+  
+  /**
+   * This is to add some fake data for testing.
+   */
+  public static boolean addFakeData() {
+<span class="fc" id="L184">    Connection conn = null;</span>
+<span class="fc" id="L185">    Statement stmt = null;</span>
+    try {
+      // This is java.sql.Connection. Not com.mysql.jdbc.Connection.
+
+      // Step 1 Connect to MySQL.
+      try {
+<span class="fc" id="L191">        System.out.println(&quot;Connecting to jdbc:sqlite:ase.db&quot;);</span>
+        //Dynamically get reflection of data at runtime. 
+<span class="fc" id="L193">        Class.forName(&quot;org.sqlite.JDBC&quot;);</span>
+<span class="fc" id="L194">        conn = DriverManager.getConnection(&quot;jdbc:sqlite:ase.db&quot;);</span>
+<span class="pc" id="L195">      } catch (SQLException e) {</span>
+<span class="nc" id="L196">        e.printStackTrace();</span>
+      }
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">      if (conn == null) {</span>
+<span class="nc" id="L199">        return true;</span>
+      }
+      
+      //add 2 fake users
+<span class="fc" id="L203">      stmt = conn.createStatement();</span>
+<span class="fc" id="L204">      String sql = &quot;INSERT INTO users VALUES (&quot;</span>
+          + &quot;'11111', '11111@columbia.edu', 'Hankun', 'Cao')&quot;;
+<span class="fc" id="L206">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L207">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L209">      sql = &quot;INSERT INTO users VALUES (&quot;</span>
+          + &quot;'22222', '22222@columbia.edu', 'Tingyi', 'Wang')&quot;;
+<span class="fc" id="L211">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L212">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L214">      sql = &quot;INSERT INTO users VALUES (&quot;</span>
+              + &quot;'33333', '33333@columbia.edu', 'Feiqiang', 'Shen')&quot;;
+<span class="fc" id="L216">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L217">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L219">      sql = &quot;INSERT INTO users VALUES (&quot;</span>
+              + &quot;'44444', '44444@columbia.edu', 'Miao', 'Liu')&quot;;
+<span class="fc" id="L221">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L222">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L224">      sql = &quot;INSERT INTO users VALUES (&quot;</span>
+              + &quot;'55555', '55555@columbia.edu', 'XinPei', 'Ma')&quot;;
+<span class="fc" id="L226">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L227">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L229">      sql = &quot;INSERT INTO users VALUES (&quot;</span>
+              + &quot;'66666', '66666@columbia.edu', 'Hao', 'Lin')&quot;;
+<span class="fc" id="L231">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L232">      stmt.executeUpdate(sql);</span>
+      
+
+      //add 4 fake books
+<span class="fc" id="L236">      sql = &quot;INSERT INTO items VALUES ('111', 'book1', 'tingyi', 1.0, &quot;</span>
+          + &quot;'some description', 'image url', 'url')&quot;;
+<span class="fc" id="L238">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L239">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L241">      sql = &quot;INSERT INTO items VALUES ('222', 'book2', 'miao', 0.0, &quot;</span>
+              + &quot;'some description', 'image url', 'url')&quot;;
+<span class="fc" id="L243">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L244">      stmt.executeUpdate(sql);</span>
+          
+<span class="fc" id="L246">      sql = &quot;INSERT INTO items VALUES ('333', 'book3', 'xinpei', 3.0, &quot;</span>
+              + &quot;'some description', 'image url', 'url')&quot;;
+<span class="fc" id="L248">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L249">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L251">      sql = &quot;INSERT INTO items VALUES ('444', 'book4', 'hao', 4.0, &quot;</span>
+              + &quot;'some description', 'image url', 'url')&quot;;
+<span class="fc" id="L253">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L254">      stmt.executeUpdate(sql);</span>
+      
+      //add fake categories
+<span class="fc" id="L257">      sql = &quot;INSERT INTO categories VALUES ('111', 'female')&quot;;</span>
+<span class="fc" id="L258">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L259">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L261">      sql = &quot;INSERT INTO categories VALUES ('222', 'male')&quot;;</span>
+<span class="fc" id="L262">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L263">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L265">      sql = &quot;INSERT INTO categories VALUES ('333', 'female')&quot;;</span>
+<span class="fc" id="L266">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L267">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L269">      sql = &quot;INSERT INTO categories VALUES ('444', 'female')&quot;;</span>
+<span class="fc" id="L270">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L271">      stmt.executeUpdate(sql);</span>
+      
+      //add fake history
+<span class="fc" id="L274">      sql = &quot;INSERT INTO history (user_id, item_id) VALUES ('11111', '111')&quot;;</span>
+<span class="fc" id="L275">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L276">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L278">      sql = &quot;INSERT INTO history (user_id, item_id) VALUES ('11111', '333')&quot;;</span>
+<span class="fc" id="L279">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L280">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L282">      sql = &quot;INSERT INTO history (user_id, item_id) VALUES ('22222', '222')&quot;;</span>
+<span class="fc" id="L283">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L284">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L286">      sql = &quot;INSERT INTO history (user_id, item_id) VALUES ('22222', '444')&quot;;</span>
+<span class="fc" id="L287">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L288">      stmt.executeUpdate(sql);</span>
+      
+      //add fake group
+<span class="fc" id="L291">      sql = &quot;INSERT INTO groups (group_id, group_name, book_name, host, begin_date,&quot;</span>
+         + &quot;group_size, group_description, member_1, message_1, current_size) &quot;
+         + &quot;VALUES (1, 'group1', 'book1', '11111', '2020', &quot;
+         + &quot;5, 'description1', '22222', 'message1', 2)&quot;;
+<span class="fc" id="L295">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L296">      stmt.executeUpdate(sql);</span>
+
+<span class="fc" id="L298">      sql = &quot;INSERT INTO groups (group_id, group_name, book_name, host, begin_date,&quot;</span>
+         + &quot;group_size, group_description, member_1, message_1, member_2, message_2, current_size) &quot;
+         + &quot;VALUES (2, 'group2', 'book2', '11111', '2020', &quot;
+         + &quot;5, 'description1', '33333', 'message1', '44444', 'message2', 10)&quot;; 
+      // when current size is large
+<span class="fc" id="L303">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L304">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L306">      sql = &quot;INSERT INTO groups (group_id, group_name, book_name, host, begin_date,&quot;</span>
+         + &quot;group_size, group_description, member_1, message_1, member_2, message_2, current_size) &quot;
+         + &quot;VALUES (3, 'group3', 'book3', '22222', '2020', &quot;
+         + &quot;5, 'description1', '11111', 'message1', '33333', 'message2', 3)&quot;;
+<span class="fc" id="L310">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L311">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L313">      sql = &quot;INSERT INTO applications (group_id, group_name, member, message, validm) &quot;</span>
+         + &quot;VALUES (1, 'group1', 'userId4', 'joinMessage4', 'undecided')&quot;;
+<span class="fc" id="L315">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L316">      stmt.executeUpdate(sql);</span>
+      
+      //add fake rating
+<span class="fc" id="L319">      sql = &quot;INSERT INTO ratings (user_id, item_id, time, rating, comment) &quot;</span>
+         + &quot;VALUES ('44444', '333', '2020-11-22', 4.5, 'comment1')&quot;;
+<span class="fc" id="L321">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L322">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L324">      sql = &quot;INSERT INTO ratings (user_id, item_id, time, rating, comment) &quot;</span>
+         + &quot;VALUES ('55555', '444', '2020-11-23', 4.5, 'comment2')&quot;;
+<span class="fc" id="L326">      System.out.println(&quot;Executing query: &quot; + sql);</span>
+<span class="fc" id="L327">      stmt.executeUpdate(sql);</span>
+      
+<span class="fc" id="L329">      stmt.close();</span>
+<span class="fc" id="L330">      conn.close();</span>
+<span class="fc" id="L331">      System.out.println(&quot;added fake data&quot;);</span>
+<span class="pc" id="L332">    } catch (Exception e) {</span>
+<span class="nc" id="L333">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L335" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L337">          stmt.close();</span>
+<span class="pc" id="L338">        } catch (SQLException e) {</span>
+<span class="nc" id="L339">          e.printStackTrace();</span>
+        }
+      }
+<span class="pc bpc" id="L342" title="1 of 2 branches missed.">      if (conn != null) {</span>
+        try {
+<span class="fc" id="L344">          conn.close();</span>
+<span class="pc" id="L345">        } catch (SQLException e) {</span>
+<span class="nc" id="L346">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L350">    return true;</span>
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>project (Dec 8, 2020 10:12:07 PM)</div></body></html>

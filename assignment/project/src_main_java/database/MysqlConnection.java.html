@@ -1,0 +1,1196 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MysqlConnection.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">project (Dec 8, 2020 10:12:07 PM)</a> &gt; <a href="../../index.html" class="el_group">project</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">database</a> &gt; <span class="el_source">MysqlConnection.java</span></div><h1>MysqlConnection.java</h1><pre class="source lang-java linenums">package database;
+
+import entity.Item;
+import entity.Item.ItemBuilder;
+import external.OpenLibraryApi;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+//import external.TicketMasterAPI;
+
+public class MysqlConnection {
+  private Connection conn;
+  
+  /**
+   * constructor.
+   */
+<span class="fc" id="L26">  public MysqlConnection() {</span>
+    try {
+<span class="fc" id="L28">      Class.forName(&quot;org.sqlite.JDBC&quot;);</span>
+<span class="fc" id="L29">      conn = DriverManager.getConnection(&quot;jdbc:sqlite:ase.db&quot;);</span>
+<span class="pc" id="L30">    } catch (Exception e) {</span>
+<span class="nc" id="L31">      e.printStackTrace();</span>
+    }
+<span class="fc" id="L33">  }</span>
+
+  /**
+   * close the connection.
+   */
+  public boolean close() {
+    // TODO Auto-generated method stub
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">    if (conn != null) {</span>
+      try {
+<span class="fc" id="L42">        conn.close();</span>
+<span class="pc" id="L43">      } catch (Exception e) {</span>
+<span class="nc" id="L44">        e.printStackTrace();</span>
+      }
+    }
+<span class="fc" id="L47">    return true;</span>
+  }
+
+  /**
+   * set user's liked items.
+   * @param userId user id
+   * @param itemIds items id
+   */
+  public boolean setFavoriteItems(String userId, List&lt;String&gt; itemIds) {
+    // TODO Auto-generated method stub
+<span class="fc bfc" id="L57" title="All 2 branches covered.">    if (userId == null) {</span>
+<span class="fc" id="L58">      return false;</span>
+    }
+<span class="fc" id="L60">    PreparedStatement stmt = null;</span>
+    try {
+<span class="fc" id="L62">      String sql = &quot;INSERT OR IGNORE INTO history (user_id, item_id) VALUES (?, ?)&quot;;</span>
+      //ignore checks primary key
+<span class="fc" id="L64">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">      for (String itemId : itemIds) {</span>
+<span class="fc" id="L66">        stmt.setString(1, userId);</span>
+<span class="fc" id="L67">        stmt.setString(2, itemId);</span>
+<span class="fc" id="L68">        stmt.execute();</span>
+      }
+<span class="fc" id="L70">      stmt.close();</span>
+<span class="pc" id="L71">    } catch (SQLException e) {</span>
+<span class="nc" id="L72">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L76">          stmt.close();</span>
+<span class="pc" id="L77">        } catch (SQLException e) {</span>
+<span class="nc" id="L78">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L82">    return true;</span>
+  }
+
+  /**
+   * this is to unset favorite items.
+   * @param userId .
+   * @param itemIds .
+   */
+  public boolean unsetFavoriteItems(String userId, List&lt;String&gt; itemIds) {
+    // TODO Auto-generated method stub
+<span class="fc bfc" id="L92" title="All 2 branches covered.">    if (userId == null) {</span>
+<span class="fc" id="L93">      return false;</span>
+    }
+<span class="fc" id="L95">    PreparedStatement stmt = null;</span>
+    try {
+<span class="fc" id="L97">      String sql = &quot;DELETE FROM history WHERE user_id = ? AND item_id = ?&quot;;</span>
+<span class="fc" id="L98">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">      for (String itemId : itemIds) {</span>
+<span class="fc" id="L100">        stmt.setString(1, userId);</span>
+<span class="fc" id="L101">        stmt.setString(2, itemId);</span>
+<span class="fc" id="L102">        stmt.execute();</span>
+      }
+<span class="fc" id="L104">      stmt.close();</span>
+<span class="pc" id="L105">    } catch (SQLException e) {</span>
+<span class="nc" id="L106">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L110">          stmt.close();</span>
+<span class="pc" id="L111">        } catch (SQLException e) {</span>
+<span class="nc" id="L112">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L116">    return true;</span>
+  }
+
+  /**
+   * This is to get favorite item ids.
+   * @param userId .
+   * @return
+   */
+  public Set&lt;String&gt; getFavoriteItemIds(String userId) {
+    // TODO Auto-generated method stub
+<span class="fc bfc" id="L126" title="All 2 branches covered.">    if (userId == null) {</span>
+<span class="fc" id="L127">      return null;</span>
+    }
+<span class="fc" id="L129">    Set&lt;String&gt; favoriteItemIds = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L130">    PreparedStatement stmt = null;</span>
+<span class="fc" id="L131">    ResultSet rs = null;</span>
+    try {
+<span class="fc" id="L133">      String sql = &quot;SELECT item_id from history where user_id = ?&quot;;</span>
+<span class="fc" id="L134">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L135">      stmt.setString(1, userId);</span>
+<span class="fc" id="L136">      rs = stmt.executeQuery();</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">      while (rs.next()) {</span>
+<span class="fc" id="L138">        String itemId = rs.getString(&quot;item_id&quot;);</span>
+<span class="fc" id="L139">        favoriteItemIds.add(itemId);</span>
+      }
+<span class="fc" id="L141">      stmt.close();</span>
+<span class="fc" id="L142">      rs.close();</span>
+<span class="pc" id="L143">    } catch (SQLException e) {</span>
+<span class="nc" id="L144">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L146" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L148">          stmt.close();</span>
+<span class="pc" id="L149">        } catch (SQLException e) {</span>
+<span class="nc" id="L150">          e.printStackTrace();</span>
+        }
+      }
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">      if (rs != null) {</span>
+        try {
+<span class="fc" id="L155">          rs.close();</span>
+<span class="pc" id="L156">        } catch (SQLException e) {</span>
+<span class="nc" id="L157">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L161">    return favoriteItemIds;</span>
+  }
+
+  /**
+   * This is to get favorite items.
+   * @param userId .
+   * @return
+   */
+  public Set&lt;Item&gt; getFavoriteItems(String userId) {
+    // TODO Auto-generated method stub
+<span class="fc bfc" id="L171" title="All 2 branches covered.">    if (userId == null) {</span>
+<span class="fc" id="L172">      return null;</span>
+    }
+<span class="fc" id="L174">    Set&lt;Item&gt; favoriteItems = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L175">    Set&lt;String&gt; itemIds = getFavoriteItemIds(userId);</span>
+<span class="fc" id="L176">    PreparedStatement stmt = null;</span>
+<span class="fc" id="L177">    ResultSet rs = null;</span>
+    try {
+<span class="fc" id="L179">      String sql = &quot;SELECT * FROM items WHERE item_id = ?&quot;;</span>
+<span class="fc" id="L180">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">      for (String itemId : itemIds) {</span>
+<span class="fc" id="L182">        stmt.setString(1, itemId);</span>
+<span class="fc" id="L183">        rs = stmt.executeQuery();</span>
+
+<span class="fc" id="L185">        ItemBuilder builder = new ItemBuilder();</span>
+
+<span class="fc bfc" id="L187" title="All 2 branches covered.">        while (rs.next()) {</span>
+<span class="fc" id="L188">          builder.setItemId(rs.getString(&quot;item_id&quot;));</span>
+<span class="fc" id="L189">          builder.setTitle(rs.getString(&quot;title&quot;).toLowerCase());</span>
+<span class="fc" id="L190">          builder.setAuthor(rs.getString(&quot;author&quot;));</span>
+<span class="fc" id="L191">          builder.setImageUrl(rs.getString(&quot;cover_url&quot;));</span>
+<span class="fc" id="L192">          builder.setUrl(rs.getString(&quot;url&quot;));</span>
+<span class="fc" id="L193">          builder.setCategories(getCategories(itemId));</span>
+<span class="fc" id="L194">          favoriteItems.add(builder.build());</span>
+        }
+      }
+<span class="fc" id="L197">      stmt.close();</span>
+<span class="pc" id="L198">    } catch (SQLException e) {</span>
+<span class="nc" id="L199">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L203">          stmt.close();</span>
+<span class="pc" id="L204">        } catch (SQLException e) {</span>
+<span class="nc" id="L205">          e.printStackTrace();</span>
+        }
+      }
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">      if (rs != null) {</span>
+        try {
+<span class="fc" id="L210">          rs.close();</span>
+<span class="pc" id="L211">        } catch (SQLException e) {</span>
+<span class="nc" id="L212">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L216">    return favoriteItems;</span>
+  }
+
+  /**
+   * This is to get the categories of items.
+   * @param itemId .
+   * @return
+   */
+  public Set&lt;String&gt; getCategories(String itemId) {
+    // TODO Auto-generated method stub
+<span class="fc" id="L226">    Set&lt;String&gt; categories = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L227">    PreparedStatement statement = null;</span>
+<span class="fc" id="L228">    ResultSet rs = null;</span>
+    try {
+<span class="fc" id="L230">      String sql = &quot;SELECT category from categories WHERE item_id = ?&quot;;</span>
+<span class="fc" id="L231">      statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L232">      statement.setString(1, itemId);</span>
+<span class="fc" id="L233">      rs = statement.executeQuery();</span>
+<span class="fc bfc" id="L234" title="All 2 branches covered.">      while (rs.next()) {</span>
+<span class="fc" id="L235">        categories.add(rs.getString(&quot;category&quot;));</span>
+      }
+<span class="fc" id="L237">      rs.close();</span>
+<span class="fc" id="L238">      statement.close();</span>
+<span class="pc" id="L239">    } catch (Exception e) {</span>
+<span class="nc" id="L240">      System.out.println(e.getMessage());</span>
+    } finally {
+<span class="pc bpc" id="L242" title="1 of 2 branches missed.">      if (statement != null) {</span>
+        try {
+<span class="fc" id="L244">          statement.close();</span>
+<span class="pc" id="L245">        } catch (SQLException e) {</span>
+<span class="nc" id="L246">          e.printStackTrace();</span>
+        }
+      }
+<span class="pc bpc" id="L249" title="1 of 2 branches missed.">      if (rs != null) {</span>
+        try {
+<span class="fc" id="L251">          rs.close();</span>
+<span class="pc" id="L252">        } catch (SQLException e) {</span>
+<span class="nc" id="L253">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L257">    return categories;</span>
+  }
+
+  /**
+   * This is to search books.
+   * @return
+   */
+  public List&lt;Item&gt; searchItems(String keyword, String typeKey) {
+    // TODO Auto-generated method stub
+<span class="fc bfc" id="L266" title="All 2 branches covered.">    if (keyword == null) {</span>
+<span class="fc" id="L267">      return null;</span>
+    }
+<span class="fc" id="L269">    List&lt;Item&gt; items = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L270">    PreparedStatement stmt = null;</span>
+<span class="fc" id="L271">    ResultSet rs = null;</span>
+    try {
+<span class="fc" id="L273">      String sql = &quot;SELECT * FROM items WHERE title = ?&quot;;</span>
+<span class="fc" id="L274">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L275">      stmt.setString(1, keyword.toLowerCase());</span>
+<span class="fc" id="L276">      rs = stmt.executeQuery();</span>
+<span class="fc bfc" id="L277" title="All 2 branches covered.">      if (rs.next()) {</span>
+<span class="fc" id="L278">        System.out.println(&quot;Searching in DB&quot;);</span>
+<span class="fc" id="L279">        ItemBuilder builder = new ItemBuilder();</span>
+<span class="fc" id="L280">        String itemId = rs.getString(&quot;item_id&quot;);</span>
+<span class="fc" id="L281">        builder.setItemId(itemId);</span>
+<span class="fc" id="L282">        builder.setTitle(rs.getString(&quot;title&quot;).toLowerCase());</span>
+<span class="fc" id="L283">        builder.setAuthor(rs.getString(&quot;author&quot;));</span>
+<span class="fc" id="L284">        builder.setImageUrl(rs.getString(&quot;cover_url&quot;));</span>
+<span class="fc" id="L285">        builder.setUrl(rs.getString(&quot;url&quot;));</span>
+<span class="pc bpc" id="L286" title="1 of 2 branches missed.">        if (rs.getString(&quot;description&quot;).length() &lt; 250) {</span>
+<span class="fc" id="L287">          builder.setDescribe(rs.getString(&quot;description&quot;));</span>
+<span class="fc" id="L288">        } else {</span>
+<span class="nc" id="L289">          builder.setDescribe(rs.getString(&quot;description&quot;).substring(0, 250) + &quot;...&quot;);</span>
+        }
+<span class="fc" id="L291">        builder.setCategories(getCategories(itemId));</span>
+<span class="fc" id="L292">        items.add(builder.build());</span>
+<span class="fc" id="L293">        rs.close();</span>
+<span class="fc" id="L294">        stmt.close();</span>
+<span class="fc" id="L295">      } else {</span>
+<span class="fc" id="L296">        System.out.println(&quot;Searching in OL&quot;);</span>
+<span class="fc" id="L297">        OpenLibraryApi ol = new OpenLibraryApi();</span>
+<span class="fc" id="L298">        items = ol.search(keyword.toLowerCase(), typeKey);</span>
+<span class="fc bfc" id="L299" title="All 2 branches covered.">        for (Item item : items) {</span>
+<span class="fc" id="L300">          ol.saveItem(item);</span>
+        }
+      }
+<span class="pc" id="L303">    } catch (Exception e) {</span>
+<span class="nc" id="L304">      System.out.println(e.getMessage());</span>
+    } finally {
+<span class="pc bpc" id="L306" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L308">          stmt.close();</span>
+<span class="pc" id="L309">        } catch (SQLException e) {</span>
+<span class="nc" id="L310">          e.printStackTrace();</span>
+        }
+      }
+<span class="pc bpc" id="L313" title="1 of 2 branches missed.">      if (rs != null) {</span>
+        try {
+<span class="fc" id="L315">          rs.close();</span>
+<span class="pc" id="L316">        } catch (SQLException e) {</span>
+<span class="nc" id="L317">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L321">    return items;</span>
+  }
+
+  /**
+   * This is to save items.
+   * @param item .
+   */
+  public boolean saveItem(Item item) {
+    // TODO Auto-generated method stub
+<span class="fc bfc" id="L330" title="All 2 branches covered.">    if (item == null) {</span>
+<span class="fc" id="L331">      return false;</span>
+    }
+<span class="fc" id="L333">    PreparedStatement stmt = null;</span>
+
+    try {
+<span class="fc" id="L336">      String sql = &quot;INSERT OR IGNORE INTO items VALUES (?, ?, ?, ?, ?, ?, ?)&quot;;</span>
+<span class="fc" id="L337">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L338">      stmt.setString(1, item.getItemId());</span>
+<span class="fc" id="L339">      stmt.setString(2, item.getTitle());</span>
+<span class="fc" id="L340">      stmt.setString(3, item.getAuthor());</span>
+<span class="fc" id="L341">      stmt.setDouble(4, item.getRating());</span>
+<span class="fc" id="L342">      stmt.setString(5, item.getDescribe());</span>
+<span class="fc" id="L343">      stmt.setString(6, item.getImageUrl());</span>
+<span class="fc" id="L344">      stmt.setString(7, item.getUrl());</span>
+<span class="fc" id="L345">      stmt.execute();</span>
+<span class="fc" id="L346">      stmt.close();</span>
+      
+<span class="fc" id="L348">      sql = &quot;INSERT OR IGNORE INTO categories VALUES (?, ?)&quot;;</span>
+<span class="fc" id="L349">      stmt = conn.prepareStatement(sql);</span>
+<span class="pc bpc" id="L350" title="1 of 2 branches missed.">      for (String category : item.getCategories()) {</span>
+<span class="nc" id="L351">        stmt.setString(1, item.getItemId());</span>
+<span class="nc" id="L352">        stmt.setString(2, category);</span>
+<span class="nc" id="L353">        stmt.execute();</span>
+      }
+<span class="fc" id="L355">      stmt.close();</span>
+<span class="pc" id="L356">    } catch (SQLException e) {</span>
+<span class="nc" id="L357">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L359" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L361">          stmt.close();</span>
+<span class="pc" id="L362">        } catch (SQLException e) {</span>
+<span class="nc" id="L363">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L367">    return true;</span>
+  }
+  
+  /**
+   * This is to get the items based on categories.
+   * @param category The category of books
+   * @return Item ids with the highest ratings
+   */
+  public Set&lt;String&gt; getItemsOnCat(String category) {
+    // TODO Auto-generated method stub
+<span class="fc" id="L377">    Set&lt;String&gt; itemList = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L378">    PreparedStatement statement = null;</span>
+<span class="fc" id="L379">    ResultSet rs = null;</span>
+    try {
+<span class="fc" id="L381">      String sql = &quot;SELECT items.item_id from items inner join categories &quot;</span>
+          + &quot;ON categories.item_id = items.item_id&quot;
+          + &quot; WHERE categories.category = ? ORDER BY items.rating DESC LIMIT 10&quot;;
+<span class="fc" id="L384">      statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L385">      statement.setString(1, category);</span>
+<span class="fc" id="L386">      rs = statement.executeQuery();</span>
+<span class="fc bfc" id="L387" title="All 2 branches covered.">      while (rs.next()) {</span>
+<span class="fc" id="L388">        itemList.add(rs.getString(&quot;item_id&quot;));</span>
+      }
+<span class="fc" id="L390">      rs.close();</span>
+<span class="fc" id="L391">      statement.close();</span>
+<span class="pc" id="L392">    } catch (Exception e) {</span>
+<span class="nc" id="L393">      System.out.println(e.getMessage());</span>
+    } finally {
+<span class="pc bpc" id="L395" title="1 of 2 branches missed.">      if (statement != null) {</span>
+        try {
+<span class="fc" id="L397">          statement.close();</span>
+<span class="pc" id="L398">        } catch (SQLException e) {</span>
+<span class="nc" id="L399">          e.printStackTrace();</span>
+        }
+      }
+<span class="pc bpc" id="L402" title="1 of 2 branches missed.">      if (rs != null) {</span>
+        try {
+<span class="fc" id="L404">          rs.close();</span>
+<span class="pc" id="L405">        } catch (SQLException e) {</span>
+<span class="nc" id="L406">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L410">    return itemList;</span>
+  }
+  
+  
+  
+  /**
+   * This is to get items based on item ids. 
+   * @param itemIds the item ids
+   * @return the items
+   */
+  public Set&lt;Item&gt; getItemsOnIds(Set&lt;String&gt; itemIds) {
+    // TODO Auto-generated method stub
+<span class="fc bfc" id="L422" title="All 2 branches covered.">    if (itemIds == null) {</span>
+<span class="fc" id="L423">      return null;</span>
+    }
+<span class="fc" id="L425">    Set&lt;Item&gt; recomdItems = new HashSet&lt;&gt;();</span>
+    //Set&lt;String&gt; itemIds = getFavoriteItemIds(userId);
+<span class="fc" id="L427">    PreparedStatement stmt = null;</span>
+<span class="fc" id="L428">    ResultSet rs = null;</span>
+    try {
+<span class="fc" id="L430">      String sql = &quot;SELECT * FROM items WHERE item_id = ?&quot;;</span>
+<span class="fc" id="L431">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc bfc" id="L432" title="All 2 branches covered.">      for (String itemId : itemIds) {</span>
+<span class="fc" id="L433">        stmt.setString(1, itemId);</span>
+<span class="fc" id="L434">        rs = stmt.executeQuery();</span>
+
+<span class="fc" id="L436">        ItemBuilder builder = new ItemBuilder();</span>
+
+<span class="fc bfc" id="L438" title="All 2 branches covered.">        while (rs.next()) {</span>
+<span class="fc" id="L439">          builder.setItemId(rs.getString(&quot;item_id&quot;));</span>
+<span class="fc" id="L440">          builder.setTitle(rs.getString(&quot;title&quot;));</span>
+<span class="fc" id="L441">          builder.setAuthor(rs.getString(&quot;author&quot;));</span>
+<span class="fc" id="L442">          builder.setImageUrl(rs.getString(&quot;cover_url&quot;));</span>
+<span class="fc" id="L443">          builder.setUrl(rs.getString(&quot;url&quot;));</span>
+<span class="fc" id="L444">          builder.setRating(rs.getDouble(&quot;rating&quot;));</span>
+<span class="pc bpc" id="L445" title="1 of 2 branches missed.">          if (rs.getString(&quot;description&quot;).length() &lt; 250) {</span>
+<span class="fc" id="L446">            builder.setDescribe(rs.getString(&quot;description&quot;));</span>
+<span class="fc" id="L447">          } else {</span>
+<span class="nc" id="L448">            builder.setDescribe(rs.getString(&quot;description&quot;).substring(0, 250) + &quot;...&quot;);</span>
+          }
+<span class="fc" id="L450">          builder.setCategories(getCategories(itemId));</span>
+<span class="fc" id="L451">          recomdItems.add(builder.build());</span>
+        }
+      }
+<span class="fc" id="L454">      stmt.close();</span>
+<span class="pc" id="L455">    } catch (SQLException e) {</span>
+<span class="nc" id="L456">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L458" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L460">          stmt.close();</span>
+<span class="pc" id="L461">        } catch (SQLException e) {</span>
+<span class="nc" id="L462">          e.printStackTrace();</span>
+        }
+      }
+<span class="pc bpc" id="L465" title="1 of 2 branches missed.">      if (rs != null) {</span>
+        try {
+<span class="fc" id="L467">          rs.close();</span>
+<span class="pc" id="L468">        } catch (SQLException e) {</span>
+<span class="nc" id="L469">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L473">    return recomdItems;</span>
+  }
+  
+  /**
+   * This is to create a group.
+   * @param hostId .
+   * @param bookName .
+   * @param groupName .
+   * @param beginDate .
+   * @param groupSize .
+   * @param groupDescription .
+   * @return
+   */
+  public boolean createGroup(String hostId, String bookName, String groupName,
+      String beginDate, String groupSize, String groupDescription) {
+<span class="fc" id="L488">    int flag = 0;</span>
+<span class="fc bfc" id="L489" title="All 2 branches covered.">    if (hostId == null) {</span>
+<span class="fc" id="L490">      flag = 1;</span>
+    }
+<span class="fc bfc" id="L492" title="All 2 branches covered.">    if (bookName == null) {</span>
+<span class="fc" id="L493">      flag = 1;</span>
+    }
+<span class="fc bfc" id="L495" title="All 2 branches covered.">    if (groupName == null) {</span>
+<span class="fc" id="L496">      flag = 1;</span>
+    }
+<span class="fc bfc" id="L498" title="All 2 branches covered.">    if (beginDate == null) {</span>
+<span class="fc" id="L499">      flag = 1;</span>
+    }
+<span class="fc bfc" id="L501" title="All 2 branches covered.">    if (groupSize == null) {</span>
+<span class="fc" id="L502">      flag = 1;</span>
+    }
+<span class="fc bfc" id="L504" title="All 2 branches covered.">    if (groupDescription == null) {</span>
+<span class="fc" id="L505">      flag = 1;</span>
+    }
+<span class="fc bfc" id="L507" title="All 2 branches covered.">    if (flag == 1) {</span>
+<span class="fc" id="L508">      return false;</span>
+    }
+<span class="fc" id="L510">    PreparedStatement stmt = null;</span>
+    try {
+<span class="fc" id="L512">      String sql = &quot;INSERT INTO groups (group_name, book_name, host,&quot;</span>
+          + &quot;begin_date, group_size, group_description, current_size)&quot;
+          + &quot; VALUES (?, ?, ?, ?, ?, ?, ?)&quot;;
+<span class="fc" id="L515">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L516">      stmt.setString(1, groupName);</span>
+<span class="fc" id="L517">      stmt.setString(2, bookName.toLowerCase());</span>
+<span class="fc" id="L518">      stmt.setString(3, hostId);</span>
+<span class="fc" id="L519">      stmt.setString(4, beginDate);</span>
+<span class="fc" id="L520">      stmt.setString(5, groupSize);</span>
+<span class="fc" id="L521">      stmt.setString(6, groupDescription);</span>
+<span class="fc" id="L522">      stmt.setInt(7, 0);</span>
+<span class="fc" id="L523">      stmt.execute();</span>
+<span class="fc" id="L524">      stmt.close();</span>
+<span class="pc" id="L525">    } catch (SQLException e) {</span>
+<span class="nc" id="L526">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L528" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L530">          stmt.close();</span>
+<span class="pc" id="L531">        } catch (SQLException e) {</span>
+<span class="nc" id="L532">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L536">    return true;</span>
+  }
+  
+  /**
+   * This is to join a group.
+   * @param userId .
+   * @param groupName .
+   * @return
+   */
+  public int joinGroup(String userId, String groupName, String joinMessage) {
+<span class="pc bpc" id="L546" title="1 of 2 branches missed.">    if (conn == null) {</span>
+<span class="nc" id="L547">      return 3;</span>
+    }
+<span class="fc" id="L549">    PreparedStatement stmt = null;</span>
+<span class="fc" id="L550">    ResultSet rs = null;</span>
+    int groupId;
+    try {
+      //check if the group exists or full
+<span class="fc" id="L554">      String sql = &quot;SELECT * FROM groups WHERE group_name = ?&quot;;</span>
+<span class="fc" id="L555">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L556">      stmt.setString(1, groupName);</span>
+<span class="fc" id="L557">      rs = stmt.executeQuery();</span>
+<span class="fc bfc" id="L558" title="All 2 branches covered.">      if (rs.next() == false) {</span>
+<span class="fc" id="L559">        return 1;</span>
+      }
+<span class="fc" id="L561">      int currentSize = rs.getInt(&quot;current_size&quot;);</span>
+<span class="fc bfc" id="L562" title="All 2 branches covered.">      if (currentSize &gt;= 4) {</span>
+<span class="fc" id="L563">        return 2;</span>
+      }
+<span class="fc" id="L565">      groupId = rs.getInt(&quot;group_id&quot;);</span>
+<span class="pc bpc" id="L566" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+<span class="fc" id="L567">        stmt.close();</span>
+      }
+<span class="fc" id="L569">      sql = &quot;INSERT OR IGNORE INTO applications (group_id, group_name, member, message, validm)&quot;</span>
+        + &quot; VALUES (?, ?, ?, ?, ?)&quot;;
+<span class="fc" id="L571">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L572">      stmt.setInt(1, groupId);</span>
+<span class="fc" id="L573">      stmt.setString(2, groupName);</span>
+<span class="fc" id="L574">      stmt.setString(3, userId);</span>
+<span class="fc" id="L575">      stmt.setString(4, joinMessage);</span>
+<span class="fc" id="L576">      stmt.setString(5, &quot;undecided&quot;);</span>
+<span class="fc" id="L577">      stmt.execute();</span>
+<span class="fc" id="L578">      stmt.close();</span>
+
+      //check if the group exists or full
+      //String sql = &quot;SELECT * FROM groups WHERE group_name = ?&quot;;
+      //stmt = conn.prepareStatement(sql);
+      //stmt.setString(1, groupName);
+      //rs = stmt.executeQuery();
+      //if (rs.next() == false) {
+      //  return 1;
+      //}
+      //int currentSize = rs.getInt(&quot;current_size&quot;);
+      //if (currentSize == 4) {
+      //  return 2;
+      //}
+      
+      //find which member is empty
+      //int i = 1;
+      //String member = &quot;member_1&quot;;
+      
+      //while (rs.getString(member) != null &amp;&amp; i &lt;= 4) {
+      //  i++;
+      //  member = String.format(&quot;member_%s&quot;, Integer.toString(i));
+      //}
+      //stmt.close();
+      
+      //String message = String.format(&quot;message_%s&quot;, Integer.toString(i));
+      //sql = String.format(&quot;UPDATE groups SET %s = '%s', %s = '%s', %s = %d WHERE 
+      //group_name = '%s'&quot;,
+      //    member, userId, message, joinMessage, &quot;current_size&quot;, currentSize + 1, groupName);
+      //stmt = conn.prepareStatement(sql);
+      //stmt.execute();
+      //stmt.close();
+<span class="pc" id="L610">    } catch (SQLException e) {</span>
+<span class="nc" id="L611">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L613" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L615">          stmt.close();</span>
+<span class="pc" id="L616">        } catch (SQLException e) {</span>
+<span class="nc" id="L617">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L621">    return 0;</span>
+  }
+  
+  /**
+   * This is to get a list of groups where the user is the host.
+   * @param userId .
+   * @return
+   */
+  public List&lt;Map&lt;String, String&gt;&gt; getGroupsByHost(String userId) {
+<span class="pc bpc" id="L630" title="1 of 2 branches missed.">    if (conn == null) {</span>
+<span class="nc" id="L631">      return null;</span>
+    }
+<span class="fc" id="L633">    PreparedStatement stmt = null;</span>
+<span class="fc" id="L634">    ResultSet rs = null;</span>
+<span class="fc" id="L635">    ResultSet rs2 = null;</span>
+<span class="fc" id="L636">    List&lt;Map&lt;String, String&gt;&gt; groups = new ArrayList&lt;&gt;();</span>
+    try {
+<span class="fc" id="L638">      String sql = &quot;SELECT * FROM groups WHERE host = ?&quot;;</span>
+<span class="fc" id="L639">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L640">      stmt.setString(1, userId);</span>
+<span class="fc" id="L641">      rs = stmt.executeQuery();</span>
+<span class="fc bfc" id="L642" title="All 2 branches covered.">      while (rs.next()) {</span>
+<span class="fc" id="L643">        String bookName = rs.getString(&quot;book_name&quot;).toLowerCase();</span>
+<span class="fc" id="L644">        sql = &quot;SELECT cover_url FROM items WHERE title = ?&quot;;</span>
+<span class="fc" id="L645">        stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L646">        stmt.setString(1, bookName);</span>
+<span class="fc" id="L647">        rs2 = stmt.executeQuery();</span>
+<span class="fc" id="L648">        rs2.next();</span>
+<span class="fc" id="L649">        String coverUrl = rs2.getString(&quot;cover_url&quot;);</span>
+<span class="fc" id="L650">        rs2.close();</span>
+        
+<span class="fc" id="L652">        Map&lt;String, String&gt; map = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L653">        map.put(&quot;cover_url&quot;, coverUrl);</span>
+<span class="fc" id="L654">        map.put(&quot;Group Name&quot;, rs.getString(&quot;group_name&quot;));</span>
+<span class="fc" id="L655">        map.put(&quot;Begin Date&quot;, rs.getString(&quot;begin_date&quot;));</span>
+<span class="fc" id="L656">        map.put(&quot;Group Description&quot;, rs.getString(&quot;group_description&quot;));</span>
+<span class="fc" id="L657">        groups.add(map);</span>
+      }
+<span class="fc" id="L659">      stmt.close();</span>
+<span class="fc" id="L660">      rs.close();</span>
+<span class="pc" id="L661">    } catch (SQLException e) {</span>
+<span class="nc" id="L662">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L664" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L666">          stmt.close();</span>
+<span class="pc" id="L667">        } catch (SQLException e) {</span>
+<span class="nc" id="L668">          e.printStackTrace();</span>
+        }
+      }
+<span class="pc bpc" id="L671" title="1 of 2 branches missed.">      if (rs != null) {</span>
+        try {
+<span class="fc" id="L673">          rs.close();</span>
+<span class="pc" id="L674">        } catch (SQLException e) {</span>
+<span class="nc" id="L675">          e.printStackTrace();</span>
+        }
+      }
+<span class="fc bfc" id="L678" title="All 2 branches covered.">      if (rs2 != null) {</span>
+        try {
+<span class="fc" id="L680">          rs.close();</span>
+<span class="pc" id="L681">        } catch (SQLException e) {</span>
+<span class="nc" id="L682">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L686">    return groups;</span>
+  }
+  
+  /**
+   * This is to get a list of groups which the user is the member.
+   * @param userId .
+   * @return
+   */
+  public List&lt;Map&lt;String, String&gt;&gt; getGroupsByMember(String userId) {
+<span class="pc bpc" id="L695" title="1 of 2 branches missed.">    if (conn == null) {</span>
+<span class="nc" id="L696">      return null;</span>
+    }
+<span class="fc" id="L698">    PreparedStatement stmt = null;</span>
+<span class="fc" id="L699">    ResultSet rs = null;</span>
+<span class="fc" id="L700">    ResultSet rs2 = null;</span>
+<span class="fc" id="L701">    List&lt;Map&lt;String, String&gt;&gt; groups = new ArrayList&lt;&gt;();</span>
+    try {
+<span class="fc" id="L703">      String sql = &quot;SELECT * FROM groups WHERE member_1 = ? &quot;</span>
+          + &quot;OR member_2 = ?  OR member_3 = ? &quot;
+          + &quot;OR member_4 = ?&quot;;
+<span class="fc" id="L706">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L707">      stmt.setString(1, userId);</span>
+<span class="fc" id="L708">      stmt.setString(2, userId);</span>
+<span class="fc" id="L709">      stmt.setString(3, userId);</span>
+<span class="fc" id="L710">      stmt.setString(4, userId);</span>
+<span class="fc" id="L711">      rs = stmt.executeQuery();</span>
+<span class="fc bfc" id="L712" title="All 2 branches covered.">      while (rs.next()) {</span>
+<span class="fc" id="L713">        String bookName = rs.getString(&quot;book_name&quot;);</span>
+<span class="fc" id="L714">        sql = &quot;SELECT cover_url FROM items WHERE title = ?&quot;;</span>
+<span class="fc" id="L715">        stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L716">        stmt.setString(1, bookName);</span>
+<span class="fc" id="L717">        rs2 = stmt.executeQuery();</span>
+<span class="fc" id="L718">        rs2.next();</span>
+<span class="fc" id="L719">        String coverUrl = rs2.getString(&quot;cover_url&quot;);</span>
+<span class="fc" id="L720">        rs2.close();</span>
+          
+<span class="fc" id="L722">        Map&lt;String, String&gt; map = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L723">        map.put(&quot;cover_url&quot;, coverUrl);</span>
+<span class="fc" id="L724">        map.put(&quot;Group Name&quot;, rs.getString(&quot;group_name&quot;));</span>
+<span class="fc" id="L725">        map.put(&quot;Begin Date&quot;, rs.getString(&quot;begin_date&quot;));</span>
+<span class="fc" id="L726">        map.put(&quot;Group Description&quot;, rs.getString(&quot;group_description&quot;));</span>
+<span class="fc" id="L727">        groups.add(map);</span>
+      }
+<span class="fc" id="L729">      stmt.close();</span>
+<span class="fc" id="L730">      rs.close();</span>
+<span class="pc" id="L731">    } catch (SQLException e) {</span>
+<span class="nc" id="L732">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L734" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L736">          stmt.close();</span>
+<span class="pc" id="L737">        } catch (SQLException e) {</span>
+<span class="nc" id="L738">          e.printStackTrace();</span>
+        }
+      }
+<span class="pc bpc" id="L741" title="1 of 2 branches missed.">      if (rs != null) {</span>
+        try {
+<span class="fc" id="L743">          rs.close();</span>
+<span class="pc" id="L744">        } catch (SQLException e) {</span>
+<span class="nc" id="L745">          e.printStackTrace();</span>
+        }
+      }
+<span class="pc bpc" id="L748" title="1 of 2 branches missed.">      if (rs2 != null) {</span>
+        try {
+<span class="fc" id="L750">          rs2.close();</span>
+<span class="pc" id="L751">        } catch (SQLException e) {</span>
+<span class="nc" id="L752">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L756">    return groups;</span>
+  }
+  
+  /**
+   * This is to get a join messages.
+   * @param userId .
+   * @return
+   */
+  public List&lt;Map&lt;String, List&lt;Map&lt;String, String&gt;&gt;&gt;&gt; getJoinMessages(String userId) {
+<span class="fc" id="L765">    PreparedStatement stmt = null;</span>
+<span class="fc" id="L766">    ResultSet rs = null;</span>
+<span class="fc" id="L767">    List&lt;Map&lt;String, List&lt;Map&lt;String, String&gt;&gt;&gt;&gt; result = new ArrayList&lt;&gt;();</span>
+    try {
+<span class="fc" id="L769">      String sql = &quot;SELECT * FROM groups WHERE host = ?&quot;;</span>
+<span class="fc" id="L770">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L771">      stmt.setString(1, userId);</span>
+<span class="fc" id="L772">      rs = stmt.executeQuery();</span>
+      int groupId;
+<span class="fc" id="L774">      String groupName = &quot;&quot;;</span>
+<span class="fc" id="L775">      String sql2 = &quot;&quot;;</span>
+<span class="fc bfc" id="L776" title="All 2 branches covered.">      while (rs.next()) {</span>
+<span class="fc" id="L777">        PreparedStatement stmt2 = null;</span>
+<span class="fc" id="L778">        ResultSet rs2 = null;</span>
+<span class="fc" id="L779">        groupId = rs.getInt(&quot;group_id&quot;);</span>
+<span class="fc" id="L780">        groupName = rs.getString(&quot;group_name&quot;);</span>
+        try {
+<span class="fc" id="L782">          sql2 = &quot;SELECT * FROM applications WHERE group_id = ?&quot;;</span>
+<span class="fc" id="L783">          stmt2 = conn.prepareStatement(sql2);</span>
+<span class="fc" id="L784">          stmt2.setInt(1, groupId);</span>
+<span class="fc" id="L785">          rs2 = stmt2.executeQuery();</span>
+<span class="fc" id="L786">          List&lt;Map&lt;String, String&gt;&gt; applicationForEach = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L787" title="All 2 branches covered.">          while (rs2.next()) {</span>
+<span class="fc" id="L788">            Map&lt;String, String&gt; map = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L789">            map.put(&quot;userId&quot;, rs2.getString(&quot;member&quot;));</span>
+<span class="fc" id="L790">            map.put(&quot;message&quot;, rs2.getString(&quot;message&quot;));</span>
+<span class="fc" id="L791">            applicationForEach.add(map);</span>
+          }
+          
+<span class="fc" id="L794">          Map&lt;String, List&lt;Map&lt;String, String&gt;&gt;&gt; maplist = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L795">          maplist.put(groupName, applicationForEach);</span>
+<span class="fc" id="L796">          result.add(maplist);</span>
+<span class="fc" id="L797">          stmt2.close();</span>
+<span class="fc" id="L798">          rs2.close();</span>
+<span class="pc" id="L799">        } catch (SQLException e) {</span>
+<span class="nc" id="L800">          e.printStackTrace();</span>
+        } finally {
+<span class="pc bpc" id="L802" title="1 of 2 branches missed.">          if (stmt2 != null) {</span>
+            try {
+<span class="fc" id="L804">              stmt2.close();</span>
+<span class="pc" id="L805">            } catch (SQLException e) {</span>
+<span class="nc" id="L806">              e.printStackTrace();</span>
+            }
+          }
+<span class="pc bpc" id="L809" title="1 of 2 branches missed.">          if (rs2 != null) {</span>
+            try {
+<span class="fc" id="L811">              rs2.close();</span>
+<span class="pc" id="L812">            } catch (SQLException e) {</span>
+<span class="nc" id="L813">              e.printStackTrace();</span>
+            }
+          }
+        }
+    	
+        //List&lt;Map&lt;String, String&gt;&gt; mapList = new ArrayList&lt;&gt;();
+        //Map&lt;String, Map&lt;String, String&gt;&gt; mapmap = new HashMap&lt;&gt;();
+        //Map&lt;String, String&gt; map1 = new HashMap&lt;&gt;();
+        
+        //map1.put(&quot;userId&quot;, rs.getString(&quot;member_1&quot;));
+        //map1.put(&quot;message&quot;, rs.getString(&quot;message_1&quot;));
+        //mapmap.put(&quot;joinmessage1&quot;, map1);
+        
+        //Map&lt;String, String&gt; map2 = new HashMap&lt;&gt;();
+        //map2.put(&quot;userId&quot;, rs.getString(&quot;member_2&quot;));
+        //map2.put(&quot;message&quot;, rs.getString(&quot;message_2&quot;));
+        //mapmap.put(&quot;joinmessage2&quot;, map2);
+        
+        //Map&lt;String, String&gt; map3 = new HashMap&lt;&gt;();
+        //map3.put(&quot;userId&quot;, rs.getString(&quot;member_3&quot;));
+        //map3.put(&quot;message&quot;, rs.getString(&quot;message_3&quot;));
+        //mapmap.put(&quot;joinmessage3&quot;, map3);
+        
+        //Map&lt;String, String&gt; map4 = new HashMap&lt;&gt;();
+        //map4.put(&quot;userId&quot;, rs.getString(&quot;member_4&quot;));
+        //map4.put(&quot;message&quot;, rs.getString(&quot;message_4&quot;));
+        //mapmap.put(&quot;joinmessage4&quot;, map4);
+        
+        //Map&lt;String, Map&lt;String, Map&lt;String, String&gt;&gt;&gt; mapmapmap = new HashMap&lt;&gt;();
+        //mapmapmap.put(rs.getString(&quot;group_name&quot;), mapmap);
+        //result.add(mapmapmap);
+      }
+<span class="fc" id="L845">      stmt.close();</span>
+<span class="fc" id="L846">      rs.close();</span>
+<span class="pc" id="L847">    } catch (SQLException e) {</span>
+<span class="nc" id="L848">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L850" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L852">          stmt.close();</span>
+<span class="pc" id="L853">        } catch (SQLException e) {</span>
+<span class="nc" id="L854">          e.printStackTrace();</span>
+        }
+      }
+<span class="pc bpc" id="L857" title="1 of 2 branches missed.">      if (rs != null) {</span>
+        try {
+<span class="fc" id="L859">          rs.close();</span>
+<span class="pc" id="L860">        } catch (SQLException e) {</span>
+<span class="nc" id="L861">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L865">    return result;</span>
+  }
+  
+  
+
+  
+  /**
+   * This is to insert book rating into table ratings. 
+   */
+  public boolean ratingBook(String userId, String itemId, 
+      String time, float rating, String comment) {
+<span class="fc" id="L876">    int flag = 0;</span>
+<span class="fc bfc" id="L877" title="All 2 branches covered.">    if (userId == null) {</span>
+<span class="fc" id="L878">      flag = 1;</span>
+    }
+<span class="fc bfc" id="L880" title="All 2 branches covered.">    if (itemId == null) {</span>
+<span class="fc" id="L881">      flag = 1;</span>
+    }
+<span class="fc bfc" id="L883" title="All 2 branches covered.">    if (time == null) {</span>
+<span class="fc" id="L884">      flag = 1;</span>
+    }
+<span class="fc bfc" id="L886" title="All 2 branches covered.">    if (comment == null) {</span>
+<span class="fc" id="L887">      flag = 1;</span>
+    }
+<span class="fc bfc" id="L889" title="All 2 branches covered.">    if (flag == 1) {</span>
+<span class="fc" id="L890">      return false;</span>
+    }
+<span class="fc" id="L892">    PreparedStatement stmt = null;</span>
+<span class="fc" id="L893">    PreparedStatement ps = null;</span>
+<span class="fc" id="L894">    ResultSet rs = null;</span>
+    try {
+<span class="fc" id="L896">      String sql = &quot;SELECT * FROM ratings WHERE user_Id = ? and item_id = ?&quot;;</span>
+<span class="fc" id="L897">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L898">      stmt.setString(1, userId);</span>
+<span class="fc" id="L899">      stmt.setString(2, itemId);</span>
+<span class="fc" id="L900">      rs = stmt.executeQuery();</span>
+<span class="fc" id="L901">      boolean exist = rs.next();</span>
+<span class="fc" id="L902">      stmt.close();</span>
+<span class="fc bfc" id="L903" title="All 2 branches covered.">      if (exist) {</span>
+<span class="fc" id="L904">        sql = String.format(&quot;UPDATE ratings SET time = '%s', rating = %f, comment = '%s'&quot;</span>
+<span class="fc" id="L905">            + &quot;WHERE user_id = '%s' and item_id = '%s'&quot;, time, rating, comment, userId, itemId);</span>
+<span class="fc" id="L906">        stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L907">        stmt.execute();</span>
+<span class="fc" id="L908">      } else {</span>
+<span class="fc" id="L909">        String sqlInsert = &quot;INSERT INTO ratings (user_id, item_id, time, rating, comment)&quot;</span>
+            + &quot; VALUES (?, ?, ?, ?, ?)&quot;;
+<span class="fc" id="L911">        stmt = conn.prepareStatement(sqlInsert);</span>
+<span class="fc" id="L912">        stmt.setString(1, userId);</span>
+<span class="fc" id="L913">        stmt.setString(2, itemId);</span>
+<span class="fc" id="L914">        stmt.setString(3, time);</span>
+<span class="fc" id="L915">        stmt.setFloat(4, rating);</span>
+<span class="fc" id="L916">        stmt.setString(5, comment);</span>
+      }
+<span class="fc" id="L918">      String sqlUpdate = &quot;UPDATE items SET rating = (SELECT AVG(rating) AS avg_rating &quot;</span>
+          + &quot;FROM ratings GROUP BY item_id HAVING item_id = ?) WHERE item_id = ?&quot;;
+<span class="fc" id="L920">      ps = conn.prepareStatement(sqlUpdate);</span>
+<span class="fc" id="L921">      ps.setString(1, itemId);</span>
+<span class="fc" id="L922">      ps.setString(2, itemId);</span>
+<span class="fc" id="L923">      stmt.execute();</span>
+<span class="fc" id="L924">      stmt.close();</span>
+<span class="fc" id="L925">      ps.execute();</span>
+<span class="fc" id="L926">      ps.close();</span>
+<span class="pc" id="L927">    } catch (SQLException e) {</span>
+<span class="nc" id="L928">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L930" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L932">          stmt.close();</span>
+<span class="pc" id="L933">        } catch (SQLException e) {</span>
+<span class="nc" id="L934">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L938">    return true;</span>
+  }
+  
+  /**
+   * This is to insert book rating into table ratings. 
+   */
+  public List&lt;List&lt;String&gt;&gt; getRatingsAndComments(String itemId) {
+<span class="pc bpc" id="L945" title="1 of 2 branches missed.">    if (conn == null) {</span>
+<span class="nc" id="L946">      return null;</span>
+    }
+<span class="fc" id="L948">    PreparedStatement stmt = null;</span>
+<span class="fc" id="L949">    ResultSet rs = null;</span>
+<span class="fc" id="L950">    List&lt;List&lt;String&gt;&gt; result = new ArrayList&lt;&gt;();</span>
+    try {
+<span class="fc" id="L952">      String sql = &quot;SELECT * FROM ratings WHERE item_id = ?&quot;;</span>
+<span class="fc" id="L953">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L954">      stmt.setString(1, itemId);</span>
+<span class="fc" id="L955">      rs = stmt.executeQuery();</span>
+<span class="fc" id="L956">      ResultSet rs2 = null;</span>
+<span class="fc bfc" id="L957" title="All 2 branches covered.">      while (rs.next()) {</span>
+<span class="fc" id="L958">        List&lt;String&gt; row = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L959">        row.add(rs.getString(&quot;user_id&quot;));</span>
+<span class="fc" id="L960">        row.add(Float.toString(rs.getFloat(&quot;rating&quot;)));</span>
+<span class="fc" id="L961">        row.add(rs.getString(&quot;comment&quot;));</span>
+<span class="fc" id="L962">        row.add(rs.getString(&quot;time&quot;));</span>
+<span class="fc" id="L963">        sql = &quot;SELECT * FROM users WHERE user_id = ?&quot;;</span>
+<span class="fc" id="L964">        stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L965">        stmt.setString(1, rs.getString(&quot;user_id&quot;));</span>
+<span class="fc" id="L966">        rs2 = stmt.executeQuery();</span>
+<span class="fc" id="L967">        String firstname = &quot;&quot;;</span>
+<span class="fc" id="L968">        String lastname = &quot;&quot;;</span>
+<span class="pc bpc" id="L969" title="1 of 2 branches missed.">        if (rs2.next()) {</span>
+<span class="fc" id="L970">          firstname = rs2.getString(&quot;first_name&quot;);</span>
+<span class="fc" id="L971">          lastname = rs2.getString(&quot;last_name&quot;);</span>
+        }
+<span class="fc" id="L973">        row.add(firstname);</span>
+<span class="fc" id="L974">        row.add(lastname);</span>
+<span class="fc" id="L975">        result.add(row);</span>
+<span class="fc" id="L976">        rs2.close();</span>
+      }
+<span class="pc" id="L978">    } catch (SQLException e) {</span>
+<span class="nc" id="L979">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L981" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L983">          stmt.close();</span>
+<span class="pc" id="L984">        } catch (SQLException e) {</span>
+<span class="nc" id="L985">          e.printStackTrace();</span>
+        }
+      }
+<span class="pc bpc" id="L988" title="1 of 2 branches missed.">      if (rs != null) {</span>
+        try {
+<span class="fc" id="L990">          stmt.close();</span>
+<span class="pc" id="L991">        } catch (SQLException e) {</span>
+<span class="nc" id="L992">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L996">    return result;</span>
+  }
+  
+  /**
+   * This is to handle joining group requests.
+   */
+  public boolean handleJoinRequests(String applicantId, String groupName) {
+<span class="pc bpc" id="L1003" title="1 of 2 branches missed.">    if (conn == null) {</span>
+<span class="nc" id="L1004">      return false;</span>
+    }
+<span class="fc" id="L1006">    boolean add = false;</span>
+<span class="fc" id="L1007">    PreparedStatement stmt = null;</span>
+<span class="fc" id="L1008">    PreparedStatement ps = null;</span>
+<span class="fc" id="L1009">    ResultSet rs = null;</span>
+    try {
+<span class="fc" id="L1011">      String sql = &quot;SELECT group_id, current_size, group_size FROM groups &quot;</span>
+          + &quot;WHERE group_name = ?&quot;; 
+<span class="fc" id="L1013">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L1014">      stmt.setString(1, groupName);</span>
+<span class="fc" id="L1015">      rs = stmt.executeQuery();</span>
+<span class="fc" id="L1016">      int groupId = rs.getInt(&quot;group_id&quot;);</span>
+<span class="fc" id="L1017">      int currentSize = Integer.parseInt(rs.getString(&quot;current_size&quot;));</span>
+<span class="fc" id="L1018">      int groupSize = Integer.parseInt(rs.getString(&quot;group_size&quot;));</span>
+<span class="pc bpc" id="L1019" title="1 of 2 branches missed.">      if (currentSize &lt; groupSize) {</span>
+<span class="fc" id="L1020">        String s = Integer.toString(currentSize);</span>
+<span class="fc" id="L1021">        currentSize = currentSize + 1;</span>
+<span class="fc" id="L1022">        String sqlUpdate = &quot;UPDATE groups SET member_&quot; + s </span>
+<span class="fc" id="L1023">            + &quot; = ?, current_size = ?  WHERE group_name = ?&quot;;</span>
+<span class="fc" id="L1024">        ps = conn.prepareStatement(sqlUpdate);</span>
+<span class="fc" id="L1025">        ps.setString(1, applicantId);</span>
+<span class="fc" id="L1026">        ps.setInt(2, currentSize);</span>
+<span class="fc" id="L1027">        ps.setString(3, groupName);</span>
+<span class="fc" id="L1028">        ps.execute();</span>
+<span class="fc" id="L1029">        ps.close();</span>
+<span class="fc" id="L1030">        add = true;</span>
+<span class="fc" id="L1031">        PreparedStatement stmt2 = null;</span>
+        try {
+<span class="fc" id="L1033">          String sqlUpdate2 = &quot;UPDATE applications SET validm = ? &quot;</span>
+              + &quot;WHERE group_id = ? AND member = ?&quot;;
+<span class="fc" id="L1035">          stmt2 = conn.prepareStatement(sqlUpdate2);</span>
+<span class="fc" id="L1036">          stmt2.setString(1, &quot;proved&quot;);</span>
+<span class="fc" id="L1037">          stmt2.setInt(2, groupId);</span>
+<span class="fc" id="L1038">          stmt2.setString(3, applicantId);</span>
+<span class="fc" id="L1039">          stmt2.execute();</span>
+<span class="fc" id="L1040">          stmt2.close();</span>
+<span class="pc" id="L1041">        } catch (SQLException e) {</span>
+<span class="nc" id="L1042">          e.printStackTrace();</span>
+        } finally {
+<span class="pc bpc" id="L1044" title="1 of 2 branches missed.">          if (stmt2 != null) {</span>
+            try {
+<span class="fc" id="L1046">              stmt2.close();</span>
+<span class="pc" id="L1047">            } catch (SQLException e) {</span>
+<span class="nc" id="L1048">              e.printStackTrace();</span>
+            }
+          }
+        }
+      } else {
+<span class="nc" id="L1053">        add = false;</span>
+      }
+      
+<span class="pc" id="L1056">    } catch (SQLException e) {</span>
+<span class="fc" id="L1057">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L1059" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L1061">          stmt.close();</span>
+<span class="pc" id="L1062">        } catch (SQLException e) {</span>
+<span class="nc" id="L1063">          e.printStackTrace();</span>
+        }
+      }
+<span class="pc bpc" id="L1066" title="1 of 2 branches missed.">      if (rs != null) {</span>
+        try {
+<span class="fc" id="L1068">          stmt.close();</span>
+<span class="pc" id="L1069">        } catch (SQLException e) {</span>
+<span class="nc" id="L1070">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L1074">    return add;</span>
+  }
+  
+  /**
+   * This is to reject joining group requests.
+   */
+  
+  public boolean rejectJoinRequests(String applicantId, String groupName) {
+<span class="pc bpc" id="L1082" title="1 of 2 branches missed.">    if (conn == null) {</span>
+<span class="nc" id="L1083">      return false;</span>
+    }
+<span class="fc" id="L1085">    int flag = 0;</span>
+<span class="fc bfc" id="L1086" title="All 2 branches covered.">    if (applicantId == null) {</span>
+<span class="fc" id="L1087">      flag = 1;</span>
+    }
+<span class="fc bfc" id="L1089" title="All 2 branches covered.">    if (groupName == null) {</span>
+<span class="fc" id="L1090">      flag = 1;</span>
+    }
+<span class="fc bfc" id="L1092" title="All 2 branches covered.">    if (flag == 1) {</span>
+<span class="fc" id="L1093">      return false;</span>
+    }
+<span class="fc" id="L1095">    PreparedStatement stmt = null;</span>
+<span class="fc" id="L1096">    ResultSet rs = null;</span>
+    try {
+<span class="fc" id="L1098">      String sql = &quot;SELECT group_id, current_size, group_size FROM groups &quot;</span>
+          + &quot;WHERE group_name = ?&quot;; 
+<span class="fc" id="L1100">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L1101">      stmt.setString(1, groupName);</span>
+<span class="fc" id="L1102">      rs = stmt.executeQuery();</span>
+<span class="fc" id="L1103">      int groupId = rs.getInt(&quot;group_id&quot;);</span>
+<span class="fc" id="L1104">      PreparedStatement stmt2 = null;</span>
+      try {
+<span class="fc" id="L1106">        String sqlUpdate2 = &quot;UPDATE applications SET validm = ? WHERE group_id = ? AND member = ?&quot;;</span>
+<span class="fc" id="L1107">        stmt2 = conn.prepareStatement(sqlUpdate2);</span>
+<span class="fc" id="L1108">        stmt2.setString(1, &quot;Denied&quot;);</span>
+<span class="fc" id="L1109">        stmt2.setInt(2, groupId);</span>
+<span class="fc" id="L1110">        stmt2.setString(3, applicantId);</span>
+<span class="fc" id="L1111">        stmt2.execute();</span>
+<span class="fc" id="L1112">        stmt2.close();</span>
+<span class="pc" id="L1113">      } catch (SQLException e) {</span>
+<span class="nc" id="L1114">        e.printStackTrace();</span>
+      } finally {
+<span class="pc bpc" id="L1116" title="1 of 2 branches missed.">        if (stmt2 != null) {</span>
+          try {
+<span class="fc" id="L1118">            stmt2.close();</span>
+<span class="pc" id="L1119">          } catch (SQLException e) {</span>
+<span class="nc" id="L1120">            e.printStackTrace();</span>
+          }
+        }
+      }
+<span class="nc" id="L1124">    } catch (SQLException e) {</span>
+<span class="nc" id="L1125">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L1127" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L1129">          stmt.close();</span>
+<span class="pc" id="L1130">        } catch (SQLException e) {</span>
+<span class="nc" id="L1131">          e.printStackTrace();</span>
+        }
+      }
+<span class="pc bpc" id="L1134" title="1 of 2 branches missed.">      if (rs != null) {</span>
+        try {
+<span class="fc" id="L1136">          stmt.close();</span>
+<span class="pc" id="L1137">        } catch (SQLException e) {</span>
+<span class="nc" id="L1138">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="fc" id="L1142">    return true;</span>
+  }
+  
+  /**
+   * This is to check if the user has rated the book.
+   * @param userId .
+   * @return
+   */
+  public boolean ifRerating(String userId, String bookName) {
+<span class="fc" id="L1151">    int flag = 0;</span>
+<span class="fc bfc" id="L1152" title="All 2 branches covered.">    if (userId == null) {</span>
+<span class="fc" id="L1153">      flag = 1;</span>
+    }
+<span class="fc bfc" id="L1155" title="All 2 branches covered.">    if (bookName == null) {</span>
+<span class="fc" id="L1156">      flag = 1;</span>
+    }
+<span class="fc bfc" id="L1158" title="All 2 branches covered.">    if (flag == 1) {</span>
+<span class="fc" id="L1159">      return false;</span>
+    }
+<span class="fc" id="L1161">    PreparedStatement stmt = null;</span>
+<span class="fc" id="L1162">    ResultSet rs = null;</span>
+    try {
+<span class="fc" id="L1164">      String sql = &quot;SELECT * FROM ratings JOIN items ON (ratings.item_id = items.item_id)&quot;</span>
+          + &quot;WHERE user_id = ? and title = ?&quot;;
+<span class="fc" id="L1166">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L1167">      stmt.setString(1, userId);</span>
+<span class="fc" id="L1168">      stmt.setString(2, bookName);</span>
+<span class="fc" id="L1169">      rs = stmt.executeQuery();</span>
+<span class="fc" id="L1170">      boolean result = rs.next();</span>
+<span class="fc" id="L1171">      stmt.close();</span>
+<span class="fc" id="L1172">      rs.close();</span>
+<span class="fc" id="L1173">      return result;</span>
+<span class="nc" id="L1174">    } catch (SQLException e) {</span>
+<span class="nc" id="L1175">      e.printStackTrace();</span>
+    } finally {
+<span class="pc bpc" id="L1177" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+        try {
+<span class="fc" id="L1179">          stmt.close();</span>
+<span class="pc" id="L1180">        } catch (SQLException e) {</span>
+<span class="nc" id="L1181">          e.printStackTrace();</span>
+        }
+      }
+<span class="pc bpc" id="L1184" title="1 of 2 branches missed.">      if (rs != null) {</span>
+        try {
+<span class="fc" id="L1186">          stmt.close();</span>
+<span class="pc" id="L1187">        } catch (SQLException e) {</span>
+<span class="nc" id="L1188">          e.printStackTrace();</span>
+        }
+      }
+    }
+<span class="nc" id="L1192">    return false;</span>
+  }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>project (Dec 8, 2020 10:12:07 PM)</div></body></html>

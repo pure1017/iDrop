@@ -1,0 +1,783 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MysqlConnectionTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">project (Dec 8, 2020 10:12:07 PM)</a> &gt; <a href="../../index.html" class="el_group">project</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">unit</a> &gt; <span class="el_source">MysqlConnectionTest.java</span></div><h1>MysqlConnectionTest.java</h1><pre class="source lang-java linenums">package unit;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import database.MysqlConnection;
+import database.MysqlTableCreation;
+import entity.Item;
+import entity.Item.ItemBuilder;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+
+
+<span class="fc" id="L24">public class MysqlConnectionTest {</span>
+  
+  /**
+   * this method runs before tests.
+   */
+  @BeforeAll
+  public static void init() {
+    // Start Server
+<span class="fc" id="L32">    MysqlTableCreation.main(null);</span>
+<span class="fc" id="L33">    System.out.println(&quot;Before All&quot;);</span>
+<span class="fc" id="L34">  }</span>
+  
+  /**
+   * This is to test method close().
+   */
+  @Test
+  @Order(1)
+  public void testClose() {
+<span class="fc" id="L42">    MysqlTableCreation.main(null);</span>
+<span class="fc" id="L43">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L44">    boolean check = mc.close();</span>
+<span class="fc" id="L45">    assertEquals(true, check);</span>
+<span class="fc" id="L46">  }</span>
+  
+  /**
+   * This is to test method setFavoriteItems().
+   */
+  @Test
+  @Order(2)
+  public void testSetFavoriteItems() {
+<span class="fc" id="L54">    String userId = &quot;11111&quot;;</span>
+<span class="fc" id="L55">    List&lt;String&gt; itemIds = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L56">    itemIds.add(&quot;222&quot;);</span>
+<span class="fc" id="L57">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L58">    boolean check = mc.setFavoriteItems(userId, itemIds);</span>
+<span class="fc" id="L59">    assertEquals(true, check);</span>
+<span class="fc" id="L60">  }</span>
+  
+  /**
+   * This is to test method setFavoriteItems().
+   */
+  @Test
+  @Order(2)
+  public void testSetFavoriteItemsInvalid() {
+<span class="fc" id="L68">    String userId = null;</span>
+<span class="fc" id="L69">    List&lt;String&gt; itemIds = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L70">    itemIds.add(&quot;222&quot;);</span>
+<span class="fc" id="L71">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L72">    boolean check = mc.setFavoriteItems(userId, itemIds);</span>
+<span class="fc" id="L73">    assertEquals(false, check);</span>
+<span class="fc" id="L74">  }</span>
+  
+  /**
+   * This is to test method unsetFavoriteItems().
+   */
+  @Test
+  @Order(3)
+  public void testUnsetFavoriteItems() {
+<span class="fc" id="L82">    String userId = &quot;11111&quot;;</span>
+<span class="fc" id="L83">    List&lt;String&gt; itemIds = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L84">    itemIds.add(&quot;222&quot;);</span>
+<span class="fc" id="L85">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L86">    boolean check = mc.unsetFavoriteItems(userId, itemIds);</span>
+<span class="fc" id="L87">    assertEquals(true, check);</span>
+<span class="fc" id="L88">  }</span>
+  
+  /**
+   * This is to test method unsetFavoriteItems().
+   */
+  @Test
+  @Order(3)
+  public void testUnsetFavoriteItemsInvalid() {
+<span class="fc" id="L96">    String userId = null;</span>
+<span class="fc" id="L97">    List&lt;String&gt; itemIds = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L98">    itemIds.add(&quot;222&quot;);</span>
+<span class="fc" id="L99">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L100">    boolean check = mc.unsetFavoriteItems(userId, itemIds);</span>
+<span class="fc" id="L101">    assertEquals(false, check);</span>
+<span class="fc" id="L102">  }</span>
+  
+  /**
+   * This is to test method getFavoriteItemIds().
+   */
+  @Test
+  @Order(4)
+  public void testGetFavoriteItemIds() {
+<span class="fc" id="L110">    String userId = &quot;11111&quot;;</span>
+<span class="fc" id="L111">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L112">    Set&lt;String&gt; check = mc.getFavoriteItemIds(userId);</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">    assertEquals(true, !check.isEmpty());</span>
+<span class="fc" id="L114">  }</span>
+  
+  /**
+   * This is to test method getFavoriteItemIds().
+   */
+  @Test
+  @Order(4)
+  public void testGetFavoriteItemIdsInvalid() {
+<span class="fc" id="L122">    String userId = null;</span>
+<span class="fc" id="L123">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L124">    Set&lt;String&gt; check = mc.getFavoriteItemIds(userId);</span>
+<span class="fc" id="L125">    assertEquals(null, check);</span>
+<span class="fc" id="L126">  }</span>
+  
+  /**
+   * This is to test method getFavoriteItems().
+   */
+  @Test
+  @Order(5)
+  public void testGetFavoriteItems() {
+<span class="fc" id="L134">    String userId = &quot;11111&quot;;</span>
+<span class="fc" id="L135">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L136">    Set&lt;Item&gt; check = mc.getFavoriteItems(userId);</span>
+<span class="fc" id="L137">    assertEquals(HashSet.class, check.getClass());</span>
+<span class="fc" id="L138">  }</span>
+  
+  /**
+   * This is to test method getFavoriteItems().
+   */
+  @Test
+  @Order(5)
+  public void testGetFavoriteItemsInvalid() {
+<span class="fc" id="L146">    String userId = null;</span>
+<span class="fc" id="L147">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L148">    Set&lt;Item&gt; check = mc.getFavoriteItems(userId);</span>
+<span class="fc" id="L149">    assertEquals(null, check);</span>
+<span class="fc" id="L150">  }</span>
+ 
+  /**
+   * This is to test method getCategories().
+   */
+  @Test
+  @Order(6)
+  public void testGetCategories() {
+<span class="fc" id="L158">    String itemId = &quot;222&quot;;</span>
+<span class="fc" id="L159">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L160">    Set&lt;String&gt; check = mc.getCategories(itemId);</span>
+<span class="pc bpc" id="L161" title="1 of 2 branches missed.">    assertEquals(true, !check.isEmpty());</span>
+<span class="fc" id="L162">  }</span>
+  
+  /**
+   * This is to test method getCategories().
+   */
+  @Test
+  @Order(6)
+  public void testGetCategoriesInvalid() {
+<span class="fc" id="L170">    String itemId = &quot;not in database&quot;;</span>
+<span class="fc" id="L171">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L172">    Set&lt;String&gt; check = mc.getCategories(itemId);</span>
+<span class="fc" id="L173">    assertEquals(true, check.isEmpty());</span>
+<span class="fc" id="L174">  }</span>
+  
+  /**
+   * This is to test method searchItems().
+   */
+  @Test
+  @Order(7)
+  public void testSearchItems() {
+<span class="fc" id="L182">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L183">    String title = &quot;book1&quot;;  </span>
+<span class="fc" id="L184">    List&lt;Item&gt; items = mc.searchItems(title, &quot;title&quot;);</span>
+<span class="fc" id="L185">    Item item = items.get(0);</span>
+<span class="fc" id="L186">    assertEquals(&quot;111&quot;, item.getItemId());</span>
+<span class="fc" id="L187">    assertEquals(&quot;book1&quot;, item.getTitle());</span>
+<span class="fc" id="L188">    assertEquals(&quot;tingyi&quot;, item.getAuthor());</span>
+<span class="fc" id="L189">  }</span>
+  
+  /**
+   * This is to test method searchItems().
+   */
+  @Test
+  @Order(7)
+  public void testSearchItemsInvalid() {
+<span class="fc" id="L197">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L198">    String title = null;  </span>
+<span class="fc" id="L199">    List&lt;Item&gt; items = mc.searchItems(title, &quot;title&quot;);</span>
+<span class="fc" id="L200">    assertEquals(null, items);</span>
+<span class="fc" id="L201">  }</span>
+  
+  /**
+   * This is to test method saveItem().
+   */
+  @Test
+  @Order(8)
+  public void testSaveItem() {
+<span class="fc" id="L209">    ItemBuilder builder = new ItemBuilder();</span>
+<span class="fc" id="L210">    builder.setAuthor(&quot;author&quot;);</span>
+<span class="fc" id="L211">    Set&lt;String&gt; types = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L212">    builder.setCategories(types);</span>
+<span class="fc" id="L213">    builder.setDescribe(&quot;describe&quot;);</span>
+<span class="fc" id="L214">    builder.setImageUrl(&quot;imageUrl&quot;);</span>
+<span class="fc" id="L215">    builder.setItemId(&quot;itemId&quot;);</span>
+<span class="fc" id="L216">    builder.setRating(0.0);</span>
+<span class="fc" id="L217">    builder.setTitle(&quot;title&quot;);</span>
+<span class="fc" id="L218">    builder.setUrl(&quot;url&quot;);</span>
+<span class="fc" id="L219">    Item item = builder.build();</span>
+    
+<span class="fc" id="L221">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L222">    boolean check = mc.saveItem(item);</span>
+<span class="fc" id="L223">    assertEquals(true, check);</span>
+<span class="fc" id="L224">  }</span>
+  
+  /**
+   * This is to test method saveItem().
+   */
+  @Test
+  @Order(8)
+  public void testSaveItemInvalid() {
+<span class="fc" id="L232">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L233">    boolean check = mc.saveItem(null);</span>
+<span class="fc" id="L234">    assertEquals(false, check);</span>
+<span class="fc" id="L235">  }</span>
+  
+  /**
+   * This is to test method getItemsOnIds().
+   */
+  @Test
+  @Order(9)
+  public void testGetItemsOnIds() {
+<span class="fc" id="L243">    Set&lt;String&gt; itemIds = new HashSet&lt;String&gt;();</span>
+<span class="fc" id="L244">    itemIds.add(&quot;222&quot;);</span>
+<span class="fc" id="L245">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L246">    Set&lt;Item&gt; check = mc.getItemsOnIds(itemIds);</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">    for (Item ck : check) {</span>
+<span class="fc" id="L248">      assertEquals(&quot;miao&quot;, ck.getAuthor());</span>
+<span class="fc" id="L249">      assertEquals(&quot;222&quot;, ck.getItemId());</span>
+<span class="fc" id="L250">      assertEquals(&quot;book2&quot;, ck.getTitle());</span>
+<span class="fc" id="L251">      assertEquals(&quot;some description&quot;, ck.getDescribe());</span>
+<span class="fc" id="L252">      assertEquals(&quot;image url&quot;, ck.getImageUrl());</span>
+<span class="fc" id="L253">      assertEquals(&quot;url&quot;, ck.getUrl());</span>
+    }
+<span class="fc" id="L255">  }</span>
+  
+  /**
+   * This is to test method getItemsOnIds().
+   */
+  @Test
+  @Order(9)
+  public void testGetItemsOnIdsInvalid() {
+<span class="fc" id="L263">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L264">    Set&lt;Item&gt; check = mc.getItemsOnIds(null);</span>
+<span class="fc" id="L265">    assertEquals(null, check);</span>
+<span class="fc" id="L266">  }</span>
+  
+  /**
+   * This is to test method getItemsOnCat().
+   */
+  @Test
+  @Order(10)
+  public void testGetItemsOnCat() {
+<span class="fc" id="L274">    String category = &quot;female&quot;;</span>
+<span class="fc" id="L275">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L276">    Set&lt;String&gt; sample = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L277">    sample.add(&quot;111&quot;);</span>
+<span class="fc" id="L278">    sample.add(&quot;333&quot;);</span>
+<span class="fc" id="L279">    sample.add(&quot;444&quot;);</span>
+<span class="fc" id="L280">    Set&lt;String&gt; check = mc.getItemsOnCat(category);</span>
+<span class="fc" id="L281">    assertEquals(sample, check);</span>
+<span class="fc" id="L282">  }</span>
+  
+  /**
+   * This is to test method getItemsOnCat().
+   */
+  @Test
+  @Order(10)
+  public void testGetItemsOnCatInvalid() {
+<span class="fc" id="L290">    String category = &quot;invalid category&quot;;</span>
+<span class="fc" id="L291">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L292">    Set&lt;String&gt; check = mc.getItemsOnCat(category);</span>
+<span class="fc" id="L293">    assertEquals(true, check.isEmpty());</span>
+<span class="fc" id="L294">  }</span>
+  
+  /**
+   * This is to test method createGroup().
+   */
+  @Test
+  @Order(11)
+  public void testCreateGroup() {
+<span class="fc" id="L302">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L303">    boolean check = conn.createGroup(&quot;hostId&quot;, &quot;book1&quot;, &quot;groupName&quot;, </span>
+<span class="fc" id="L304">        &quot;beginDate&quot;, &quot;groupSize&quot;, &quot;groupDescription&quot;);</span>
+<span class="fc" id="L305">    assertEquals(true, check);</span>
+<span class="fc" id="L306">  }</span>
+  
+  /**
+   * This is to test method createGroup().
+   */
+  @Test
+  @Order(11)
+  public void testCreateGroupInvalid1() {
+<span class="fc" id="L314">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L315">    boolean check = conn.createGroup(null, &quot;book1&quot;, &quot;groupName&quot;, </span>
+<span class="fc" id="L316">        &quot;beginDate&quot;, &quot;groupSize&quot;, &quot;groupDescription&quot;);</span>
+<span class="fc" id="L317">    assertEquals(false, check);</span>
+<span class="fc" id="L318">  }</span>
+  
+  /**
+   * This is to test method createGroup().
+   */
+  @Test
+  @Order(11)
+  public void testCreateGroupInvalid2() {
+<span class="fc" id="L326">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L327">    boolean check = conn.createGroup(&quot;hostId&quot;, null, &quot;groupName&quot;, </span>
+<span class="fc" id="L328">        &quot;beginDate&quot;, &quot;groupSize&quot;, &quot;groupDescription&quot;);</span>
+<span class="fc" id="L329">    assertEquals(false, check);</span>
+<span class="fc" id="L330">  }</span>
+  
+  /**
+   * This is to test method createGroup().
+   */
+  @Test
+  @Order(11)
+  public void testCreateGroupInvalid3() {
+<span class="fc" id="L338">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L339">    boolean check = conn.createGroup(&quot;hostId&quot;, &quot;book1&quot;, null, </span>
+<span class="fc" id="L340">        &quot;beginDate&quot;, &quot;groupSize&quot;, &quot;groupDescription&quot;);</span>
+<span class="fc" id="L341">    assertEquals(false, check);</span>
+<span class="fc" id="L342">  }</span>
+  
+  /**
+   * This is to test method createGroup().
+   */
+  @Test
+  @Order(11)
+  public void testCreateGroupInvalid4() {
+<span class="fc" id="L350">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L351">    boolean check = conn.createGroup(&quot;hostId&quot;, &quot;book1&quot;, &quot;groupName&quot;, </span>
+<span class="fc" id="L352">        null, &quot;groupSize&quot;, &quot;groupDescription&quot;);</span>
+<span class="fc" id="L353">    assertEquals(false, check);</span>
+<span class="fc" id="L354">  }</span>
+  
+  /**
+   * This is to test method createGroup().
+   */
+  @Test
+  @Order(11)
+  public void testCreateGroupInvalid5() {
+<span class="fc" id="L362">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L363">    boolean check = conn.createGroup(&quot;hostId&quot;, &quot;book1&quot;, &quot;groupName&quot;, </span>
+<span class="fc" id="L364">        &quot;beginDate&quot;, null, &quot;groupDescription&quot;);</span>
+<span class="fc" id="L365">    assertEquals(false, check);</span>
+<span class="fc" id="L366">  }</span>
+  
+  /**
+   * This is to test method createGroup().
+   */
+  @Test
+  @Order(11)
+  public void testCreateGroupInvalid6() {
+<span class="fc" id="L374">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L375">    boolean check = conn.createGroup(&quot;hostId&quot;, &quot;book1&quot;, &quot;groupName&quot;, </span>
+<span class="fc" id="L376">        &quot;beginDate&quot;, &quot;groupSize&quot;, null);</span>
+<span class="fc" id="L377">    assertEquals(false, check);</span>
+<span class="fc" id="L378">  }</span>
+  
+  /**
+   * This is to test method joinGroup().
+   */
+  @Test
+  @Order(12)
+  public void testJoinGroup() {
+<span class="fc" id="L386">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L387">    int check = conn.joinGroup(&quot;userId1&quot;, &quot;group1&quot;, &quot;joinMessage1&quot;);</span>
+<span class="fc" id="L388">    assertEquals(0, check);</span>
+<span class="fc" id="L389">    conn.joinGroup(&quot;userId2&quot;, &quot;group1&quot;, &quot;joinMessage&quot;);</span>
+<span class="fc" id="L390">    conn.joinGroup(&quot;userId3&quot;, &quot;group1&quot;, &quot;joinMessage&quot;);</span>
+<span class="fc" id="L391">    String userId1 = &quot;miao&quot;;</span>
+<span class="fc" id="L392">    String userId2 = &quot;liu&quot;;</span>
+<span class="fc" id="L393">    String groupName1 = &quot;group2&quot;;</span>
+<span class="fc" id="L394">    String groupName2 = &quot;group3&quot;;</span>
+<span class="fc" id="L395">    conn.joinGroup(userId1, groupName1, &quot;testfalse&quot;);</span>
+<span class="fc" id="L396">    conn.joinGroup(userId2, groupName2, &quot;testtrue&quot;);</span>
+<span class="fc" id="L397">    check = conn.joinGroup(&quot;userId4&quot;, &quot;group2&quot;, &quot;joinMessage&quot;);</span>
+<span class="fc" id="L398">    assertEquals(2, check);</span>
+<span class="fc" id="L399">  }</span>
+  
+  /**
+   * This is to test method joinGroup().
+   */
+  @Test
+  @Order(12)
+  public void testJoinGroupInvalid1() {
+<span class="fc" id="L407">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L408">    int check = conn.joinGroup(&quot;userId1&quot;, &quot;groupgroup&quot;, &quot;joinMessage&quot;);</span>
+<span class="fc" id="L409">    assertEquals(1, check);</span>
+<span class="fc" id="L410">  }</span>
+  
+  /**
+   * This is to test method joinGroup().
+   */
+  @Test
+  @Order(12)
+  public void testJoinGroupInvalid2() {
+<span class="fc" id="L418">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L419">    int check = conn.joinGroup(&quot;userId1&quot;, &quot;group1&quot;, &quot;joinMessage1&quot;);</span>
+<span class="fc" id="L420">    assertEquals(0, check);</span>
+<span class="fc" id="L421">    conn.joinGroup(&quot;userId2&quot;, &quot;group1&quot;, &quot;joinMessage&quot;);</span>
+<span class="fc" id="L422">    conn.joinGroup(&quot;userId3&quot;, &quot;group1&quot;, &quot;joinMessage&quot;);</span>
+<span class="fc" id="L423">    String userId1 = &quot;miao&quot;;</span>
+<span class="fc" id="L424">    String userId2 = &quot;liu&quot;;</span>
+<span class="fc" id="L425">    String groupName1 = &quot;group2&quot;;</span>
+<span class="fc" id="L426">    String groupName2 = &quot;group3&quot;;</span>
+<span class="fc" id="L427">    conn.joinGroup(userId1, groupName1, &quot;testfalse&quot;);</span>
+<span class="fc" id="L428">    conn.joinGroup(userId2, groupName2, &quot;testtrue&quot;);</span>
+<span class="fc" id="L429">    check = conn.joinGroup(&quot;userId4&quot;, &quot;group2&quot;, &quot;joinMessage&quot;);</span>
+<span class="fc" id="L430">    assertEquals(2, check);</span>
+<span class="fc" id="L431">  }</span>
+  
+  /**
+   * This is to test method getGroupByHost().
+   */
+  @Test
+  @Order(13)
+  public void testGetGroupByHost() {
+<span class="fc" id="L439">    MysqlTableCreation.main(null);</span>
+<span class="fc" id="L440">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L441">    List&lt;Map&lt;String, String&gt;&gt; check = conn.getGroupsByHost(&quot;11111&quot;);</span>
+<span class="fc" id="L442">    assertEquals(&quot;group1&quot;, check.get(0).get(&quot;Group Name&quot;));</span>
+<span class="fc" id="L443">    conn.close();</span>
+<span class="fc" id="L444">  }</span>
+  
+  /**
+   * This is to test method getGroupByHost().
+   */
+  @Test
+  @Order(13)
+  public void testGetGroupByHostInvalid() {
+<span class="fc" id="L452">    MysqlTableCreation.main(null);</span>
+<span class="fc" id="L453">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L454">    String userId = null;</span>
+<span class="fc" id="L455">    List&lt;Map&lt;String, String&gt;&gt; check = conn.getGroupsByHost(userId);</span>
+<span class="fc" id="L456">    assertEquals(true, check.isEmpty());</span>
+<span class="fc" id="L457">    conn.close();</span>
+<span class="fc" id="L458">  }</span>
+  
+  /**
+   * This is to test method getGroupByMember().
+   */
+  @Test
+  @Order(14)
+  public void testGetGroupByMember() {
+<span class="fc" id="L466">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L467">    List&lt;Map&lt;String, String&gt;&gt; check = conn.getGroupsByHost(&quot;22222&quot;);</span>
+<span class="fc" id="L468">    assertEquals(&quot;group3&quot;, check.get(0).get(&quot;Group Name&quot;));</span>
+<span class="fc" id="L469">    conn.close();</span>
+<span class="fc" id="L470">  }</span>
+  
+  
+  /**
+   * This is to test method getGroupByMember().
+   */
+  @Test
+  @Order(14)
+  public void testGetGroupByMemberInvalid() {
+<span class="fc" id="L479">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L480">    List&lt;Map&lt;String, String&gt;&gt; check = conn.getGroupsByHost(null);</span>
+<span class="fc" id="L481">    assertEquals(true, check.isEmpty());</span>
+<span class="fc" id="L482">    conn.close();</span>
+<span class="fc" id="L483">  }</span>
+  
+  /**
+   * This is to test method getJoinMessage().
+   */
+  @Test
+  @Order(15)
+  public void testGetJoinMessages() {
+<span class="fc" id="L491">    MysqlTableCreation.main(null);</span>
+<span class="fc" id="L492">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L493">    conn.joinGroup(&quot;userId1&quot;, &quot;group1&quot;, &quot;joinMessage1&quot;);</span>
+<span class="fc" id="L494">    List&lt;Map&lt;String, List&lt;Map&lt;String, String&gt;&gt;&gt;&gt; check = conn.getJoinMessages(&quot;11111&quot;);</span>
+<span class="fc" id="L495">    assertEquals(&quot;joinMessage1&quot;, check.get(0).get(&quot;group1&quot;).get(0).get(&quot;message&quot;));</span>
+<span class="fc" id="L496">    conn.close();</span>
+<span class="fc" id="L497">  }</span>
+  
+  /**
+   * This is to test method getJoinMessage().
+   */
+  @Test
+  @Order(15)
+  public void testGetJoinMessagesInvalid() {
+<span class="fc" id="L505">    MysqlTableCreation.main(null);</span>
+<span class="fc" id="L506">    MysqlConnection conn = new MysqlConnection();</span>
+<span class="fc" id="L507">    conn.joinGroup(&quot;userId1&quot;, &quot;group1&quot;, &quot;joinMessage1&quot;);</span>
+<span class="fc" id="L508">    List&lt;Map&lt;String, List&lt;Map&lt;String, String&gt;&gt;&gt;&gt; check = conn.getJoinMessages(null);</span>
+<span class="fc" id="L509">    assertEquals(true, check.isEmpty());</span>
+<span class="fc" id="L510">    conn.close();</span>
+<span class="fc" id="L511">  }</span>
+  
+  /**
+   * This is to test method ratingBook.
+   */
+  @Test
+  @Order(16)
+  public void testRatingBook() {
+<span class="fc" id="L519">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L520">    float rating = (float) 4.5;</span>
+<span class="fc" id="L521">    boolean check = mc.ratingBook(&quot;44444&quot;, &quot;333&quot;, &quot;2020-11-12&quot;, rating, &quot;Good&quot;);</span>
+<span class="fc" id="L522">    assertEquals(true, check);</span>
+<span class="fc" id="L523">    Connection conn = null;</span>
+<span class="fc" id="L524">    Statement stmt = null;</span>
+    try {
+      try {
+<span class="fc" id="L527">        Class.forName(&quot;org.sqlite.JDBC&quot;);</span>
+<span class="fc" id="L528">        conn = DriverManager.getConnection(&quot;jdbc:sqlite:ase.db&quot;);</span>
+<span class="pc" id="L529">      } catch (SQLException e) {</span>
+<span class="nc" id="L530">        e.printStackTrace();</span>
+      }
+<span class="pc bpc" id="L532" title="1 of 2 branches missed.">      if (conn == null) {</span>
+<span class="nc" id="L533">        return;</span>
+      }
+<span class="fc" id="L535">      stmt = conn.createStatement();</span>
+<span class="fc" id="L536">      String sql = &quot;SELECT * FROM items where item_id = '333'&quot;;</span>
+<span class="fc" id="L537">      ResultSet rs = stmt.executeQuery(sql);</span>
+<span class="pc bpc" id="L538" title="1 of 2 branches missed.">      if (rs.next()) {</span>
+<span class="fc" id="L539">        assertEquals(4.5, rs.getFloat(&quot;rating&quot;));</span>
+      }
+<span class="fc" id="L541">      rs.close();</span>
+
+<span class="pc" id="L543">    } catch (Exception e) {</span>
+<span class="nc" id="L544">      e.printStackTrace();</span>
+    } finally {
+      try {
+<span class="pc bpc" id="L547" title="1 of 2 branches missed.">        if (stmt != null) {</span>
+<span class="fc" id="L548">          stmt.close();</span>
+        }
+<span class="pc" id="L550">      } catch (SQLException e) {</span>
+<span class="nc" id="L551">        e.printStackTrace();</span>
+      }
+      try {
+<span class="pc bpc" id="L554" title="1 of 2 branches missed.">        if (conn != null) {</span>
+<span class="fc" id="L555">          conn.close();</span>
+        }
+<span class="pc" id="L557">      } catch (SQLException e) {</span>
+<span class="nc" id="L558">        e.printStackTrace();</span>
+      }
+    }
+<span class="fc" id="L561">    mc.close();</span>
+<span class="fc" id="L562">  }</span>
+  
+  /**
+   * This is to test method ratingBook.
+   */
+  @Test
+  @Order(16)
+  public void testRatingBookInvalid1() {
+<span class="fc" id="L570">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L571">    float rating = (float) 4.5;</span>
+<span class="fc" id="L572">    boolean check = mc.ratingBook(&quot;44444&quot;, null, &quot;2020-11-12&quot;, rating, &quot;Good&quot;);</span>
+<span class="fc" id="L573">    assertEquals(false, check);</span>
+<span class="fc" id="L574">  }</span>
+  
+  /**
+   * This is to test method ratingBook.
+   */
+  @Test
+  @Order(16)
+  public void testRatingBookInvalid2() {
+<span class="fc" id="L582">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L583">    float rating = (float) 4.5;</span>
+<span class="fc" id="L584">    boolean check = mc.ratingBook(null, &quot;333&quot;, &quot;2020-11-12&quot;, rating, &quot;Good&quot;);</span>
+<span class="fc" id="L585">    assertEquals(false, check);</span>
+<span class="fc" id="L586">  }</span>
+  
+  /**
+   * This is to test method ratingBook.
+   */
+  @Test
+  @Order(16)
+  public void testRatingBookInvalid3() {
+<span class="fc" id="L594">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L595">    float rating = (float) 4.5;</span>
+<span class="fc" id="L596">    boolean check = mc.ratingBook(&quot;44444&quot;, &quot;333&quot;, null, rating, &quot;Good&quot;);</span>
+<span class="fc" id="L597">    assertEquals(false, check);</span>
+<span class="fc" id="L598">  }</span>
+  
+  /**
+   * This is to test method ratingBook.
+   */
+  @Test
+  @Order(16)
+  public void testRatingBookInvalid4() {
+<span class="fc" id="L606">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L607">    float rating = (float) 4.5;</span>
+<span class="fc" id="L608">    boolean check = mc.ratingBook(&quot;44444&quot;, &quot;333&quot;, &quot;2020-11-12&quot;, rating, null);</span>
+<span class="fc" id="L609">    assertEquals(false, check);</span>
+<span class="fc" id="L610">  }</span>
+  
+  /**
+   * This is to test method getRatingAndComments.
+   */
+  @Test
+  @Order(17)
+  public void testgetRatingAndComments() {
+<span class="fc" id="L618">    String itemId = &quot;333&quot;;</span>
+<span class="fc" id="L619">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L620">    List&lt;List&lt;String&gt;&gt; rc = mc.getRatingsAndComments(itemId);</span>
+<span class="fc" id="L621">    assertEquals(rc.get(0).get(0), &quot;44444&quot;);</span>
+<span class="fc" id="L622">    assertEquals(rc.get(0).get(1), &quot;4.5&quot;);</span>
+<span class="fc" id="L623">    assertEquals(rc.get(0).get(2), &quot;comment1&quot;);</span>
+<span class="fc" id="L624">    assertEquals(rc.get(0).get(4), &quot;Miao&quot;);</span>
+<span class="fc" id="L625">    assertEquals(rc.get(0).get(5), &quot;Liu&quot;);</span>
+<span class="fc" id="L626">    mc.close();</span>
+<span class="fc" id="L627">  }</span>
+  
+  /**
+   * This is to test method getRatingAndComments.
+   */
+  @Test
+  @Order(17)
+  public void testgetRatingAndCommentsInvalid() {
+<span class="fc" id="L635">    String itemId = &quot;not in database&quot;;</span>
+<span class="fc" id="L636">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L637">    List&lt;List&lt;String&gt;&gt; rc = mc.getRatingsAndComments(itemId);</span>
+<span class="fc" id="L638">    assertEquals(true, rc.isEmpty());</span>
+<span class="fc" id="L639">    mc.close();</span>
+<span class="fc" id="L640">  }</span>
+  
+  /**
+   * This it to test method handleJoinRequest.
+   */
+  @Test
+  @Order(18)
+  public void testHandleJoinRequests() {
+<span class="fc" id="L648">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L649">    String userId = &quot;miao&quot;;</span>
+<span class="fc" id="L650">    String groupName = &quot;group1&quot;;</span>
+<span class="fc" id="L651">    boolean check = mc.handleJoinRequests(userId, groupName);</span>
+<span class="fc" id="L652">    assertEquals(true, check);</span>
+<span class="fc" id="L653">    mc.close();</span>
+<span class="fc" id="L654">  }</span>
+  
+  /**
+   * This it to test method handleJoinRequest.
+   */
+  @Test
+  @Order(18)
+  public void testHandleJoinRequestsInvalid() {
+<span class="fc" id="L662">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L663">    String userId = &quot;liu&quot;;</span>
+<span class="fc" id="L664">    String groupName = &quot;invalid name&quot;;</span>
+<span class="fc" id="L665">    boolean check = mc.handleJoinRequests(userId, groupName);</span>
+<span class="fc" id="L666">    assertEquals(false, check);</span>
+<span class="fc" id="L667">    mc.close();</span>
+<span class="fc" id="L668">  }</span>
+  
+  /**
+   * This is to test method rejectJoinRequests.
+   */
+  @Test
+  @Order(19)
+  public void testRejectJoinRequests() {
+<span class="fc" id="L676">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L677">    boolean check1 = mc.rejectJoinRequests(&quot;userId1&quot;, &quot;group1&quot;);</span>
+<span class="fc" id="L678">    assertEquals(true, check1);</span>
+<span class="fc" id="L679">    mc.close();</span>
+<span class="fc" id="L680">  }</span>
+  
+  /**
+   * This is to test method rejectJoinRequests.
+   */
+  @Test
+  @Order(19)
+  public void testRejectJoinRequestsInvalid1() {
+<span class="fc" id="L688">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L689">    boolean check1 = mc.rejectJoinRequests(null, &quot;group1&quot;);</span>
+<span class="fc" id="L690">    assertEquals(false, check1);</span>
+<span class="fc" id="L691">    mc.close();</span>
+<span class="fc" id="L692">  }</span>
+  
+  /**
+   * This is to test method rejectJoinRequests.
+   */
+  @Test
+  @Order(19)
+  public void testRejectJoinRequestsInvalid2() {
+<span class="fc" id="L700">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L701">    boolean check1 = mc.rejectJoinRequests(&quot;userId1&quot;, null);</span>
+<span class="fc" id="L702">    assertEquals(false, check1);</span>
+<span class="fc" id="L703">    mc.close();</span>
+<span class="fc" id="L704">  }</span>
+  
+  /**
+   * This is to test method rejectJoinRequests.
+   */
+  @Test
+  @Order(19)
+  public void testRejectJoinRequestsInvalid3() {
+<span class="fc" id="L712">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L713">    String userId = null;</span>
+<span class="fc" id="L714">    String group = null;</span>
+<span class="fc" id="L715">    boolean check1 = mc.rejectJoinRequests(userId, group);</span>
+<span class="fc" id="L716">    assertEquals(false, check1);</span>
+<span class="fc" id="L717">    mc.close();</span>
+<span class="fc" id="L718">  }</span>
+  
+  /**
+   * This is to test method ifRerating().
+   */
+  @Test
+  @Order(20)
+  public void testIfRerating() {
+<span class="fc" id="L726">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L727">    String userId = &quot;44444&quot;;</span>
+<span class="fc" id="L728">    String bookName = &quot;book3&quot;;</span>
+<span class="fc" id="L729">    boolean check = mc.ifRerating(userId, bookName);</span>
+<span class="fc" id="L730">    assertEquals(true, check);</span>
+<span class="fc" id="L731">    mc.close();</span>
+<span class="fc" id="L732">  }</span>
+  
+  /**
+   * This is to test method ifRerating().
+   */
+  @Test
+  @Order(20)
+  public void testIfReratingInvalid1() {
+<span class="fc" id="L740">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L741">    String userId = null;</span>
+<span class="fc" id="L742">    String bookName = &quot;book3&quot;;</span>
+<span class="fc" id="L743">    boolean check = mc.ifRerating(userId, bookName);</span>
+<span class="fc" id="L744">    assertEquals(false, check);</span>
+<span class="fc" id="L745">    mc.close();</span>
+<span class="fc" id="L746">  }</span>
+  
+  /**
+   * This is to test method ifRerating().
+   */
+  @Test
+  @Order(20)
+  public void testIfReratingInvalid2() {
+<span class="fc" id="L754">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L755">    String userId = &quot;44444&quot;;</span>
+<span class="fc" id="L756">    String bookName = null;</span>
+<span class="fc" id="L757">    boolean check = mc.ifRerating(userId, bookName);</span>
+<span class="fc" id="L758">    assertEquals(false, check);</span>
+<span class="fc" id="L759">    mc.close();</span>
+<span class="fc" id="L760">  }</span>
+  
+  /**
+   * This is to test method ifRerating().
+   */
+  @Test
+  @Order(20)
+  public void testIfReratingInvalid3() {
+<span class="fc" id="L768">    MysqlConnection mc = new MysqlConnection();</span>
+<span class="fc" id="L769">    String userId = null;</span>
+<span class="fc" id="L770">    String bookName = null;</span>
+<span class="fc" id="L771">    boolean check = mc.ifRerating(userId, bookName);</span>
+<span class="fc" id="L772">    assertEquals(false, check);</span>
+<span class="fc" id="L773">    mc.close();</span>
+<span class="fc" id="L774">  }</span>
+}
+
+
+
+
+
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>project (Dec 8, 2020 10:12:07 PM)</div></body></html>

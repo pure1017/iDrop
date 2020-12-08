@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>OpenLibraryApi.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">project (Dec 8, 2020 10:12:07 PM)</a> &gt; <a href="../../index.html" class="el_group">project</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">external</a> &gt; <span class="el_source">OpenLibraryApi.java</span></div><h1>OpenLibraryApi.java</h1><pre class="source lang-java linenums">package external;
+
+import entity.Item;
+import entity.Item.ItemBuilder;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
+<span class="fc" id="L22">public class OpenLibraryApi {</span>
+  private static final String BOOKURL = &quot;https://openlibrary.org/search.json&quot;;
+  private static final String DESURL = &quot;http://openlibrary.org/&quot;;
+  private static final String DEFAULTRES = &quot;Can't find&quot;;
+  
+  /**
+   * search book item from OpenLibrary API.
+   * @param keyword search keyword
+   * @param typeKey search type
+   * @return List Item
+   */
+  
+  public List&lt;Item&gt; search(String keyword, String typeKey) {
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">    if (keyword == null) {</span>
+<span class="nc" id="L36">      keyword = &quot;&quot;;</span>
+    }
+    try {
+<span class="fc" id="L39">      keyword = java.net.URLEncoder.encode(keyword, &quot;UTF-8&quot;).toLowerCase();</span>
+<span class="pc" id="L40">    } catch (Exception e) {</span>
+<span class="nc" id="L41">      e.printStackTrace();</span>
+    }
+    
+<span class="pc bpc" id="L44" title="3 of 4 branches missed.">    if (typeKey.equals(&quot;author&quot;) &amp;&amp; typeKey.equals(&quot;title&quot;)) {</span>
+<span class="nc" id="L45">      typeKey = &quot;q&quot;;</span>
+    }
+    
+<span class="fc" id="L48">    String query = String.format(&quot;?%s=%s&quot;, typeKey, keyword);</span>
+    
+    try {
+<span class="fc" id="L51">      HttpURLConnection connection = (HttpURLConnection) new URL(BOOKURL + query).openConnection();</span>
+<span class="fc" id="L52">      connection.setRequestMethod(&quot;GET&quot;);</span>
+      
+<span class="fc" id="L54">      int responseCode = connection.getResponseCode();</span>
+<span class="fc" id="L55">      System.out.println(&quot;Response Code&quot; + responseCode);</span>
+      
+<span class="fc" id="L57">      BufferedReader in = new BufferedReader(</span>
+<span class="fc" id="L58">          new InputStreamReader(connection.getInputStream(), &quot;UTF-8&quot;));</span>
+<span class="fc" id="L59">      StringBuilder response = new StringBuilder();</span>
+<span class="fc" id="L60">      String inputLine = &quot;&quot;;</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">      while ((inputLine = in.readLine()) != null) {</span>
+<span class="fc" id="L62">        response.append(inputLine);</span>
+      }
+<span class="fc" id="L64">      in.close();</span>
+      
+<span class="fc" id="L66">      JSONObject obj = new JSONObject(response.toString());</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">      if (obj.isNull(&quot;docs&quot;)) {</span>
+<span class="nc" id="L68">        return new ArrayList&lt;&gt;();</span>
+      }
+      
+<span class="fc" id="L71">      JSONArray docs = obj.getJSONArray(&quot;docs&quot;);</span>
+<span class="fc" id="L72">      return getItemList(docs);</span>
+<span class="fc" id="L73">    } catch (Exception e) {</span>
+<span class="fc" id="L74">      e.printStackTrace();</span>
+    }
+<span class="fc" id="L76">    return new ArrayList&lt;&gt;();</span>
+  }
+  
+  /**
+   * get author name from doc.
+   * @param doc JSONObject
+   * @return author name
+   * @throws JSONException JSON error
+   */
+  
+  public String getAuthor(JSONObject doc) throws JSONException {
+<span class="fc" id="L87">    String author = &quot;&quot;;</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">    if (!doc.isNull(&quot;author_name&quot;)) {</span>
+<span class="fc" id="L89">      JSONArray nameSub = doc.getJSONArray(&quot;author_name&quot;);</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">      if (!nameSub.isEmpty()) {</span>
+<span class="fc" id="L91">        author = nameSub.getString(0);</span>
+      }
+
+      //for (int i = 0; i &lt; nameSub.length(); ++i) {
+      //  String name = nameSub.getString(i);
+      //  authors.add(name);
+      //}
+    }
+<span class="fc" id="L99">    return author;</span>
+  }
+  
+  /**
+   * get categories set from doc.
+   * @param doc JSONObject
+   * @return categories set
+   * @throws JSONException JSON error
+   */
+  
+  public Set&lt;String&gt; getCategories(JSONObject doc) throws JSONException {
+<span class="fc" id="L110">    Set&lt;String&gt; categories = new HashSet&lt;&gt;();</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">    if (!doc.isNull(&quot;subject&quot;)) {</span>
+<span class="fc" id="L112">      JSONArray nameSub = doc.getJSONArray(&quot;subject&quot;);</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">      for (int i = 0; i &lt; nameSub.length(); ++i) {</span>
+<span class="fc" id="L114">        String name = nameSub.getString(i);</span>
+<span class="fc" id="L115">        categories.add(name);</span>
+      }
+    }
+<span class="fc" id="L118">    return categories;</span>
+  }
+  
+  /**
+   * get description from doc.
+   * @param doc JSONObject
+   * @return Description
+   * @throws JSONException JSON error
+   */
+  
+  public String getDescribe(JSONObject doc) throws JSONException {
+
+<span class="fc bfc" id="L130" title="All 2 branches covered.">    if (doc.isNull(&quot;key&quot;)) {</span>
+<span class="fc" id="L131">      return &quot;&quot;;</span>
+    }
+    try {
+<span class="fc" id="L134">      String id = doc.getString(&quot;key&quot;);</span>
+<span class="fc" id="L135">      String query = String.format(&quot;%s.json&quot;, id);</span>
+<span class="fc" id="L136">      HttpURLConnection connection = (HttpURLConnection) new URL(DESURL + query).openConnection();</span>
+<span class="fc" id="L137">      connection.setRequestMethod(&quot;GET&quot;);</span>
+    
+<span class="fc" id="L139">      int responseCode = connection.getResponseCode();</span>
+<span class="fc" id="L140">      System.out.println(&quot;Response Code&quot; + responseCode);</span>
+
+<span class="fc" id="L142">      BufferedReader in = new BufferedReader(new InputStreamReader(</span>
+<span class="fc" id="L143">          connection.getInputStream(), &quot;UTF-8&quot;));</span>
+<span class="fc" id="L144">      StringBuilder response = new StringBuilder();</span>
+<span class="fc" id="L145">      String inputLine = &quot;&quot;;</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">      while ((inputLine = in.readLine()) != null) {</span>
+<span class="fc" id="L147">        response.append(inputLine);</span>
+      }
+<span class="fc" id="L149">      in.close();</span>
+      
+<span class="fc" id="L151">      JSONObject obj = new JSONObject(response.toString());</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">      if (obj.isNull(&quot;description&quot;)) {</span>
+<span class="fc" id="L153">        String res = String.format(&quot;%s description from Open Library&quot;, DEFAULTRES);</span>
+<span class="fc" id="L154">        System.out.println(&quot;Description of &quot; + id + &quot; &quot; + res);</span>
+<span class="fc" id="L155">        return res;</span>
+      }
+<span class="fc" id="L157">      String description = &quot;&quot;;</span>
+      try { 
+<span class="fc" id="L159">        description = obj.getString(&quot;description&quot;); </span>
+<span class="fc" id="L160">        System.out.println(&quot;Description of &quot; + id + &quot; &quot; + description);</span>
+      //String describe = description.getString(&quot;value&quot;);
+        
+<span class="fc" id="L163">      } catch (Exception e) {</span>
+<span class="fc" id="L164">        JSONObject describe = obj.getJSONObject(&quot;description&quot;);</span>
+<span class="fc" id="L165">        description = describe.getString(&quot;value&quot;); </span>
+<span class="fc" id="L166">        System.out.println(&quot;Description of &quot; + id + &quot; &quot; + description);</span>
+      } 
+<span class="fc" id="L168">      return description;</span>
+<span class="fc" id="L169">    } catch (Exception e) {</span>
+<span class="fc" id="L170">      e.printStackTrace();</span>
+    }
+<span class="fc" id="L172">    return &quot;&quot;;</span>
+  }
+  
+  /**
+   * get item from docs.
+   * @param docs JSONArray
+   * @return items
+   * @throws JSONException JSON error
+   */
+  
+  public List&lt;Item&gt; getItemList(JSONArray docs) throws JSONException {
+<span class="fc" id="L183">    List&lt;Item&gt; itemList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L184">    int readLimit = 1;</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">    for (int i = 0; i &lt; docs.length(); ++i) {</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">      if (i == readLimit) {</span>
+<span class="fc" id="L187">        break;</span>
+      }
+<span class="fc" id="L189">      JSONObject doc = docs.getJSONObject(i);</span>
+      
+<span class="fc" id="L191">      ItemBuilder builder = new ItemBuilder();</span>
+      
+<span class="fc bfc" id="L193" title="All 2 branches covered.">      if (!doc.isNull(&quot;key&quot;)) {</span>
+<span class="fc" id="L194">        builder.setItemId(doc.getString(&quot;key&quot;).replaceAll(&quot;/&quot;, &quot;&quot;));</span>
+<span class="fc" id="L195">        String url = String.format(&quot;https://openlibrary.org%s.json&quot;, doc.getString(&quot;key&quot;));</span>
+<span class="fc" id="L196">        builder.setUrl(url);</span>
+      }
+      
+<span class="fc bfc" id="L199" title="All 2 branches covered.">      if (!doc.isNull(&quot;title&quot;)) {</span>
+<span class="fc" id="L200">        builder.setTitle(doc.getString(&quot;title&quot;).toLowerCase());</span>
+      }
+      
+<span class="fc bfc" id="L203" title="All 2 branches covered.">      if (!doc.isNull(&quot;cover_i&quot;)) {</span>
+<span class="fc" id="L204">        String coverUrl = String.format(&quot;https://covers.openlibrary.org/b/id/%s-L.jpg&quot;, String.valueOf(doc.getInt(&quot;cover_i&quot;)));</span>
+<span class="fc" id="L205">        builder.setImageUrl(coverUrl);</span>
+      }
+      
+<span class="fc bfc" id="L208" title="All 2 branches covered.">      if (!doc.isNull(&quot;author_name&quot;)) {</span>
+<span class="fc" id="L209">        builder.setAuthor(getAuthor(doc));</span>
+      }
+      //if (!doc.isNull(&quot;subject&quot;)) {
+<span class="fc" id="L212">      builder.setCategories(getCategories(doc));</span>
+      //}
+<span class="fc bfc" id="L214" title="All 2 branches covered.">      if (!doc.isNull(&quot;key&quot;)) {</span>
+<span class="fc" id="L215">        builder.setDescribe(getDescribe(doc));</span>
+      }
+      
+      
+<span class="fc" id="L219">      Item unit = builder.build();</span>
+<span class="fc" id="L220">      itemList.add(unit);</span>
+    }
+    
+<span class="fc" id="L223">    return itemList;</span>
+  }
+  
+  /**
+   * Save item and categories to the DB.
+   * @param item book item
+   */
+  
+  public void saveItem(Item item) {
+    //set data to database
+<span class="fc" id="L233">    Connection conn = null;</span>
+<span class="fc" id="L234">    PreparedStatement stmt = null;</span>
+    try {
+      // This is java.sql.Connection. Not com.mysql.jdbc.Connection.
+      // Step 1 Connect to MySQL.
+      try {
+<span class="fc" id="L239">        System.out.println(&quot;Connecting to jdbc:sqlite:ase.db&quot;);</span>
+        //Dynamically get reflection of data at runtime. 
+<span class="fc" id="L241">        Class.forName(&quot;org.sqlite.JDBC&quot;);</span>
+<span class="fc" id="L242">        conn = DriverManager.getConnection(&quot;jdbc:sqlite:ase.db&quot;);</span>
+<span class="pc" id="L243">      } catch (SQLException e) {</span>
+<span class="nc" id="L244">        e.printStackTrace();</span>
+      }
+<span class="pc bpc" id="L246" title="1 of 2 branches missed.">      if (conn == null) {</span>
+<span class="nc" id="L247">        System.out.println(&quot;Bad connection to DB when saveItem&quot;);</span>
+<span class="nc" id="L248">        return;</span>
+      }
+      //get info from item
+<span class="fc" id="L251">      String itemid = item.getItemId();</span>
+<span class="fc" id="L252">      itemid = itemid.replaceAll(&quot;/&quot;, &quot;&quot;);</span>
+<span class="fc" id="L253">      System.out.println(&quot;item_id : &quot; + itemid);</span>
+<span class="fc" id="L254">      String sql = &quot;INSERT OR IGNORE INTO items VALUES (?, ?, ?, ?, ?, ?, ?)&quot;;</span>
+<span class="fc" id="L255">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L256">      String title = item.getTitle().toLowerCase();</span>
+<span class="fc" id="L257">      stmt.setString(1, itemid);</span>
+<span class="fc" id="L258">      stmt.setString(2, title);</span>
+<span class="fc" id="L259">      String author = item.getAuthor();</span>
+<span class="fc" id="L260">      stmt.setString(3, author);</span>
+<span class="fc" id="L261">      Double rating = item.getRating();</span>
+<span class="fc" id="L262">      stmt.setDouble(4, rating);</span>
+<span class="fc" id="L263">      String description = item.getDescribe();</span>
+<span class="fc" id="L264">      stmt.setString(5, description);</span>
+<span class="fc" id="L265">      String coverurl = item.getImageUrl();</span>
+<span class="fc" id="L266">      stmt.setString(6, coverurl);</span>
+<span class="fc" id="L267">      String url = item.getUrl();</span>
+<span class="fc" id="L268">      stmt.setString(7, url);</span>
+<span class="fc" id="L269">      stmt.execute();</span>
+<span class="pc bpc" id="L270" title="1 of 2 branches missed.">      if (stmt != null) {</span>
+<span class="fc" id="L271">        stmt.close();</span>
+      }
+<span class="fc" id="L273">      sql = &quot;INSERT OR IGNORE INTO categories VALUES (?, ?)&quot;;</span>
+<span class="fc" id="L274">      stmt = conn.prepareStatement(sql);</span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">      for (String category : item.getCategories()) {</span>
+<span class="fc" id="L276">        stmt.setString(1, itemid);</span>
+<span class="fc" id="L277">        stmt.setString(2, category);</span>
+<span class="fc" id="L278">        stmt.execute();</span>
+      }
+<span class="fc" id="L280">      System.out.println(&quot;Good saveItem to DB&quot;);</span>
+<span class="fc" id="L281">    } catch (Exception e) {</span>
+<span class="fc" id="L282">      e.printStackTrace();</span>
+    } finally {
+      try {
+<span class="fc bfc" id="L285" title="All 2 branches covered.">        if (stmt != null) {</span>
+<span class="fc" id="L286">          stmt.close();</span>
+        }
+<span class="pc" id="L288">      } catch (SQLException e) {</span>
+<span class="nc" id="L289">        e.printStackTrace();</span>
+      }
+      try {
+<span class="pc bpc" id="L292" title="1 of 2 branches missed.">        if (conn != null) {</span>
+<span class="fc" id="L293">          conn.close();</span>
+        }
+<span class="pc" id="L295">      } catch (SQLException e) {</span>
+<span class="nc" id="L296">        e.printStackTrace();</span>
+      }
+    }  
+<span class="fc" id="L299">  }</span>
+  
+  /**
+   * For test get data from Open Library.
+   * @param args default
+   */
+  
+  public static void main(String[] args) {
+<span class="nc" id="L307">    OpenLibraryApi bookApi = new OpenLibraryApi();</span>
+<span class="nc" id="L308">    String keyword = &quot;the lord of the rings&quot;;</span>
+<span class="nc" id="L309">    String typeKey = &quot;title&quot;;</span>
+<span class="nc" id="L310">    bookApi.search(keyword, typeKey);</span>
+<span class="nc" id="L311">  }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>project (Dec 8, 2020 10:12:07 PM)</div></body></html>

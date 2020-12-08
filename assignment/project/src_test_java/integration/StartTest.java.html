@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>StartTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">project (Dec 8, 2020 10:12:07 PM)</a> &gt; <a href="../../index.html" class="el_group">project</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">integration</a> &gt; <span class="el_source">StartTest.java</span></div><h1>StartTest.java</h1><pre class="source lang-java linenums">package integration;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import com.google.gson.Gson;
+import controllers.Start;
+import database.MysqlRealData;
+import database.MysqlTableCreation;
+
+import java.util.concurrent.TimeUnit;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
+import kong.unirest.json.JSONArray;
+import kong.unirest.json.JSONObject;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
+
+@TestMethodOrder(OrderAnnotation.class) 
+<span class="fc" id="L26">public class StartTest {</span>
+  /**
+  * Runs only once before the testing starts.
+  */
+  
+  @BeforeAll
+  public static void init() {
+    // Start Server
+<span class="fc" id="L34">    MysqlTableCreation.main(null);</span>
+<span class="fc" id="L35">    MysqlRealData.main(null);</span>
+<span class="fc" id="L36">    Start.main(null);</span>
+<span class="fc" id="L37">    System.out.println(&quot;Before All&quot;);</span>
+<span class="fc" id="L38">  }</span>
+
+  /**
+  * This method starts a new game before every test run. It will run every time before a test.
+  */
+  @BeforeEach
+  public void startNewPage() {
+    // Test if server is running. You need to have an endpoint /
+    // If you do not wish to have this end point, it is okay to not have anything in this method.
+    //MysqlTableCreation.main(null);
+<span class="fc" id="L48">    HttpResponse&lt;String&gt; response = Unirest.get(&quot;http://localhost:8080/&quot;).asString();</span>
+<span class="fc" id="L49">    int restStatus = response.getStatus();</span>
+
+<span class="fc" id="L51">    System.out.println(&quot;Before Each&quot;);</span>
+<span class="fc" id="L52">  }</span>
+  
+//  /**
+//   * This is a test case to evaluate the login endpoint.
+//   */
+//  @Test
+//  @Order(1)
+//  public void loginTest() {
+//
+//    System.out.println(&quot;----------------Test google login----------------&quot;);
+//    
+//    // Create HTTP request and get response
+//    HttpResponse&lt;String&gt; response = Unirest.get(&quot;http://localhost:8080/newgame&quot;).asString();
+//    int restStatus = response.getStatus();
+//       
+//    // Check assert statement (New Game has started)
+//    assertEquals(restStatus, 200);
+//  }
+   
+  /**
+  * This is a test case to evaluate the getfavorite endpoint.
+  */
+  @Test
+  @Order(2)
+  public void getFavoriteTest() {
+      
+<span class="fc" id="L78">    System.out.println(&quot;----------------Test Get Favorite----------------&quot;);  </span>
+
+    // Create a POST request to startgame endpoint and get the body
+    // Remember to use asString() only once for an endpoint call. 
+    // Every time you call asString(), a new request will be sent to the endpoint. 
+    // Call it once and then use the data in the object.
+<span class="fc" id="L84">    HttpResponse&lt;String&gt; response = Unirest.get(&quot;http://localhost:8080/getfavorite?userId=11111&quot;).asString();</span>
+<span class="fc" id="L85">    assertEquals(200, response.getStatus());</span>
+//    String responseBody = response.getBody();
+//       
+//    // --------------------------- JSONObject Parsing ----------------------------------
+//       
+//    System.out.println(&quot;Get Favorite Response: &quot; + responseBody);
+//       
+//    // Parse the response to JSON object
+//    JSONObject jsonObject = new JSONObject(responseBody);
+//
+//    // Check if game started after player 1 joins: Game should not start at this point
+//    Object s1 = jsonObject.get(&quot;myArrayList&quot;);
+//    JSONArray js = jsonObject.getJSONArray(&quot;myArrayList&quot;);
+//    JSONObject ob = (JSONObject) js.get(0);
+//    JSONObject ob2 = (JSONObject) ob.getJSONObject(&quot;map&quot;);
+//    String check = ob2.getString(&quot;item_id&quot;);
+//    System.out.println(check);
+//    assertEquals(true, check.equals(&quot;111&quot;));
+<span class="fc" id="L103">  }</span>
+   
+  /**
+   * This is to evaluate setfavorite end point.
+   */
+  @Test
+  @Order(3)
+  public void setFavoriteTest() {
+<span class="fc" id="L111">    System.out.println(&quot;----------------Test set favorite----------------&quot;);  </span>
+<span class="fc" id="L112">    HttpResponse&lt;String&gt; response = Unirest.post(&quot;http://localhost:8080/setfavorite?userId=11111&amp;itemId=222&quot;).asString();</span>
+    // Check the status of response of calling joingame endpoint
+<span class="fc" id="L114">    assertEquals(200, response.getStatus());</span>
+<span class="fc" id="L115">  }</span>
+  
+  /**
+   *  This is to evaluate setfavorite end point.
+   */
+  @Test
+  @Order(4)
+  public void unsetFavoriteTest() {
+   
+<span class="fc" id="L124">    System.out.println(&quot;----------------Test unsetFavorite----------------&quot;);</span>
+
+    // Create a POST request to start endpoint
+<span class="fc" id="L127">    HttpResponse&lt;String&gt; response = Unirest.delete(&quot;http://localhost:8080/unsetfavorite?userId=11111&amp;itemId=333&quot;).asString();    </span>
+<span class="fc" id="L128">    assertEquals(200, response.getStatus());</span>
+<span class="fc" id="L129">  }</span>
+  
+  /**
+   * this is to test recommand.
+   */
+  @Test
+  @Order(5)
+  public void recommendTest() {
+
+<span class="fc" id="L138">    System.out.println(&quot;----------------Test Recommand----------------&quot;);</span>
+<span class="fc" id="L139">    HttpResponse&lt;String&gt; response = Unirest.post(&quot;http://localhost:8080/recommend?userId=11111&quot;).asString();    </span>
+<span class="fc" id="L140">    assertEquals(200, response.getStatus());</span>
+<span class="fc" id="L141">  }</span>
+  
+  /**
+   * This is to test hostgroup endpoint.
+   */
+  @Test
+  @Order(6)
+  public void hostGroupTest() {
+
+<span class="fc" id="L150">    System.out.println(&quot;----------------Test Host Group-------&quot;);</span>
+
+<span class="fc" id="L152">    HttpResponse&lt;String&gt; response = Unirest.post(&quot;http://localhost:8080/hostGroup?&quot;</span>
+        + &quot;userId=33333&amp;bookName=book3&amp;groupName=group3&amp;&quot;
+<span class="fc" id="L154">        + &quot;beginDate=2020&amp;groupSize=5&amp;groupDescription=description4&quot;).asString();</span>
+<span class="fc" id="L155">    System.out.println(response.getStatus());</span>
+<span class="fc" id="L156">    assertEquals(200, response.getStatus());</span>
+<span class="fc" id="L157">  }</span>
+  
+  /**
+   * This is to test join group.
+   */
+  @Test
+  @Order(7)
+  public void joinGroupTest() {
+
+<span class="fc" id="L166">    System.out.println(&quot;----------------Test Join Group----------------&quot;);</span>
+
+    //Create a POST request to start endpoint
+<span class="fc" id="L169">    HttpResponse&lt;String&gt; response = Unirest.post(&quot;http://localhost:8080/joinGroup?userId=22222&amp;bookName=book1&quot;</span>
+<span class="fc" id="L170">        + &quot;&amp;groupName=group1&amp;joinMessage=22222join&quot;).asString();</span>
+<span class="fc" id="L171">    assertEquals(200, response.getStatus());</span>
+<span class="fc" id="L172">  }</span>
+  
+  /**
+   * This is to test get urser gourp endpoint.
+   */
+  @Test
+  @Order(8)
+  public void getUserGroupTest() {
+
+<span class="fc" id="L181">    System.out.println(&quot;----------------Test Get User Group----------------&quot;);</span>
+<span class="fc" id="L182">    HttpResponse&lt;String&gt; response =  Unirest.get(&quot;http://localhost:8080/getusergroup?&quot;</span>
+<span class="fc" id="L183">        + &quot;userId=22222&quot;).asString();</span>
+<span class="fc" id="L184">    assertEquals(200, response.getStatus());  </span>
+<span class="fc" id="L185">  }</span>
+  
+  /**
+   * This is to test getjoinmessage endpoint.
+   */
+  @Test
+  @Order(9)
+  public void getJoinMessageTest() {
+    
+<span class="fc" id="L194">    System.out.println(&quot;----------------Test Get Join Message----------------&quot;);</span>
+<span class="fc" id="L195">    HttpResponse&lt;String&gt; response =  Unirest.get(&quot;http://localhost:8080/getjoinmessage?&quot;</span>
+<span class="fc" id="L196">        + &quot;userId=11111&quot;).asString();</span>
+<span class="fc" id="L197">    assertEquals(200, response.getStatus());  </span>
+<span class="fc" id="L198">  }</span>
+  
+  /**
+   * This is to test search endpoint.
+   */
+  @Test
+  @Order(10)
+  public void searchTest1() {
+
+<span class="fc" id="L207">    System.out.println(&quot;----------------Test Search----------------&quot;);</span>
+<span class="fc" id="L208">    HttpResponse&lt;String&gt; response =  Unirest.post(&quot;http://localhost:8080/search?&quot;</span>
+<span class="fc" id="L209">        + &quot;userId=11111&amp;bookName=book1&quot;).asString();</span>
+<span class="fc" id="L210">    assertEquals(200, response.getStatus());  </span>
+<span class="fc" id="L211">  }</span>
+  
+  /**
+   * This is to test search endpoint.
+   */
+  @Test
+  @Order(11)
+  public void searchTest2() {
+
+<span class="fc" id="L220">    System.out.println(&quot;----------------Test Search2----------------&quot;);</span>
+<span class="fc" id="L221">    HttpResponse&lt;String&gt; response =  Unirest.post(&quot;http://localhost:8080/search?&quot;</span>
+<span class="fc" id="L222">        + &quot;userId=11111&amp;bookName=the+lord+of+ring&quot;).asString();</span>
+<span class="fc" id="L223">    assertEquals(200, response.getStatus());  </span>
+<span class="fc" id="L224">  }</span>
+  
+  
+  
+  /**
+   * This is to test rating endpoint.
+   */
+  @Test
+  @Order(12)
+  public void ratingTest() {
+
+<span class="fc" id="L235">    System.out.println(&quot;----------------Test Rating----------------&quot;);</span>
+<span class="fc" id="L236">    HttpResponse&lt;String&gt; response =  Unirest.post(&quot;http://localhost:8080/rating?&quot;</span>
+<span class="fc" id="L237">        + &quot;userId=11111&amp;itemId=111&amp;time=2020&amp;rating=5.0&amp;comment=this+is+commend&quot;).asString();</span>
+<span class="fc" id="L238">    assertEquals(200, response.getStatus()); </span>
+<span class="fc" id="L239">  }</span>
+  
+  /**
+   * This is to test getrating endpoint.
+   */
+  @Test
+  @Order(13)
+  public void getratingTest() {
+
+<span class="fc" id="L248">    System.out.println(&quot;----------------Test Get Rating----------------&quot;);</span>
+<span class="fc" id="L249">    HttpResponse&lt;String&gt; response =  Unirest.get(&quot;http://localhost:8080/getrating?&quot;</span>
+<span class="fc" id="L250">        + &quot;itemId=111&quot;).asString();</span>
+<span class="fc" id="L251">    System.out.println(response.getStatus());</span>
+<span class="fc" id="L252">    assertEquals(200, response.getStatus()); </span>
+<span class="fc" id="L253">  }</span>
+  
+  /**
+   * This is to test handleapplication endpoint.
+   */
+  @Test
+  @Order(14)
+  public void handleApplicationTest() {
+
+<span class="fc" id="L262">    System.out.println(&quot;----------------Test Handle Application----------------&quot;);</span>
+<span class="fc" id="L263">    HttpResponse&lt;String&gt; response =  Unirest.post(&quot;http://localhost:8080/handleapplication?&quot;</span>
+<span class="fc" id="L264">        + &quot;applicantId=22222&amp;groupName=group1&quot;).asString();</span>
+<span class="fc" id="L265">    assertEquals(200, response.getStatus()); </span>
+<span class="fc" id="L266">  }</span>
+  
+//  /**
+//   * This is to test chat endpoint.
+//   */
+//  @Test
+//  @Order(15)
+//  public void chatTest() {
+//
+//    System.out.println(&quot;----------------Test Chat----------------&quot;);
+//    HttpResponse&lt;String&gt; response =  Unirest.post(&quot;http://localhost:8080/chat?&quot;
+//        + &quot;userName=user1&amp;picture=picture1&quot;).asString();
+//    assertEquals(200, response.getStatus()); 
+//    HttpResponse&lt;String&gt; response2 =  Unirest.post(&quot;http://localhost:8080/chat?&quot;
+//        + &quot;userName=user2&amp;picture=picture2&quot;).asString();
+//    assertEquals(200, response2.getStatus()); 
+//  }
+  
+  /**
+    * This will run every time after a test has finished.
+    */
+  @AfterEach
+  public void finishGame() {
+<span class="fc" id="L289">    System.out.println(&quot;After Each&quot;);</span>
+<span class="fc" id="L290">  }</span>
+    
+  /**
+     * This method runs only once after all the test cases have been executed.
+     */
+  @AfterAll
+  public static void close() {
+    // Stop Server
+<span class="fc" id="L298">    Start.stop(); </span>
+<span class="fc" id="L299">    System.out.println(&quot;After All&quot;);</span>
+<span class="fc" id="L300">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>project (Dec 8, 2020 10:12:07 PM)</div></body></html>
