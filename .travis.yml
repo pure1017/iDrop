@@ -7,7 +7,7 @@ branches:
     only:
         - master
 
-script: mvn test 
+script: mvn :iDrop:test 
 
 
 
