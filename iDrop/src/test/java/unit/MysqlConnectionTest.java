@@ -110,7 +110,7 @@ public class MysqlConnectionTest {
     String userId = "11111";
     MysqlConnection mc = new MysqlConnection();
     Set<String> check = mc.getFavoriteItemIds(userId);
-    assertEquals(HashSet.class, check.getClass());
+    assertEquals(true, !check.isEmpty());
   }
   
   /**
@@ -158,8 +158,7 @@ public class MysqlConnectionTest {
     String itemId = "222";
     MysqlConnection mc = new MysqlConnection();
     Set<String> check = mc.getCategories(itemId);
-    System.out.println(check);
-    assertEquals(HashSet.class, check.getClass());
+    assertEquals(true, !check.isEmpty());
   }
   
   /**
@@ -279,7 +278,6 @@ public class MysqlConnectionTest {
     sample.add("333");
     sample.add("444");
     Set<String> check = mc.getItemsOnCat(category);
-    System.out.println(check);
     assertEquals(sample, check);
   }
   

@@ -27,6 +27,9 @@ import database.MysqlTableCreation;
 
 public class OpenLibraryTest {
   
+  /**
+   * Before all.
+   */
   @BeforeAll
   public static void init() {
     // Start Server
