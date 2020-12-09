@@ -7,6 +7,8 @@ branches:
     only:
         - master
 
+install: cd iDrop && mvn install -DskipTests=true -Dmaven.javadoc.skip=true
+
 script: mvn clean install
 
 
