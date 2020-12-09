@@ -11,5 +11,37 @@ install: cd iDrop && mvn install -DskipTests=true -Dmaven.javadoc.skip=true
 
 script: mvn clean install
 
+after_failure:
+
+addons:
+  artifacts:
+    paths:
+       - $(git ls-files -o | tr "\n" ":")
+
+deploy:
+
+- provider: s3
+- access_key_id: $ARTIFACTS_KEY
+- secret_access_key: $ARTIFACTS_SECRET
+- bucket: $ARTIFACTS_BUCKET
+- skip_cleanup: true
+- acl: public_read
+
+after_success:
+
+addons:
+  artifacts:
+    paths:
+       - $(git ls-files -o | tr "\n" ":")
+
+deploy:
+
+- provider: s3
+- access_key_id: $ARTIFACTS_KEY
+- secret_access_key: $ARTIFACTS_SECRET
+- bucket: $ARTIFACTS_BUCKET
+- skip_cleanup: true
+- acl: public_read
+
 
 
