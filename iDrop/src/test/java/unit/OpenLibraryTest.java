@@ -352,7 +352,7 @@ public class OpenLibraryTest {
   public void testSaveIteminvalid() {
     
     OpenLibraryApi olApi = new OpenLibraryApi();
-    check = olApi.saveItem(null);
+    boolean check = olApi.saveItem(null);
     assertEquals(false, check);
 
   }
