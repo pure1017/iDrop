@@ -194,15 +194,15 @@ public class OpenLibraryTest {
       
       List<String> author2 = new ArrayList<>();
       author2.add("author2");
-      obj.put("key", "/works/OL27448W2");
-      obj.put("author_name", author2);
-      obj.put("title", "title2");
-      obj.put("rating", 5.0);
+      obj2.put("key", "/works/OL27448W2");
+      obj2.put("author_name", author2);
+      obj2.put("title", "title2");
+      obj2.put("rating", 5.0);
       List<String> categories2 = new ArrayList<>();
       categories2.add("English2");
       categories2.add("Engineer2");
-      obj.put("subject", new JSONArray(categories2));
-      obj.put("cover_i", 2222);
+      obj2.put("subject", new JSONArray(categories2));
+      obj2.put("cover_i", 2222);
       
     } catch (JSONException e) {
       e.printStackTrace();
