@@ -230,6 +230,9 @@ public class OpenLibraryApi {
   
   public void saveItem(Item item) {
     //set data to database
+    if (item == null) {
+      return;
+    }
     Connection conn = null;
     PreparedStatement stmt = null;
     try {
