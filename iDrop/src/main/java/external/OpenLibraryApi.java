@@ -32,8 +32,8 @@ public class OpenLibraryApi {
    */
   
   public List<Item> search(String keyword, String typeKey) {
-    if (keyword == null) {
-      keyword = "";
+    if (keyword == null) && (keyword = "") {
+      return new ArrayList<>();
     }
     try {
       keyword = java.net.URLEncoder.encode(keyword, "UTF-8").toLowerCase();
