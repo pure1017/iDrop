@@ -115,6 +115,17 @@
 			    <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-surefire-plugin</artifactId>
 			    <version>2.19.1</version>
+			    <configuration>
+			    	<includes>
+			    		<include>**/Test*.java</include>
+			    		<include>**/*Test.java</include>
+			    		<include>**/*Tests.Java</include>
+			    		<include>**/*TestCase.java</include>
+			    	</includes>
+			    	<properties>
+			    		<excludeTags>slow</excludeTags>
+			    	</properties>
+			    </configuration>
 			    <dependencies>
 			        <dependency>
 			            <groupId>org.junit.platform</groupId>
