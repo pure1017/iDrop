@@ -351,48 +351,9 @@ public class OpenLibraryTest {
   @Test
   public void testSaveIteminvalid() {
     
-    ItemBuilder builder = new ItemBuilder();
-    Item item = builder.build();
     OpenLibraryApi olApi = new OpenLibraryApi();
-    olApi.saveItem(item);
-    Connection conn = null;
-    Statement stmt = null;
-    try {
-
-      try {
-        Class.forName("org.sqlite.JDBC");
-        conn = DriverManager.getConnection("jdbc:sqlite:ase.db");
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-      if (conn == null) {
-        System.out.println("Bad connection to DB when test saveItem");
-        return;
-      }
-      stmt = conn.createStatement();
-      String sql = "SELECT item_id, title, author FROM items where item_id = 'null'";
-      ResultSet rs = stmt.executeQuery(sql);
-      assertEquals(true, rs.wasNull());
-      rs.close();
-     
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-      try {
-        if (stmt != null) {
-          stmt.close();
-        }
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-      try {
-        if (conn != null) {
-          conn.close();
-        }
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-    }
+    check = olApi.saveItem(null);
+    assertEquals(false, check);
 
   }
 }

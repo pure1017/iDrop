@@ -228,10 +228,10 @@ public class OpenLibraryApi {
    * @param item book item
    */
   
-  public void saveItem(Item item) {
+  public boolean saveItem(Item item) {
     //set data to database
     if (item == null) {
-      return;
+      return false;
     }
     Connection conn = null;
     PreparedStatement stmt = null;
@@ -248,7 +248,7 @@ public class OpenLibraryApi {
       }
       if (conn == null) {
         System.out.println("Bad connection to DB when saveItem");
-        return;
+        return false;
       }
       //get info from item
       String itemid = item.getItemId();
@@ -281,6 +281,7 @@ public class OpenLibraryApi {
         stmt.execute();
       }
       System.out.println("Good saveItem to DB");
+      return true;
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
