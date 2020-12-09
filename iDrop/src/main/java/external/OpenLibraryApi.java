@@ -130,8 +130,11 @@ public class OpenLibraryApi {
     if (doc.isNull("key")) {
       return "";
     }
+    String id = doc.getString("key");
+    if (id == "") {
+      return "";
+    }
     try {
-      String id = doc.getString("key");
       String query = String.format("%s.json", id);
       HttpURLConnection connection = (HttpURLConnection) new URL(DESURL + query).openConnection();
       connection.setRequestMethod("GET");
