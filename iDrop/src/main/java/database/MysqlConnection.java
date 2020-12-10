@@ -511,7 +511,7 @@ public class MysqlConnection {
     ResultSet rs = null;
     try {
       //check if group name exists.
-      String sql = String.format("SELECT * FROM groups WHERE group_name = %s", groupName);
+      String sql = String.format("SELECT * FROM groups WHERE group_name = '%s'", groupName);
       stmt = conn.prepareStatement(sql);
       rs = stmt.executeQuery();
       if (rs.next()) {
@@ -520,7 +520,7 @@ public class MysqlConnection {
       stmt.close();
       
       //if the book does not exits, search the book with ol.
-      sql = String.format("SELECT * FROM items WHERE book_name = %s", bookName);
+      sql = String.format("SELECT * FROM items WHERE book_name = '%s'", bookName);
       stmt = conn.prepareStatement(sql);
       rs = stmt.executeQuery();
       if (!rs.next()) {
