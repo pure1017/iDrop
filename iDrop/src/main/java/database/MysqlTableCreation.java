@@ -114,7 +114,7 @@ public class MysqlTableCreation {
         + "member_4 VARCHAR(255),"
         + "message_4 VARCHAR(255),"
         + "current_size INT NOT NULL DEFAULT 1,"
-        + "PRIMARY KEY (group_id),"
+        + "PRIMARY KEY (group_name),"
         + "FOREIGN KEY (host) REFERENCES users(user_id),"
         + "FOREIGN KEY (member_1) REFERENCES users(user_id),"
         + "FOREIGN KEY (member_2) REFERENCES users(user_id),"
@@ -129,7 +129,7 @@ public class MysqlTableCreation {
         + "member VARCHAR(255) NOT NULL,"
         + "message VARCHAR(255) NOT NULL,"
         + "validm VARCHAR(255) NOT NULL,"
-        + "PRIMARY KEY (group_id, member),"
+        + "PRIMARY KEY (group_name, member),"
         + "FOREIGN KEY (member) REFERENCES users(user_id),"
         + "FOREIGN KEY (group_id) REFERENCES groups(group_id),"
         + "FOREIGN KEY (group_name) REFERENCES groups(group_name))";

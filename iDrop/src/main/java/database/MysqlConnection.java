@@ -538,7 +538,7 @@ public class MysqlConnection {
       stmt.setString(4, beginDate);
       stmt.setString(5, groupSize);
       stmt.setString(6, groupDescription);
-      stmt.setInt(7, 0);
+      stmt.setInt(7, 1);
       stmt.execute();
       stmt.close();
     } catch (SQLException e) {
@@ -578,7 +578,7 @@ public class MysqlConnection {
         return 1;
       }
       int currentSize = rs.getInt("current_size");
-      if (currentSize >= 4) {
+      if (currentSize >= 5) {
         return 2;
       }
       groupId = rs.getInt("group_id");
@@ -789,18 +789,16 @@ public class MysqlConnection {
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, userId);
       rs = stmt.executeQuery();
-      int groupId;
       String groupName = "";
       String sql2 = "";
       while (rs.next()) {
         PreparedStatement stmt2 = null;
         ResultSet rs2 = null;
-        groupId = rs.getInt("group_id");
         groupName = rs.getString("group_name");
         try {
-          sql2 = "SELECT * FROM applications WHERE group_id = ?";
+          sql2 = "SELECT * FROM applications WHERE group_name = ?";
           stmt2 = conn.prepareStatement(sql2);
-          stmt2.setInt(1, groupId);
+          stmt2.setString(1, groupName);
           rs2 = stmt2.executeQuery();
           List<Map<String, String>> applicationForEach = new ArrayList<>();
           while (rs2.next()) {
@@ -1035,7 +1033,6 @@ public class MysqlConnection {
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, groupName);
       rs = stmt.executeQuery();
-      int groupId = rs.getInt("group_id");
       int currentSize = Integer.parseInt(rs.getString("current_size"));
       int groupSize = Integer.parseInt(rs.getString("group_size"));
       if (currentSize < groupSize) {
@@ -1053,10 +1050,10 @@ public class MysqlConnection {
         PreparedStatement stmt2 = null;
         try {
           String sqlUpdate2 = "UPDATE applications SET validm = ? "
-              + "WHERE group_id = ? AND member = ?";
+              + "WHERE group_name = ? AND member = ?";
           stmt2 = conn.prepareStatement(sqlUpdate2);
           stmt2.setString(1, "proved");
-          stmt2.setInt(2, groupId);
+          stmt2.setString(2, groupName);
           stmt2.setString(3, applicantId);
           stmt2.execute();
           stmt2.close();
@@ -1122,13 +1119,13 @@ public class MysqlConnection {
       stmt = conn.prepareStatement(sql);
       stmt.setString(1, groupName);
       rs = stmt.executeQuery();
-      int groupId = rs.getInt("group_id");
       PreparedStatement stmt2 = null;
       try {
-        String sqlUpdate2 = "UPDATE applications SET validm = ? WHERE group_id = ? AND member = ?";
+        String sqlUpdate2 = "UPDATE applications SET validm = ? "
+            + "WHERE group_name = ? AND member = ?";
         stmt2 = conn.prepareStatement(sqlUpdate2);
         stmt2.setString(1, "Denied");
-        stmt2.setInt(2, groupId);
+        stmt2.setString(2, groupName);
         stmt2.setString(3, applicantId);
         stmt2.execute();
         stmt2.close();
