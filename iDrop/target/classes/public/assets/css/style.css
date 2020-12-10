@@ -1480,7 +1480,7 @@ section {
   background: #2383c4;
 }
 
-.host_group .php_email_form button[type="submit"] {
+.host_group .text-center button[type="submit"] {
   background: #3498db;
   border: 0;
   padding: 10px 24px;
@@ -1489,7 +1489,7 @@ section {
   border-radius: 50px;
 }
 
-.host_group .php_email_form button[type="submit"]:hover {
+.host_group .text-center button[type="submit"]:hover {
   background: #2383c4;
 }
 
