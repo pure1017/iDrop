@@ -1493,13 +1493,17 @@ section {
   background: #2383c4;
 }
 
-.join_group .php_email_form button[type="submit"] {
+.join_group .text-center button[type="submit"] {
   background: #3498db;
   border: 0;
   padding: 10px 24px;
   color: #fff;
   transition: 0.4s;
   border-radius: 50px;
+}
+
+.join_group .text-center button[type="submit"]:hover {
+  background: #2383c4;
 }
 
 #signinButton:hover {

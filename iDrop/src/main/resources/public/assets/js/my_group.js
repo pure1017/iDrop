@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
         function() {
             showErrorMessage('Cannot submit items.');
         });
+    
     var retrievedData1 = sessionStorage.getItem("group_list");
     var group_list = JSON.parse(retrievedData1);
     var retrievedData2 = sessionStorage.getItem("user_list");
@@ -122,6 +123,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var retrievedData4 = sessionStorage.getItem("status_list");
     var status_list = JSON.parse(retrievedData4);
 
+    console.log(group_list);
+    console.log(status_list);
     var application_HTML = '';
     const div_application_container = document.getElementById("application_container");
     div_application_container.innerHTML = '';
