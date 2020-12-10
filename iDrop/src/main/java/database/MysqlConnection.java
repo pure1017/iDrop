@@ -511,7 +511,7 @@ public class MysqlConnection {
     ResultSet rs = null;
     try {
       //check if group name exists.
-      String sql = String.format("SELECT * FROM groups WHERE group_name = ", groupName);
+      String sql = String.format("SELECT * FROM groups WHERE group_name = %s", groupName);
       stmt = conn.prepareStatement(sql);
       rs = stmt.executeQuery();
       if (rs.next()) {
