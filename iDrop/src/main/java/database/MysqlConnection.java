@@ -520,7 +520,7 @@ public class MysqlConnection {
       stmt.close();
       
       //if the book does not exits, search the book with ol.
-      sql = String.format("SELECT * FROM items WHERE book_name = '%s'", bookName);
+      sql = String.format("SELECT * FROM items WHERE title = '%s'", bookName);
       stmt = conn.prepareStatement(sql);
       rs = stmt.executeQuery();
       if (!rs.next()) {

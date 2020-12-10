@@ -199,6 +199,7 @@ public class Start {
           groupName, beginDate, groupSize, groupDescription);
       if (group == false) {
         ctx.result("group existed");
+        return;
       }
       ctx.result("group created");
     });
