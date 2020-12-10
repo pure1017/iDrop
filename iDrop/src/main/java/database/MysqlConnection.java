@@ -788,6 +788,7 @@ public class MysqlConnection {
             Map<String, String> map = new HashMap<>();
             map.put("userId", rs2.getString("member"));
             map.put("message", rs2.getString("message"));
+            map.put("validm", rs2.getString("validm"));
             applicationForEach.add(map);
           }
           
@@ -814,7 +815,6 @@ public class MysqlConnection {
             }
           }
         }
-    	
         //List<Map<String, String>> mapList = new ArrayList<>();
         //Map<String, Map<String, String>> mapmap = new HashMap<>();
         //Map<String, String> map1 = new HashMap<>();
