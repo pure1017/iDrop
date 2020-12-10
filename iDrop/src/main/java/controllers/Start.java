@@ -195,7 +195,11 @@ public class Start {
         return;
       }
       MysqlConnection conn = new MysqlConnection();
-      conn.createGroup(hostId, bookName, groupName, beginDate, groupSize, groupDescription);
+      boolean group = conn.createGroup(hostId, bookName, 
+          groupName, beginDate, groupSize, groupDescription);
+      if (group == false) {
+        ctx.result("group existed");
+      }
       ctx.result("group created");
     });
     

@@ -508,8 +508,27 @@ public class MysqlConnection {
       return false;
     }
     PreparedStatement stmt = null;
+    ResultSet rs = null;
     try {
-      String sql = "INSERT INTO groups (group_name, book_name, host,"
+      //check if group name exists.
+      String sql = String.format("SELECT * FROM groups WHERE group_name = ", groupName);
+      stmt = conn.prepareStatement(sql);
+      rs = stmt.executeQuery();
+      if (rs.next()) {
+        return false;
+      }
+      stmt.close();
+      
+      //if the book does not exits, search the book with ol.
+      sql = String.format("SELECT * FROM items WHERE book_name = %s", bookName);
+      stmt = conn.prepareStatement(sql);
+      rs = stmt.executeQuery();
+      if (!rs.next()) {
+        searchItems(bookName, "title");
+      }
+      stmt.close();
+      
+      sql = "INSERT INTO groups (group_name, book_name, host,"
           + "begin_date, group_size, group_description, current_size)"
           + " VALUES (?, ?, ?, ?, ?, ?, ?)";
       stmt = conn.prepareStatement(sql);
