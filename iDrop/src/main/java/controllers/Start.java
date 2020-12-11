@@ -353,8 +353,7 @@ public class Start {
         String username = ctx.queryParam("userName");
         String picture = ctx.queryParam("picture");
         String isHost = ctx.queryParam("isHost");
-        System.out.println(isHost);
-        System.out.println(isHost.equals("true"));
+
         if (isHost.equals("true")) {
           hostUserName = username;
           hostUserPicture = picture;
