@@ -2,11 +2,13 @@
 let id = id => document.getElementById(id);
 const userName = sessionStorage.getItem("userName");
 const userPicture = sessionStorage.getItem("userPicture");
+const isHost = sessionStorage.getItem("isHost");
+
 
 console.log("websocket userpic:"+userPicture)
 
 //Establish the WebSocket connection and set up event handlers
-let ws = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat?userName="+userName+"&picture="+userPicture);
+let ws = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat?userName="+userName+"&picture="+userPicture+"&isHost="+isHost);
 
 ws.onmessage = msg => updateChat(msg);
 ws.onclose = () => alert("WebSocket connection closed");

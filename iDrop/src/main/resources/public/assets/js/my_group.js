@@ -7,6 +7,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var begindate_group_list = [];
     var desc_group_list = [];
     var book_cover_list = [];
+    var hosted_group_list = [];
+    var hosted_begindate_group_list = [];
+    var hosted_desc_group_list = [];
+    var hosted_book_cover_list = [];
     ajax('GET',
         '/getusergroup'+param,
         req,
@@ -17,10 +21,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const div_host_container = document.getElementById("host_container");
             div_host_container.innerHTML = '';
             for (let item in items[0]) {
-                joined_group_list.push(items[0][item]["Group Name"]);
-                begindate_group_list.push(items[0][item]["Begin Date"]);
-                desc_group_list.push(items[0][item]["Group Description"]);
-                book_cover_list.push(items[0][item]["cover_url"]);
+                hosted_group_list.push(items[0][item]["Group Name"]);
+                hosted_begindate_group_list.push(items[0][item]["Begin Date"]);
+                hosted_desc_group_list.push(items[0][item]["Group Description"]);
+                hosted_book_cover_list.push(items[0][item]["cover_url"]);
                 host_HTML += '<div style="clear: left;">\n' +
                     '              <p style="float: left;"><img id="'+ items[0][item]["Group Name"] +'" src='+ items[0][item]["cover_url"] +' height="230px" width="180px" border="1px" style="margin-right: 20px; cursor: pointer"></p>\n' +
                     '              <p>Group Name: '+ items[0][item]["Group Name"] +'</p>\n' +
@@ -48,6 +52,30 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             div_member_container.innerHTML = member_HTML;
 
+            if (hosted_group_list) {
+                for (let i in hosted_group_list) {
+                    (function () {
+                        document.getElementById(hosted_group_list[i]).addEventListener('click', function () {
+                            let req = JSON.stringify({});
+                            let param = '?userId='+userId+"&groupName"+hosted_group_list[i];
+                            sessionStorage.setItem("currentGroup", hosted_group_list[i]);
+                            sessionStorage.setItem("currentGroupBeginDate", hosted_begindate_group_list[i]);
+                            sessionStorage.setItem("currentGroupDesc", hosted_desc_group_list[i]);
+                            sessionStorage.setItem("currentGroupCover", hosted_book_cover_list[i]);
+                            sessionStorage.setItem("isHost", "true");
+                            location.href='innerGroup_page.html';
+                            // ajax('POST', '/entergroup'+param, req,
+                            //     function (res){
+                            //         location.href='innerGroup_page.html';
+                            //     },
+                            //     // failed callback
+                            // function() {
+                            //         showErrorMessage('Cannot submit items.');
+                            //     });
+                        });
+                    })();
+                }
+            }
 
             if (joined_group_list) {
                 for (let i in joined_group_list) {
@@ -59,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             sessionStorage.setItem("currentGroupBeginDate", begindate_group_list[i]);
                             sessionStorage.setItem("currentGroupDesc", desc_group_list[i]);
                             sessionStorage.setItem("currentGroupCover", book_cover_list[i]);
+                            sessionStorage.setItem("isHost", "false");
                             location.href='innerGroup_page.html';
                             // ajax('POST', '/entergroup'+param, req,
                             //     function (res){
@@ -93,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var group_name = Object.keys(items[item]);
                 for (let m in Object.keys(items[item][group_name])) {
                     var message_name = Object.keys(items[item][group_name])[m]
-                    if (items[item][group_name][message_name]["message"]) {
+                    if (items[item][group_name][message_name]["userId"]) {
                         var message = items[item][group_name][message_name]["message"];
                         var user = items[item][group_name][message_name]["userId"];
                         var status = items[item][group_name][message_name]["validm"];
@@ -163,6 +192,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                 function (res) {
                                     console.log(res)
                                     if (res === "add success") {
+                                        status_list[i] = "proved"
+                                        sessionStorage.setItem("status_list", JSON.stringify(status_list));
                                         document.getElementById("modal_content").innerText = "add member successfully!";
                                         $('#myModal').modal('show');
                                     } else {
@@ -190,6 +221,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                 function (res) {
                                     console.log(res)
                                     if (res === "reject success") {
+                                        status_list[i] = "Denied"
+                                        sessionStorage.setItem("status_list", JSON.stringify(status_list));
                                         document.getElementById("modal_content").innerText = "reject member successfully!";
                                         $('#myModal').modal('show');
                                     }

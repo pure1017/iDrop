@@ -43,8 +43,8 @@ public class Start {
   private static Map<WsContext, String> userUsernameMap = new ConcurrentHashMap<>();
   private static Map<String, String> userUserPicMap = new ConcurrentHashMap<>();
   
-  private static String currentUserName = "";
-  private static String currentUserPicture = "";
+  private static String hostUserName = "";
+  private static String hostUserPicture = "";
 
   /** Main method of the application.
    * @param args Command line arguments
@@ -352,10 +352,14 @@ public class Start {
       ws.onConnect(ctx -> {
         String username = ctx.queryParam("userName");
         String picture = ctx.queryParam("picture");
-        currentUserName = username;
-        currentUserPicture = picture;
-
-        
+        String isHost = ctx.queryParam("isHost");
+        System.out.println(isHost);
+        System.out.println(isHost.equals("true"));
+        if (isHost.equals("true")) {
+          hostUserName = username;
+          hostUserPicture = picture;
+        }
+        System.out.println(hostUserName);
         userUsernameMap.put(ctx, username);
         userUserPicMap.put(username, picture);
         broadcastMessage("Server", (username + " joined the chat"));
@@ -384,14 +388,14 @@ public class Start {
 
   // Builds a HTML element with a sender-name, a message, and a timestamp
   private static String createHtmlMessageFromSender(String sender, String message) {
-    if (sender == currentUserName) {
+    if (sender == hostUserName) {
       String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
       return article(
         div(attrs(".outgoing-chats"),
           div(attrs(".outgoing-chats-msg"),
             p(message),
             span(attrs(".time"), sender + "  " + time)),
-          div(attrs(".outgoing-chats-img"), img().withSrc(currentUserPicture)))
+          div(attrs(".outgoing-chats-img"), img().withSrc(hostUserPicture)))
         ).render();
     } else if (sender == "Server") {
       return article(

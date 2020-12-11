@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
    var currentGroupBeginDate = sessionStorage.getItem("currentGroupBeginDate");
    var currentGroupDesc = sessionStorage.getItem("currentGroupDesc");
    var currentGroupCover = sessionStorage.getItem("currentGroupCover");
+   var isHost = sessionStorage.getItem("isHost");
+
    document.getElementById("group_name_1").innerText = "My Group/" + currentGroup;
    document.getElementById("group_name_2").innerText = currentGroup;
    document.getElementById("group_img").src = currentGroupCover;
